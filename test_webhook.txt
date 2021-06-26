@@ -1,0 +1,11 @@
+type:  
+id:  
+status:  
+live_mode: 0 
+external_reference:  
+transaction_amount:  
+_id:  
+idPedido:  
+cuenta: 100300 
+cliente:  
+devuelve:  
