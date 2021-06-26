@@ -1,0 +1,9 @@
+INSERT INTO `utils` (`codigo`, `descripcion`, `usuario_m`, `fecha_m`) VALUES ('1', 'texto_inicio', 'pbocchio', '2021-06-15 23:44:57');
+UPDATE `utils` SET `valor`='Un error detectado y resuelto en la oficina técnica cuesta 10 veces menos que<br /> resolverlo en el taller y 100 veces menos que resolverlo en obra.' WHERE  `codigo`=1;
+UPDATE `menus` SET `nombre`='PLANOS' WHERE  `codigo`=35;
+
+ALTER TABLE `orden_trabajos`
+	ADD COLUMN `fecha_entrega` DATE NULL DEFAULT NULL AFTER `fecha`;
+
+ALTER TABLE `orden_trabajos_produccion`
+	ADD COLUMN `numero` TEXT NULL DEFAULT NULL AFTER `codigo`;
