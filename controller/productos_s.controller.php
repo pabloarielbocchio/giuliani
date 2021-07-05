@@ -166,7 +166,15 @@ class ProductosController {
             }
             foreach($archivos_nd as $aux){
                 $observaciones = "";
-                $this->conn->addArchivo_produccion($aux["codigo"], $ultimo_otp, $observaciones);
+                if ($aux["cod_prod_nf"] > 0){
+                    foreach($configuracion as $conf){
+                        if ($conf == $aux["cod_prod_nf"]){
+                            $this->conn->addArchivo_produccion($aux["codigo"], $ultimo_otp, $observaciones);
+                        }
+                    }
+                } else {
+                    $this->conn->addArchivo_produccion($aux["codigo"], $ultimo_otp, $observaciones);
+                }
             }
 
             unset($_SESSION['n1']);

@@ -36,7 +36,8 @@ function getRegistros(orderby, sentido, registros, pagina, busqueda, objeto) {
             select_n2: $('#select_n2').val(),
             select_n3: $('#select_n3').val(),
             select_n4: $('#select_n4').val(),
-            opc: $(".container").attr("opc")
+            opc: $(".container").attr("opc"),
+            grupo: $(".container").attr("grupo")
         }
         $.ajax({
             type: "POST",

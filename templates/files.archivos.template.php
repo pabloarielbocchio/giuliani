@@ -6,7 +6,13 @@
                     <div>
                         <h3>Arhivos asociados</h3>
                     </div>
-                    <?php foreach ($archivos as $archivo) { ?>
+                    <?php foreach ($archivos as $archivo) { 
+                        if ($grupo > 0){
+                            if ($archivo["cod_prod_nf"] != $opc){
+                                continue;
+                            }
+                        }
+                    ?>
                         <div class="col-md-3">   
                             <li style="list-style: none">
                                 <div class="ibox-galeria">

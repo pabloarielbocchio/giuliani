@@ -29,7 +29,7 @@
                         continue;
                     }
             ?>
-                <tr class="row" codigo="<?php echo $pf["codigo"]; ?>">
+                <tr class="row" codigo="<?php echo $pf["codigo"]; ?>" codigo_opc="<?php echo $usu["codigo"]; ?>">
                     <td class="col-lg-11 col-md-11 col-sm-11 col-xs-11 text-left" style="vertical-align: middle; ">
                         <span style="margin-left: 25px;">
                             <?php echo $pf["descripcion"]; ?>
@@ -42,6 +42,7 @@
                             </button>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="menu">
                                 <li role="presentation" class="editAlternativa"><a role="menuitem" tabindex="-1" href="#">Editar</a></li>
+                                <li role="presentation" class="archivosProducto"><a role="menuitem" tabindex="-1" href="#">Archivos</a></li>
                                 <li class="divider"></li>
                                 <li role="presentation" class="deleteAlternativa"><a role="menuitem" tabindex="-1" href="#">Eliminar</a></li>
                             </ul>
@@ -238,5 +239,11 @@
         });
         //event.preventDefault();
         $('#dataUpdateAlt').modal('show');
+    });
+    
+    $(".archivosProducto").click(function () {
+        codigo = $(this).closest('tr').attr("codigo");
+        codigo_opc = $(this).closest('tr').attr("codigo_opc");
+        window.location.href = "files.php?opc="+codigo+"&grupo="+codigo_opc;
     });
 </script>

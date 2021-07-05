@@ -103,6 +103,7 @@ $cod_nivel_4 = intval($_SESSION['n4']);
     cod_nivel_3="<?php echo $cod_nivel_3; ?>" 
     cod_nivel_4="<?php echo $cod_nivel_4; ?>" 
     opc="<?php echo intval($_GET["opc"]); ?>" 
+    grupo="<?php echo intval($_GET["grupo"]); ?>" 
 >
 
     <div id="loading" class="loading"></div>

@@ -7,6 +7,8 @@
     $n2 = $data["n2"];
     $n3 = $data["n3"];
     $n4 = $data["n4"];
+    $n5 = $data["n5"];
+    $n6 = $data["n6"];
     $fileName = $file['file']['name'];
     
     $respuesta = '';
@@ -38,6 +40,14 @@
                 $uploadPath .= $n4 . '/';
                 (!file_exists($uploadPath)) && mkdir($uploadPath, 0755, true);
             }
+            if ($n5 > 0){
+                $uploadPath .= $n5 . '/';
+                (!file_exists($uploadPath)) && mkdir($uploadPath, 0755, true);
+            }
+            if ($n6 > 0){
+                $uploadPath .= $n6 . '/';
+                (!file_exists($uploadPath)) && mkdir($uploadPath, 0755, true);
+            }
 
             $_fileNameTmp = $file['file']['tmp_name'];
             $existia_antes = 0;            
@@ -58,7 +68,7 @@
                     $controlador = ArchivosController::singleton_archivos();
                     $fecha_hora = date("Y-m-d H:i:s");
                     $activo = 1;
-                    $controlador->addArchivo($fileName, $uploadPath . $fileName, $fecha_hora, $activo, $n1, $n2, $n3, $n4, null, null, null, null);
+                    $controlador->addArchivo($fileName, $uploadPath . $fileName, $fecha_hora, $activo, $n1, $n2, $n3, $n4, $n5, $n6, null, null);
                 }
             }                      
         }

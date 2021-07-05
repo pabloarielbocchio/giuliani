@@ -31,6 +31,13 @@
                     <input type="text" class="form-control" id="nivel4" name="nivel4" value="<?php echo $pd; ?>" readonly>
                 </div>
             <?php } ?>
+            
+            <?php if ($pf != "") { ?>
+                <div class="form-group">
+                    <label for="nombre0" class="control-label">OPC: <?php echo $pe; ?></label>
+                    <input type="text" class="form-control" id="nivel6" name="nivel6" value="<?php echo $pf; ?>" readonly>
+                </div>
+            <?php } ?>
         </div>
     </div>
     <div class="col-md-6">
@@ -47,6 +54,8 @@
                         <input type="text" class="form-control hidden" id="n2" name="n2" value="<?php echo $n2; ?>" />
                         <input type="text" class="form-control hidden" id="n3" name="n3" value="<?php echo $n3; ?>" />
                         <input type="text" class="form-control hidden" id="n4" name="n4" value="<?php echo $n4; ?>" />
+                        <input type="text" class="form-control hidden" id="n5" name="n5" value="<?php echo $n5; ?>" />
+                        <input type="text" class="form-control hidden" id="n6" name="n6" value="<?php echo $n6; ?>" />
                     </form>
                 </div>
             </div>              
@@ -84,7 +93,8 @@
             select_n2: $('#select_n2').val(),
             select_n3: $('#select_n3').val(),
             select_n4: $('#select_n4').val(),
-            opc: $(".container").attr("opc")
+            opc: $(".container").attr("opc"),
+            grupo: $(".container").attr("grupo")
         }
         console.log(parametros);        
         $.ajax({
@@ -111,7 +121,8 @@
             select_n2: $('#select_n2').val(),
             select_n3: $('#select_n3').val(),
             select_n4: $('#select_n4').val(),
-            opc: $(".container").attr("opc")
+            opc: $(".container").attr("opc"),
+            grupo: $(".container").attr("grupo")
         }
         console.log(parametros);        
         $.ajax({

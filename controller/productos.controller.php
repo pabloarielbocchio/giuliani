@@ -30,7 +30,8 @@ function buscarArchivosTabla(){
             $_POST['select_n2'],
             $_POST['select_n3'],
             $_POST['select_n4'],
-            $_POST['opc']
+            $_POST['opc'],
+            $_POST['grupo']
         );
 }
 
@@ -54,7 +55,8 @@ function buscarArchivos(){
             $_POST['select_n2'],
             $_POST['select_n3'],
             $_POST['select_n4'],
-            $_POST['opc']
+            $_POST['opc'],
+            $_POST['grupo']
         );
 }
 
@@ -183,7 +185,8 @@ function getRegistrosFiltroFiles(){
             $_POST['select_n2'],
             $_POST['select_n3'],
             $_POST['select_n4'],
-            $_POST['opc']
+            $_POST['opc'],
+            $_POST['grupo']
         );
 }
 
@@ -324,8 +327,13 @@ class ProductosController {
         
     }
     
-    public function buscarArchivosTabla($n1, $n2, $n3, $n4, $opc){        
-        
+    public function buscarArchivosTabla($n1, $n2, $n3, $n4, $opc, $grupo){                
+        $n5 = 0;
+        $n6 = 0;
+        if ($grupo > 0){
+            $n5 = $grupo;
+            $n6 = $opc;
+        }
         if ($opc > 0){
             if ($n1 == 0){
                 $n1 = $opc;
@@ -379,14 +387,30 @@ class ProductosController {
         $prod_b = $this->getProductosB();
         $prod_c = $this->getProductosC();
         $prod_d = $this->getProductosD();
+        $prod_e = $this->getProductosE();
+        $prod_f = $this->getProductosF();
         $prod_p = $this->getProductosP();
         $prod_s = $this->getProductosS();
 
         foreach($archivos as $pos => $archiv){
             if($archiv["cod_prod_nd"] > 0){
+                $desc_aux = "";
+                if($archiv["cod_prod_nf"] > 0){                
+                    foreach($prod_e as $au){
+                        if ($au["codigo"] == $archiv["cod_prod_ne"]){
+                            $desc_aux .= "OPC => " . $au["descripcion"] . " | ";
+                            break;
+                        }
+                    }
+                    foreach($prod_f as $au){
+                        if ($au["codigo"] == $archiv["cod_prod_nf"]){
+                            $desc_aux .= "ALT => " . $au["descripcion"] . " - ";
+                        }
+                    }
+                }
                 foreach($prod_d as $aux){
                     if ($aux["codigo"] == $archiv["cod_prod_nd"]){
-                        $desc = $aux["descripcion"];
+                        $desc = $desc_aux . $aux["descripcion"];
                         break;
                     }
                 }
@@ -443,8 +467,13 @@ class ProductosController {
     }
         
     
-    public function buscarArchivos($n1, $n2, $n3, $n4, $opc){        
-        
+    public function buscarArchivos($n1, $n2, $n3, $n4, $opc, $grupo){        
+        $n5 = 0;
+        $n6 = 0;
+        if ($grupo > 0){
+            $n5 = $grupo;
+            $n6 = $opc;
+        }
         if ($opc > 0){
             if ($n1 == 0){
                 $n1 = $opc;
@@ -752,7 +781,7 @@ class ProductosController {
         
     }
     
-    public function getRegistrosFiltroFiles($orderby, $sentido, $registros, $pagina, $busqueda, $n1, $n2, $n3, $n4, $opc){
+    public function getRegistrosFiltroFiles($orderby, $sentido, $registros, $pagina, $busqueda, $n1, $n2, $n3, $n4, $opc, $grupo){
         
         $_SESSION["pagina"] = $pagina;        
         $_SESSION["cant_reg"] = $registros;        
@@ -760,7 +789,8 @@ class ProductosController {
         $_SESSION['orderby'] = $orderby;        
         $_SESSION['sentido'] = $sentido;
                 
-        
+        $n5 = 0;
+        $n6 = 0;
         if ($opc > 0){
             if ($n1 == 0){
                 $n1 = $opc;
@@ -775,6 +805,10 @@ class ProductosController {
                 $n4 = $opc;
             }
         }
+        if ($grupo > 0){
+            $n5 = $grupo;
+            $n6 = $opc;
+        }
         /*
         $_SESSION['n1'] = $n1;
         $_SESSION['n2'] = $n2;
@@ -786,11 +820,15 @@ class ProductosController {
         $prod_b = $this->getProductosB();
         $prod_c = $this->getProductosC();
         $prod_d = $this->getProductosD();
+        $prod_e = $this->getProductosE();
+        $prod_f = $this->getProductosF();
 
         $pa = "";
         $pb = "";
         $pc = "";
         $pd = "";
+        $pe = "";
+        $pf = "";
 
         foreach($prod_a as $aux){
             if ($aux["codigo"] == $n1){
@@ -813,6 +851,19 @@ class ProductosController {
         foreach($prod_d as $aux){
             if ($aux["codigo"] == $n4){
                 $pd = $aux["descripcion"];
+            }
+        }
+
+        if ($grupo > 0){
+            foreach($prod_e as $aux){
+                if ($aux["codigo"] == $grupo){
+                    $pe = $aux["descripcion"];
+                }
+            }
+            foreach($prod_f as $aux){
+                if ($aux["codigo"] == $opc){
+                    $pf = $aux["descripcion"];
+                }
             }
         }
         
@@ -884,11 +935,15 @@ class ProductosController {
         $prod_b = $this->getProductosB();
         $prod_c = $this->getProductosC();
         $prod_d = $this->getProductosD();
+        $prod_e = $this->getProductosE();
+        $prod_f = $this->getProductosF();
 
         $pa = "";
         $pb = "";
         $pc = "";
         $pd = "";
+        $pe = "";
+        $pf = "";
 
         foreach($prod_a as $aux){
             if ($aux["codigo"] == $n1){
@@ -931,6 +986,22 @@ class ProductosController {
         }
         $archivos = [];
         foreach($archivos_d as $aux){
+            $desc_ = $aux["descripcion"];
+            $desc_aux = "";
+            if ($aux["cod_prod_nf"] > 0){                        
+                foreach($prod_e as $au){
+                    if ($au["codigo"] == $aux["cod_prod_ne"]){
+                        $desc_aux .= "OPC => " . $au["descripcion"] . " | ";
+                        break;
+                    }
+                }
+                foreach($prod_f as $au){
+                    if ($au["codigo"] == $aux["cod_prod_nf"]){
+                        $desc_aux .= "ALT => " . $au["descripcion"] . " - ";
+                    }
+                }
+                $aux["descripcion"] = $desc_aux . $desc_;
+            }
             $archivos[4][] = $aux;
         }
         foreach($archivos_c as $aux){

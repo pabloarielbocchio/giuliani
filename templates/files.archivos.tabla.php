@@ -9,7 +9,13 @@
         </tr>
     </thead>
     <tbody id="body">
-        <?php foreach ($archivos as $usu) { ?>
+        <?php foreach ($archivos as $usu) { 
+            if ($grupo > 0){
+                if ($usu["cod_prod_nf"] != $opc){
+                    continue;
+                }
+            }
+        ?>
             <tr class="row" codigo="<?php echo $usu["codigo"]; ?>">
                 <td class="text-left" style="vertical-align: middle;"><?php echo $usu["descripcion"]; ?></td>
                 <td class="text-center" style="vertical-align: middle; width: 10%;">

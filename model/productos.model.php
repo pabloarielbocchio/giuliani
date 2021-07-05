@@ -664,6 +664,8 @@ class ProductosModel {
                 (select a.cod_prod_nb from archivos a where a.codigo = ota.archivo_id) as cod_prod_nb,
                 (select a.cod_prod_nc from archivos a where a.codigo = ota.archivo_id) as cod_prod_nc,
                 (select a.cod_prod_nd from archivos a where a.codigo = ota.archivo_id) as cod_prod_nd,
+                (select a.cod_prod_ne from archivos a where a.codigo = ota.archivo_id) as cod_prod_ne,
+                (select a.cod_prod_nf from archivos a where a.codigo = ota.archivo_id) as cod_prod_nf,
                 (select a.cod_prod_personalizado_id from archivos a where a.codigo = ota.archivo_id) as cod_prod_personalizado_id,
                 (select a.cod_prod_estandar_id from archivos a where a.codigo = ota.archivo_id) as cod_prod_estandar_id,
                 (select a.ruta from archivos a where a.codigo = ota.archivo_id) as ruta,
