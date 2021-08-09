@@ -2,13 +2,14 @@
 
 session_start();
 
-if (!($_SESSION["permisos"][basename(__FILE__, '.php') . ".php"]["access"])) {
+//if (!($_SESSION["permisos"][basename(__FILE__, '.php') . ".php"]["access"])) {
     //header("Location: inicio.php");
-}
+//}
 
 include $_SERVER['DOCUMENT_ROOT'] . "/Giuliani/controller/menus.controller.php";
 $controlador    = MenusController::singleton_menus();
 $menues         = $controlador->getMenusAll();
+$roles          = $controlador->getRoles();
 $niveles        = array();
 $subniveles     = array();
 $opciones       = array();
@@ -112,6 +113,10 @@ include 'inc/html/breadcrumb.php';
     
     <div id="modulo_paginacion" style="display: none;">
         <?php include 'inc/html/paginacion.php'; ?>
+    </div>
+    
+    <div id="modulo_paginacion" >
+        <?php include 'inc/html/paginacion_roles.php'; ?>
     </div>
 
     <div    id="div_tabla" 
@@ -302,7 +307,7 @@ include 'inc/html/breadcrumb.php';
 </div>
 
 <?php if ($_SESSION["permisos"][$_SESSION['menu']]["new"]) { ?>
-    <div style="bottom: 50px; right: 40px; position: fixed;">
+    <div style="bottom: 50px; right: 40px; position: fixed; display: none;">
         <button id="add" name="add" type="button" class="btn btn-danger btn-lg boton_marron_carni" style="width: 50px;border-radius: 50%; text-align: center; background-color: transparent;"><i style="margin-bottom: 5px;" class="glyphicon glyphicon-plus"></i></button>
     </div>
 <?php } ?>

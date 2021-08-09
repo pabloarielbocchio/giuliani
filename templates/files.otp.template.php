@@ -3,18 +3,21 @@
 <legend>
     <?php 
         if ($otp["standar"] == 1) {
-            echo $otp["prod_standar"] . " (" . $otp["unidad"] . ")";
+            echo $otp["prod_standar"] ;
         } else {
-            echo $otp["prod_personalizado"] . " (" . $otp["unidad"] . ")";
+            echo $otp["prod_personalizado"] ;
         }
     ?>
 </legend>
 
-<div class="div_tabla" >
+<div class="row" >  
+    <?php if ($readonly == 1) { ?>
+        <div class="row" >
+                <div class="div_tabla" scrollx="0" scrolly="0">
 
-</div>     
-
-<div class="row" >
+            </div>     
+        </div> 
+    <?php } ?>
     <fieldset>
         <div class="row" style="display: none;">
             <div id="cont_archivos" class="col-md-12">          
@@ -30,7 +33,14 @@
                     <input type="text" class="form-control hidden" id="prod_perso" name="prod_perso" value="<?php echo $otp["prod_personalizado_id"]; ?>" />
                 </form>
             </div>
-        </div>              
+        </div>         
+        <?php if ($readonly == 0) { ?>
+            <div class="row" >
+                <div class="div_tabla" scrollx="0" scrolly="0">
+
+                </div>     
+            </div> 
+        <?php } ?>      
     </fieldset>
 </div>        
     
@@ -96,6 +106,7 @@
             data: parametros,
             success: function (datos) {
                 $(".div_tabla").html(datos);
+                $(".divespecial").scrollLeft($("#div_tabla").attr("scrollx"));
             },
             error: function () {
                 alert("Error");

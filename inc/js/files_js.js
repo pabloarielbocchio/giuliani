@@ -11,6 +11,7 @@ $(document).ready(function () {
     $("#select_n3").change();
     $("#select_n4").val($(".container").attr("cod_nivel_4"));
     $("#select_n4").change();
+    $(".navbar-minimalize").click();
 });
 
 $(document).on({

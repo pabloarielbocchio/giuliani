@@ -172,23 +172,24 @@ class UsuariosController {
         $devuelve = $this->conn->addUsuario($id_usu, $usuario, $password, $cliente, $cargo, $nombre, $apellido, $mail);     
         $ultimo = $this->conn->getLastUsuario()[0]["codigo"];
         $menues = [];
-        switch ($cargo){
+        $menues = [1,2,3,4,5,9,34,35,36,37,38,39,40,41];
+        /*switch ($cargo){
             case 1: 
-                $menues = [1,2,3,4,5,7,8,9,34,35,36,37];
+                $menues = [1,2,3,4,5,9,34,35,36,37,38,39,40];
                 break;
             case 2: 
-                $menues = [1,2,3,4,5,7,8,9,34,35,36,37];
+                $menues = [1,2,3,4,5,9,34,35,36,37,38,39,40];
                 break;
             case 3: 
-                $menues = [1,3,34,35,36,37];
+                $menues = [1,3,34,35,36,37,38,39,40];
                 break;
             case 4: 
-                $menues = [1,3,34,35,36,37];
+                $menues = [1,3,34,35,36,37,38,39,40];
                 break;
             case 5: 
-                $menues = [1,3,4,5,7,8,9,34,35,36,37];
+                $menues = [1,3,4,5,7,8,9,34,35,36,37,38,39,40];
                 break;
-        }
+        }*/
         foreach($menues as $m){
             $this->conn->addUsuarioMenu($ultimo, $m);
         }

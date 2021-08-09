@@ -3,7 +3,7 @@ var codigo;
 
 $(document).ready(function () {
     $("#busqueda-icono").click();
-    //$(".navbar-minimalize").click();
+    $(".navbar-minimalize").click();
 });
 
 $(document).on({

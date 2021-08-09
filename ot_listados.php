@@ -10,6 +10,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/Giuliani/controller/ot_listados.controller
 $controlador = Ot_listadosController::singleton_ot_listados();
 
 $_SESSION["totales"] = $controlador->getCountOt_listados();
+$prioridades = $controlador->getPrioridades();
 
 // Recepcion parametros PAGINACION /*******************************************/
 
@@ -113,9 +114,9 @@ include 'inc/html/breadcrumb.php';
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 id="name-header-modal" class="modal-title">Cambiar Estado</h4>
+                    <h4 id="my-name-header-modal" class="modal-title">Cambiar Estado</h4>
                 </div>
-                <div class="modal-body text-center"  id="text-header-body">
+                <div class="modal-body text-center"  id="my-text-header-body">
                     <div class="form-group"> 
                         <label for="nombre0" class="control-label">Estado:</label>
                         <select id="estadoAdd" style="width: 100%;" class="form-control" name="estadoAdd"  required>
@@ -124,6 +125,10 @@ include 'inc/html/breadcrumb.php';
                             <option value="1" ><?php echo "Finalizado"; ?></option>
                             <option value="-1" ><?php echo "Cancelado"; ?></option>
                         </select>
+                    </div>                    
+                    <div class="form-group">
+                        <label for="nombre0" class="control-label">Avance:</label>
+                        <input type="text" class="form-control" id="avanceAdd" name="avanceAdd" >
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -170,6 +175,18 @@ include 'inc/html/breadcrumb.php';
                             <label for="nombre0" class="control-label">Cliente:</label>
                             <input type="text" class="form-control" id="clienteAdd" name="clienteAdd" required maxlength="100">
                         </div>
+                        <div class="form-group"> 
+                            <label for="nombre0" class="control-label">Prioridad:</label>
+                            <select id="prioridadAdd" style="width: 100%;" class="form-control" name="prioridadAdd"  required>
+                                <?php 
+                                    foreach ($prioridades as $aux) { 
+                                ?>
+                                        <option value="<?php echo $aux["codigo"]; ?>" ><?php echo $aux["descripcion"]; ?></option>
+                                <?php 
+                                    }
+                                ?>
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label for="nombre0" class="control-label">Fecha Ingreso:</label>
                             <input type="date" class="form-control" id="fechaAdd" name="fechaAdd" required maxlength="10" value="<?php echo date("Y-m-d"); ?>" >
@@ -209,6 +226,18 @@ include 'inc/html/breadcrumb.php';
                         <div class="form-group">
                             <label for="nombre0" class="control-label">Cliente:</label>
                             <input type="text" class="form-control" id="clienteUpdate" name="clienteUpdate" required maxlength="100">
+                        </div>
+                        <div class="form-group"> 
+                            <label for="nombre0" class="control-label">Prioridad:</label>
+                            <select id="prioridadUpdate" style="width: 100%;" class="form-control" name="prioridadUpdate"  required>
+                                <?php 
+                                    foreach ($prioridades as $aux) { 
+                                ?>
+                                        <option value="<?php echo $aux["codigo"]; ?>" ><?php echo $aux["descripcion"]; ?></option>
+                                <?php 
+                                    }
+                                ?>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="nombre0" class="control-label">Fecha Ingreso:</label>

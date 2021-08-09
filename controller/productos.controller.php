@@ -22,6 +22,30 @@ function buscarArchivosTablaOtp(){
         );
 }
 
+function buscarArchivosTablaOtd(){
+    $controlador = ProductosController::singleton_productos();
+    
+    echo $controlador->buscarArchivosTablaOtd(
+            $_POST['select_n1'],
+            $_POST['select_n2'],
+            $_POST['select_n3'],
+            $_POST['select_n4'],
+            $_POST['opc']
+        );
+}
+
+function buscarArchivosTablaOt(){
+    $controlador = ProductosController::singleton_productos();
+    
+    echo $controlador->buscarArchivosTablaOt(
+            $_POST['select_n1'],
+            $_POST['select_n2'],
+            $_POST['select_n3'],
+            $_POST['select_n4'],
+            $_POST['opc']
+        );
+}
+
 function buscarArchivosTabla(){
     $controlador = ProductosController::singleton_productos();
     
@@ -35,10 +59,34 @@ function buscarArchivosTabla(){
         );
 }
 
+function buscarArchivosOt(){
+    $controlador = ProductosController::singleton_productos();
+    
+    echo $controlador->buscarArchivosOt(
+            $_POST['select_n1'],
+            $_POST['select_n2'],
+            $_POST['select_n3'],
+            $_POST['select_n4'],
+            $_POST['opc']
+        );
+}
+
 function buscarArchivosOtp(){
     $controlador = ProductosController::singleton_productos();
     
     echo $controlador->buscarArchivosOtp(
+            $_POST['select_n1'],
+            $_POST['select_n2'],
+            $_POST['select_n3'],
+            $_POST['select_n4'],
+            $_POST['opc']
+        );
+}
+
+function buscarArchivosOtd(){
+    $controlador = ProductosController::singleton_productos();
+    
+    echo $controlador->buscarArchivosOtd(
             $_POST['select_n1'],
             $_POST['select_n2'],
             $_POST['select_n3'],
@@ -120,6 +168,42 @@ function getRegistrosFiltroFilesOpcionesView(){
         );
 }
 
+function getRegistrosFiltroFilesOtd(){
+    $controlador = ProductosController::singleton_productos();
+    
+    echo $controlador->getRegistrosFiltroFilesOtd(
+            $_POST['orderby'], 
+            $_POST['sentido'], 
+            $_POST['registros'], 
+            $_POST['pagina'], 
+            $_POST['busqueda'],
+            $_POST['select_n1'],
+            $_POST['select_n2'],
+            $_POST['select_n3'],
+            $_POST['select_n4'],
+            $_POST['opc'],
+            $_POST['readonly']
+        );
+}
+
+function getRegistrosFiltroFilesOt(){
+    $controlador = ProductosController::singleton_productos();
+    
+    echo $controlador->getRegistrosFiltroFilesOt(
+            $_POST['orderby'], 
+            $_POST['sentido'], 
+            $_POST['registros'], 
+            $_POST['pagina'], 
+            $_POST['busqueda'],
+            $_POST['select_n1'],
+            $_POST['select_n2'],
+            $_POST['select_n3'],
+            $_POST['select_n4'],
+            $_POST['opc'],
+            $_POST['readonly']
+        );
+}
+
 function getRegistrosFiltroFilesOtp(){
     $controlador = ProductosController::singleton_productos();
     
@@ -142,6 +226,23 @@ function getRegistrosFiltroFilesArchivos(){
     $controlador = ProductosController::singleton_productos();
     
     echo $controlador->getRegistrosFiltroFilesArchivos(
+            $_POST['orderby'], 
+            $_POST['sentido'], 
+            $_POST['registros'], 
+            $_POST['pagina'], 
+            $_POST['busqueda'],
+            $_POST['select_n1'],
+            $_POST['select_n2'],
+            $_POST['select_n3'],
+            $_POST['select_n4'],
+            $_POST['opc']
+        );
+}
+
+function getRegistrosFiltroFilesArchivosMapa(){
+    $controlador = ProductosController::singleton_productos();
+    
+    echo $controlador->getRegistrosFiltroFilesArchivosMapa(
             $_POST['orderby'], 
             $_POST['sentido'], 
             $_POST['registros'], 
@@ -274,6 +375,48 @@ function deleteProductoAlt() {
     $controlador = ProductosController::singleton_productos();
     
     echo $controlador->deleteProductoAlt($_POST['codigo']);
+}
+
+function mostrarArchivos() {
+    $controlador = ProductosController::singleton_productos();
+    
+    echo $controlador->mostrarArchivos(
+                                $_POST['estado'],
+                                $_POST['codigo'],
+                                $_POST['nivel']);
+}
+
+function cambiar_estadoProductoParam() {
+    $controlador = ProductosController::singleton_productos();
+    
+    echo $controlador->cambiar_estadoProductoParam(
+                                $_POST['estado'],
+                                $_POST['codigo'],
+                                $_POST['nivel']);
+}
+
+function cambiar_estadoProducto() {
+    $controlador = ProductosController::singleton_productos();
+    
+    echo $controlador->cambiar_estadoProducto(
+                                $_POST['estado'],
+                                $_POST['codigo'],
+                                $_POST['select_n1'],
+                                $_POST['select_n2'],
+                                $_POST['select_n3'],
+                                $_POST['select_n4']);
+}
+
+function cambiar_estadoOpcion() {
+    $controlador = ProductosController::singleton_productos();
+    
+    echo $controlador->cambiar_estadoOpcion(
+                                $_POST['estado'],
+                                $_POST['codigo'],
+                                $_POST['select_n1'],
+                                $_POST['select_n2'],
+                                $_POST['select_n3'],
+                                $_POST['select_n4']);
 }
 
 function getProducto() {
@@ -467,6 +610,36 @@ class ProductosController {
     }
         
     
+    public function buscarArchivosTablaOtd($n1, $n2, $n3, $n4, $opc){        
+        
+        $archivos = $this->conn->getArchivosOtd($opc);
+        foreach($archivos as $pos => $archiv){
+            $archivos[$pos]["nuevo"] = 1;
+        }
+        
+        $destinos = $this->getDestinos();
+        $archivos_destinos = $this->getArchivosDestinos();
+
+        include $_SERVER['DOCUMENT_ROOT']."/Giuliani/templates/files.archivos.tablaotd.php";
+        
+    }
+        
+    
+    public function buscarArchivosTablaOt($n1, $n2, $n3, $n4, $opc){        
+        
+        $archivos = $this->conn->getArchivosOt($opc);
+        foreach($archivos as $pos => $archiv){
+            $archivos[$pos]["nuevo"] = 1;
+        }
+        
+        $destinos = $this->getDestinos();
+        $archivos_destinos = $this->getArchivosDestinos();
+
+        include $_SERVER['DOCUMENT_ROOT']."/Giuliani/templates/files.archivos.tablaot.php";
+        
+    }
+        
+    
     public function buscarArchivos($n1, $n2, $n3, $n4, $opc, $grupo){        
         $n5 = 0;
         $n6 = 0;
@@ -543,6 +716,66 @@ class ProductosController {
         }
         
         $archivos = $this->conn->buscarArchivos($n1, $n2, $n3, $n4, $opc);
+        
+        foreach($archivos as $k => $archivo){
+            if(@is_array(getimagesize("../".$archivo["ruta"]))){
+                $archivos[$k]["imagen"] = true;
+            } else {
+                $archivos[$k]["imagen"] = false;
+            }
+        }
+
+        //var_dump($archivos);
+                                
+        $registros = $devuelve;
+        
+        $_SESSION['registros'] = $registros;
+
+        include $_SERVER['DOCUMENT_ROOT']."/Giuliani/templates/files.archivos.otp.php";
+        
+    }
+    
+    public function buscarArchivosOtd($n1, $n2, $n3, $n4, $opc){        
+        
+        $archivos = $this->conn->buscarArchivosOtd($n1, $n2, $n3, $n4, $opc);
+
+        foreach($archivos as $archivo){
+            if (!file_exists("../".$archivo["ruta"])){
+                $this->deleteArchivo($archivo["codigo"]);
+            }
+        }
+        
+        $archivos = $this->conn->buscarArchivosOtd($n1, $n2, $n3, $n4, $opc);
+        
+        foreach($archivos as $k => $archivo){
+            if(@is_array(getimagesize("../".$archivo["ruta"]))){
+                $archivos[$k]["imagen"] = true;
+            } else {
+                $archivos[$k]["imagen"] = false;
+            }
+        }
+
+        //var_dump($archivos);
+                                
+        $registros = $devuelve;
+        
+        $_SESSION['registros'] = $registros;
+
+        include $_SERVER['DOCUMENT_ROOT']."/Giuliani/templates/files.archivos.otp.php";
+        
+    }
+    
+    public function buscarArchivosOt($n1, $n2, $n3, $n4, $opc){        
+        
+        $archivos = $this->conn->buscarArchivosOt($n1, $n2, $n3, $n4, $opc);
+
+        foreach($archivos as $archivo){
+            if (!file_exists("../".$archivo["ruta"])){
+                $this->deleteArchivo($archivo["codigo"]);
+            }
+        }
+        
+        $archivos = $this->conn->buscarArchivosOt($n1, $n2, $n3, $n4, $opc);
         
         foreach($archivos as $k => $archivo){
             if(@is_array(getimagesize("../".$archivo["ruta"]))){
@@ -900,6 +1133,49 @@ class ProductosController {
     }
     
     
+    public function getRegistrosFiltroFilesOtd($orderby, $sentido, $registros, $pagina, $busqueda, $n1, $n2, $n3, $n4, $opc, $readonly){
+        
+        $_SESSION["pagina"] = $pagina;        
+        $_SESSION["cant_reg"] = $registros;        
+        $_SESSION["busqueda"] = $busqueda;                
+        $_SESSION['orderby'] = $orderby;        
+        $_SESSION['sentido'] = $sentido;
+        
+        $archivos = $this->conn->getArchivosOtp($opc);
+
+        $otd = $this->conn->getOtd($opc)[0];
+
+        //var_dump($archivos);
+        
+        $registros = $devuelve;
+        
+        $_SESSION['registros'] = $registros;
+
+        include $_SERVER['DOCUMENT_ROOT']."/Giuliani/templates/files.otd.template.php";
+        
+    }
+    
+    public function getRegistrosFiltroFilesOt($orderby, $sentido, $registros, $pagina, $busqueda, $n1, $n2, $n3, $n4, $opc, $readonly){
+        
+        $_SESSION["pagina"] = $pagina;        
+        $_SESSION["cant_reg"] = $registros;        
+        $_SESSION["busqueda"] = $busqueda;                
+        $_SESSION['orderby'] = $orderby;        
+        $_SESSION['sentido'] = $sentido;
+        
+        $archivos = $this->conn->getArchivosOt($opc);
+
+        $otd = $this->conn->getOt($opc)[0];
+
+        //var_dump($archivos);
+        
+        $registros = $devuelve;
+        
+        $_SESSION['registros'] = $registros;
+
+        include $_SERVER['DOCUMENT_ROOT']."/Giuliani/templates/files.ot.template.php";
+        
+    }
     
     public function getRegistrosFiltroFilesArchivos($orderby, $sentido, $registros, $pagina, $busqueda, $n1, $n2, $n3, $n4, $opc){
         
@@ -1031,6 +1307,64 @@ class ProductosController {
     }
     
     
+    public function getRegistrosFiltroFilesArchivosMapa($orderby, $sentido, $registros, $pagina, $busqueda, $n1, $n2, $n3, $n4, $opc){
+        
+        $_SESSION["pagina"] = $pagina;        
+        $_SESSION["cant_reg"] = $registros;        
+        $_SESSION["busqueda"] = $busqueda;                
+        $_SESSION['orderby'] = $orderby;        
+        $_SESSION['sentido'] = $sentido;
+                
+         
+        if ($opc > 0){
+            if ($n1 == 0){
+                $n1 = $opc;
+                $n2 = $n3 = $n4 = 0;
+            } elseif ($n2 == 0){
+                $n2 = $opc;
+                $n3 = $n4 = 0;
+            } elseif ($n3 == 0){
+                $n3 = $opc;
+                $n4 = 0;
+            } elseif ($n4 == 0){
+                $n4 = $opc;
+            }
+        }
+        /*
+        $_SESSION['n1'] = $n1;
+        $_SESSION['n2'] = $n2;
+        $_SESSION['n3'] = $n3;
+        $_SESSION['n4'] = $n4;
+        $_SESSION['opc'] = $opc;*/
+        
+        $registros = [];
+        $regs = $this->getProductosAll();
+        foreach ($regs as $usu) {
+            $clave = $usu["cna"] . "_" . $usu["cnb"] . "_" . $usu["cnc"] . "_" . $usu["cnd"] . "_" . $usu["cne"];
+            $registros[$clave]["opciones"][] = $usu;
+            $registros[$clave]["ena"] = $usu["ena"];
+            $registros[$clave]["enb"] = $usu["enb"];
+            $registros[$clave]["enc"] = $usu["enc"];
+            $registros[$clave]["end"] = $usu["end"];
+            $registros[$clave]["ene"] = $usu["ene"];
+            $registros[$clave]["enf"] = $usu["enf"];
+            $registros[$clave]["dna"] = $usu["dna"];
+            $registros[$clave]["dnb"] = $usu["dnb"];
+            $registros[$clave]["dnc"] = $usu["dnc"];
+            $registros[$clave]["dnd"] = $usu["dnd"];
+            $registros[$clave]["dne"] = $usu["dne"];
+            $registros[$clave]["cna"] = $usu["cna"];
+            $registros[$clave]["cnb"] = $usu["cnb"];
+            $registros[$clave]["cnc"] = $usu["cnc"];
+            $registros[$clave]["cnd"] = $usu["cnd"];
+            $registros[$clave]["cne"] = $usu["cne"];
+        }
+
+        include $_SERVER['DOCUMENT_ROOT']."/Giuliani/templates/files.archivos.template.mapa.php";
+        
+    }
+    
+    
     public function getRegistrosFiltroEventosOtp($orderby, $sentido, $registros, $pagina, $busqueda, $n1, $n2, $n3, $n4, $opc){
         
         $_SESSION["pagina"] = $pagina;        
@@ -1123,6 +1457,34 @@ class ProductosController {
         
     }
     
+    public function mostrarArchivos($estado, $codigo, $nivel) {
+        $devuelve = $this->conn->mostrarArchivos($estado, $codigo, $nivel);
+        
+        include $_SERVER['DOCUMENT_ROOT']."/Giuliani/templates/files.archivos.tabla.mapa.php";
+        
+    }
+    
+    public function cambiar_estadoProductoParam($estado, $codigo, $nivel) {
+        $devuelve = $this->conn->cambiar_estadoProductoParam($estado, $codigo, $nivel);
+        
+        return $devuelve;
+        
+    }
+    
+    public function cambiar_estadoProducto($estado, $codigo, $n1, $n2, $n3, $n4) {
+        $devuelve = $this->conn->cambiar_estadoProducto($estado, $codigo, $n1, $n2, $n3, $n4);
+        
+        return $devuelve;
+        
+    }
+    
+    public function cambiar_estadoOpcion($estado, $codigo, $n1, $n2, $n3, $n4) {
+        $devuelve = $this->conn->cambiar_estadoOpcion($estado, $codigo, $n1, $n2, $n3, $n4);
+        
+        return $devuelve;
+        
+    }
+    
     public function getProducto($codigo, $n1, $n2, $n3, $n4) {
         $devuelve = $this->conn->getProducto($codigo, $n1, $n2, $n3, $n4);
         
@@ -1134,6 +1496,13 @@ class ProductosController {
         $devuelve = $this->conn->getProductoAlt($codigo);
         
         return json_encode($devuelve[0]);
+        
+    }
+    
+    public function getProductosAll() {
+        $devuelve = $this->conn->getProductosAll();
+        
+        return $devuelve;
         
     }
     

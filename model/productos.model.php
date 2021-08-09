@@ -77,6 +77,48 @@ class ProductosModel {
         
     }
     
+    public function buscarArchivosOtd($n1, $n2, $n3, $n4, $opc){
+        try {
+            $conditions = "";
+            $conditions .= " and cod_ot_detalle_id = " . intval($opc);
+            $tabla = "archivos";
+            $sql = "SELECT *, descripcion as nombre FROM " . $tabla . " WHERE 1 = 1 " . $conditions . " and descripcion like '%" . $busqueda . "%' ";
+            
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll();
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+        
+    }
+    
+    public function buscarArchivosOt($n1, $n2, $n3, $n4, $opc){
+        try {
+            $conditions = "";
+            $conditions .= " and cod_ot = " . intval($opc);
+            $tabla = "archivos";
+            $sql = "SELECT *, descripcion as nombre FROM " . $tabla . " WHERE 1 = 1 " . $conditions . " and descripcion like '%" . $busqueda . "%' ";
+            
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll();
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+        
+    }
+    
     public function buscarArchivosP($opc){
         try {
             $conditions = "";
@@ -488,6 +530,51 @@ class ProductosModel {
         }
     }
     
+    public function getProductosAll(){
+        try {
+            $sql = "
+                SELECT 
+                    na.codigo AS cna,
+                    na.ing_estado AS ena,
+                    na.descripcion AS dna,
+                    nb.codigo AS cnb,
+                    nb.ing_estado AS enb,
+                    nb.descripcion AS dnb,
+                    nc.codigo AS cnc,
+                    nc.ing_estado AS enc,
+                    nc.descripcion AS dnc,
+                    nd.codigo AS cnd,
+                    nd.ing_estado AS end,
+                    nd.descripcion AS dnd,
+                    ne.codigo AS cne,
+                    ne.ing_estado AS ene,
+                    ne.descripcion AS dne,
+                    nf.codigo AS cnf,
+                    nf.ing_estado AS enf,
+                    nf.descripcion AS dnf
+                FROM productos_nivel_f nf, productos_nivel_e ne, productos_nivel_d nd, productos_nivel_c nc, productos_nivel_b nb, productos_nivel_a na
+                WHERE 
+                    1 = 1
+                    and nf.cod_prod_ne = ne.codigo
+                    AND ne.cod_prod_nd = nd.codigo
+                    and nd.cod_prod_nc = nc.codigo
+                    and nc.cod_prod_nb = nb.codigo
+                    and nb.cod_prod_na = na.codigo
+                ORDER BY dna, cna, dnb, cnb, dnc, cnc, dnd, cnd, dne, cnd, dnf, cnf
+            ";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll();
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+    }
+    
     public function getProductosA(){
         try {
             $sql = "SELECT * FROM productos_nivel_a order by descripcion;";
@@ -604,7 +691,7 @@ class ProductosModel {
     
     public function getDestinos(){
         try {
-            $sql = "SELECT * FROM destinos order by descripcion;";
+            $sql = "SELECT * FROM destinos order by orden;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -684,6 +771,50 @@ class ProductosModel {
         }
     }
     
+    public function getArchivosOtd($otp){
+        try {
+            $sql = "SELECT ota.*,
+                (select a.codigo from archivos a where a.codigo = ota.archivo_id) as cod_archivo,
+                (select a.activo from archivos a where a.codigo = ota.archivo_id) as activo,
+                (select a.fecha_m from archivos a where a.codigo = ota.archivo_id) as ultima_actualizacion,
+                (select a.ruta from archivos a where a.codigo = ota.archivo_id) as ruta,
+                (select a.descripcion from archivos a where a.codigo = ota.archivo_id) as archivo
+             FROM orden_trabajos_archivos ota, orden_trabajos_detalles otd where ota.ot_detalle_id = otd.codigo and ota.ot_detalle_id = " . intval($otp) . " ;";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll();
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+    }
+    
+    public function getArchivosOt($ot){
+        try {
+            $sql = "SELECT ota.*,
+                (select a.codigo from archivos a where a.codigo = ota.archivo_id) as cod_archivo,
+                (select a.activo from archivos a where a.codigo = ota.archivo_id) as activo,
+                (select a.fecha_m from archivos a where a.codigo = ota.archivo_id) as ultima_actualizacion,
+                (select a.ruta from archivos a where a.codigo = ota.archivo_id) as ruta,
+                (select a.descripcion from archivos a where a.codigo = ota.archivo_id) as archivo
+             FROM orden_trabajos_archivos ota, orden_trabajos otd where ota.ot_id = otd.codigo and ota.ot_id = " . intval($ot) . " ;";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll();
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+    }
+    
     public function getEventosOtp($otp){
         try {
             $sql = "SELECT ota.*,
@@ -714,6 +845,190 @@ class ProductosModel {
             (select descripcion from productos_personalizados s where s.codigo = otp.prod_personalizado_id) as prod_personalizado,
             (select descripcion from unidades s where s.codigo = otp.unidad_id) as unidad
             FROM orden_trabajos_produccion otp WHERE otp.codigo = " . intval($otp) . " ";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll();
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+    }
+    
+    public function getOtd($otp){
+        try {
+            $sql = "SELECT 
+            otd.*
+            FROM orden_trabajos_detalles otd WHERE otd.codigo = " . intval($otp) . " ";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll();
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+    }
+    
+    public function getOt($ot){
+        try {
+            $sql = "SELECT 
+            otd.*
+            FROM orden_trabajos otd WHERE otd.codigo = " . intval($ot) . " ";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll();
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+    }
+
+    public function cambiar_estadoProductoParam($estado, $codigo, $nivel){
+        try {
+            if ($nivel == 4){
+                $tabla = "productos_nivel_d";
+            } else {
+                $tabla = "productos_nivel_f";
+            }
+            if ($nivel == 3){
+                $tabla = "productos_nivel_c";
+            }
+            if ($nivel == 2){
+                $tabla = "productos_nivel_b";
+            }
+            if ($nivel == 1){
+                $tabla = "productos_nivel_a";
+            }
+            
+            $hoy = date("Y-m-d H:i:s");
+            $this->conn->beginTransaction();
+            $stmt = $this->conn->prepare('UPDATE ' . $tabla . ' set '
+                                            . 'ing_estado = ? , '
+                                            . 'usuario_m = ?, '
+                                            . 'fecha_m = ? '
+                                            . ' where codigo = ?');            
+            
+            $stmt->bindValue(1, $estado, PDO::PARAM_INT);
+            $stmt->bindValue(2, $_SESSION["usuario"], PDO::PARAM_STR);
+            $stmt->bindValue(3, $hoy, PDO::PARAM_STR);
+            $stmt->bindValue(4, $codigo, PDO::PARAM_INT);
+            if($stmt->execute()){
+                $this->conn->commit();
+                return 0;
+            }  else {
+                $this->conn->rollBack();
+                return var_dump($stmt->errorInfo());
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+    }
+
+    public function cambiar_estadoProducto($estado, $codigo, $n1, $n2, $n3, $n4){
+        try {
+            if ($n4 == 0){
+                $tabla = "productos_nivel_d";
+            } else {
+                $tabla = "productos_nivel_e";
+            }
+            if ($n3 == 0){
+                $tabla = "productos_nivel_c";
+            }
+            if ($n2 == 0){
+                $tabla = "productos_nivel_b";
+            }
+            if ($n1 == 0){
+                $tabla = "productos_nivel_a";
+            }
+            
+            $hoy = date("Y-m-d H:i:s");
+            $this->conn->beginTransaction();
+            $stmt = $this->conn->prepare('UPDATE ' . $tabla . ' set '
+                                            . 'ing_estado = ? , '
+                                            . 'usuario_m = ?, '
+                                            . 'fecha_m = ? '
+                                            . ' where codigo = ?');            
+            
+            $stmt->bindValue(1, $estado, PDO::PARAM_INT);
+            $stmt->bindValue(2, $_SESSION["usuario"], PDO::PARAM_STR);
+            $stmt->bindValue(3, $hoy, PDO::PARAM_STR);
+            $stmt->bindValue(4, $codigo, PDO::PARAM_INT);
+            if($stmt->execute()){
+                $this->conn->commit();
+                return 0;
+            }  else {
+                $this->conn->rollBack();
+                return var_dump($stmt->errorInfo());
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+    }
+
+    public function cambiar_estadoOpcion($estado, $codigo, $n1, $n2, $n3, $n4){
+        try {
+                $tabla = "productos_nivel_f";
+            
+            $hoy = date("Y-m-d H:i:s");
+            $this->conn->beginTransaction();
+            $stmt = $this->conn->prepare('UPDATE ' . $tabla . ' set '
+                                            . 'ing_estado = ? , '
+                                            . 'usuario_m = ?, '
+                                            . 'fecha_m = ? '
+                                            . ' where codigo = ?');            
+            
+            $stmt->bindValue(1, $estado, PDO::PARAM_INT);
+            $stmt->bindValue(2, $_SESSION["usuario"], PDO::PARAM_STR);
+            $stmt->bindValue(3, $hoy, PDO::PARAM_STR);
+            $stmt->bindValue(4, $codigo, PDO::PARAM_INT);
+            if($stmt->execute()){
+                $this->conn->commit();
+                return 0;
+            }  else {
+                $this->conn->rollBack();
+                return var_dump($stmt->errorInfo());
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+    }
+    
+    public function mostrarArchivos($estado, $codigo, $nivel) {
+        try {
+            if ($nivel == 4){
+                $tabla = "cod_prod_nd";
+            } else {
+                $tabla = "cod_prod_nf";
+            }
+            if ($nivel == 3){
+                $tabla = "cod_prod_nc";
+            }
+            if ($nivel == 2){
+                $tabla = "cod_prod_nb";
+            }
+            if ($nivel == 1){
+                $tabla = "cod_prod_na";
+            }
+            $sql = "SELECT 
+            *
+            FROM archivos a WHERE a." . $tabla . " = " . intval($codigo) . " ";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {

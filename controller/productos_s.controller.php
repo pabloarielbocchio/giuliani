@@ -183,8 +183,8 @@ class ProductosController {
             unset($_SESSION['n4']);
 
             
-            $observaciones = "Actualizacion Estado OT Produccion, ingreso a Ingenieria. " . $descripcion;
-            $this->conn->addOt_estado($ultimo_otp, 1, null, $observaciones, 'ingenieria');
+            $observaciones = "Actualizacion Estado OT Produccion " . $descripcion;
+            //$this->conn->addOt_estado($ultimo_otp, 1, null, $observaciones, 'ingenieria');
 
             // Faltan los archivos
         }

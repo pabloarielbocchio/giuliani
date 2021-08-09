@@ -3,7 +3,7 @@ var codigo;
 
 $(document).ready(function () {
     $("#busqueda-icono").click();
-    //$(".navbar-minimalize").click();
+    $(".navbar-minimalize").click();
 });
 
 $(document).on({
@@ -135,6 +135,7 @@ $("#actualidarDatosOt_listado").submit(function (event) {
             codigo: codigo,
             nroserie: $("#nroserieUpdate").val(),
             cliente: $("#clienteUpdate").val(),
+            prioridad: $("#prioridadUpdate").val(),
             fecha: $("#fechaUpdate").val(),
             entrega: $("#fechaEntregaUpdate").val(),
             observaciones: $("#observacionesUpdate").val()
@@ -165,6 +166,7 @@ $("#guardarDatosOt_listado").submit(function (event) {
             funcion: "addOt_listado",
             nroserie: $("#nroserieAdd").val(),
             cliente: $("#clienteAdd").val(),
+            prioridad: $("#prioridadAdd").val(),
             fecha: $("#fechaAdd").val(),
             entrega: $("#fechaEntregaAdd").val(),
             observaciones: $("#observacionesAdd").val()
@@ -198,7 +200,8 @@ $("#btn-estado-ot_listado").click(function (event) {
         var parametros = {
             funcion: "estadoOt_listado",
             codigo: codigo,
-            estado: $("#estadoAdd").val()
+            estado: $("#estadoAdd").val(),
+            avance: $("#avanceAdd").val()
         }
         $.ajax({
             type: "POST",

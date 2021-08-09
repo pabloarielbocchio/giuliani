@@ -1,14 +1,33 @@
 <table id="tabla" namefile="Productos" totales="<?php echo $_SESSION["totales"]; ?>" registros="<?php echo $_SESSION['cant_reg']; ?>" pagina="<?php $_SESSION['pagina']; ?>" class="table table-striped table-hover" mes="<?php echo $mes; ?>" anio="<?php echo $anio; ?>" dia="<?php echo $dia; ?>" opcion="<?php echo $opcion; ?>"> 
     <thead>
         <tr class="row " style="background-color: transparent;">
-            <th class="col-lg-11 col-md-11 col-sm-11 col-xs-11 text-left ordena" orderby="descripcion" sentido="asc">Descripción</th>
+            <th class="col-lg-10 col-md-10 col-sm-10 col-xs-10 text-left ordena" orderby="descripcion" sentido="asc">Descripción</th>
+            <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center ordena" orderby="ing_estado" sentido="asc">Estado</th>
             <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center noExl">Acciones</th>
         </tr>
     </thead>
     <tbody id="body">
         <?php foreach ($registros as $usu) { ?>
             <tr class="row" codigo="<?php echo $usu["codigo"]; ?>">
-                <td class="col-lg-11 col-md-11 col-sm-11 col-xs-11 text-left" style="vertical-align: middle;"><?php echo $usu["descripcion"]; ?></td>
+                <td class="col-lg-10 col-md-10 col-sm-10 col-xs-10 text-left" style="vertical-align: middle;"><?php echo $usu["descripcion"]; ?></td>
+                <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center" style="vertical-align: middle;">
+                    <?php 
+                        switch (intval($usu["ing_estado"])){
+                            case -1:
+                                echo '<span style="cursor: pointer;" estado="-1" codigo="'.$usu["codigo"].'" class="estado_editable label label-danger m-t-lg">Necesita Correccion</span>';
+                                break;
+                            case 0:
+                                echo'<span style="cursor: pointer;" estado="0" codigo="'.$usu["codigo"].'" class="estado_editable label label-warning m-t-lg" >Sin Desarrollar</span>';
+                                break;
+                            case 1:
+                                echo '<span style="cursor: pointer;" estado="1"  codigo="'.$usu["codigo"].'" class="estado_editable label label-info m-t-lg">En Desarrollo</span>';
+                                break;
+                            case 2:
+                                echo '<span style="cursor: pointer;" estado="2"  codigo="'.$usu["codigo"].'" class="estado_editable label label-success m-t-lg">Aprobado</span>';
+                                break;
+                        }
+                    ?>
+                </td>
                 <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center noExl" style="vertical-align: middle;">
                     <div class="dropdown">
                         <button class="btn btn-sm btn-primary dropdown-toggle nuevo" id="menu" type="button" data-toggle="dropdown"  style="font-size: 10px;height: 15px;">
@@ -154,5 +173,48 @@
     $(".archivosProducto").click(function () {
         codigo = $(this).closest('tr').attr("codigo");
         window.location.href = "files.php?opc="+codigo;
+    });
+
+    $(".estado_editable").css("width", "100%");
+    
+    $(".estado_editable").click(function (){
+        var codigo = $(this).attr("codigo");
+        var estado = $(this).attr("estado");
+        var nuevo_estado = 0;
+        if (estado == -1){
+            nuevo_estado = 0;
+        }
+        if (estado == 0){
+            nuevo_estado = 1;
+        }
+        if (estado == 1){
+            nuevo_estado = 2;
+        }
+        if (estado == 2){
+            nuevo_estado = -1;
+        }
+        var parametros = {
+            funcion: "cambiar_estadoProducto",   
+            select_n1: $('#select_n1').val(),
+            select_n2: $('#select_n2').val(),
+            select_n3: $('#select_n3').val(),
+            select_n4: $('#select_n4').val(),
+            codigo: codigo,
+            estado: nuevo_estado
+        }
+            $.ajax({
+                type: "POST",
+                url: 'controller/productos.controller.php',
+                data: parametros,
+                success: function (datos) {
+                    location.reload();
+                },
+                error: function () {
+                    alert("Error");
+                },
+                complete: function () {
+                    requestSent = false;
+                }
+            });
     });
 </script>

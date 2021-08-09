@@ -59,7 +59,8 @@ function updateOt_produccionEstado() {
                                                 $_POST['estado'],
                                                 $_POST['code'],
                                                 $_POST['ing_alcance'],
-                                                $_POST['ing_planos']
+                                                $_POST['ing_planos'],
+                                                $_POST['destino']
             );
 }
 
@@ -84,7 +85,7 @@ function getOt_produccion() {
 function getOt_produccionEstado() {
     $controlador = Ot_produccionsController::singleton_ot_produccions();
     
-    echo $controlador->getOt_produccionEstado($_POST['codigo'], $_POST['atributo'], $_POST["destino"]);
+    echo $controlador->getOt_produccionEstado($_POST['codigo'], $_POST['atributo'], $_POST["destino"], $_POST["code"]);
 }
 
 class Ot_produccionsController {
@@ -146,8 +147,8 @@ class Ot_produccionsController {
             $ult_detalle = $otp["ot_detalle_id"];
             if ($ult_detalle > 0){
 
-                $observaciones = "Actualizacion Estado OT Produccion, ingreso a Ingenieria. " . $otp["prod_standar"] . $otp["prod_personalizado"];
-                $this->conn->addOt_estado($codigo, 1, null, $observaciones, 'ingenieria');
+                $observaciones = "Actualizacion Estado OT Produccion. " . $otp["prod_standar"] . $otp["prod_personalizado"];
+                //$this->conn->addOt_estado($codigo, 1, null, $observaciones, 'ingenieria');
                 
                 $evento = 9;
                 $observaciones = "Generacion OT Produccion " . $otp["prod_standar"] . $otp["prod_personalizado"];
@@ -172,9 +173,16 @@ class Ot_produccionsController {
         return $devuelve;        
     }
     
-    public function updateOt_produccionEstado($codigo, $atributo, $avance, $estado, $code, $ing_alcance, $ing_planos) { //aca quede
-        $ot_prod_estado_antes = $this->conn->getOt_produccionEstadoCode($code)[0];
-        $devuelve = $this->conn->updateOt_produccionEstado($codigo, $atributo, $avance, $estado, $code, intval($ing_alcance), intval($ing_planos));
+    public function updateOt_produccionEstado($codigo, $atributo, $avance, $estado, $code, $ing_alcance, $ing_planos, $destino) { //aca quede
+        if ($code == 0){ 
+            $devuelve = $this->conn->insertOt_produccionEstado($codigo, $atributo, $avance, $estado, $code, intval($ing_alcance), intval($ing_planos), $destino); 
+            if ($devuelve === 0){
+                $codigo = $this->conn->getLastOtProduccion()[0]["codigo"];
+            }
+        } else {
+            $ot_prod_estado_antes = $this->conn->getOt_produccionEstadoCode($code)[0];
+            $devuelve = $this->conn->updateOt_produccionEstado($codigo, $atributo, $avance, $estado, $code, intval($ing_alcance), intval($ing_planos));    
+        }
         $destinos = $this->conn->getDestinos();
         $_estado = $this->conn->getEstado($estado)[0];
         if ($devuelve === 0){
@@ -185,11 +193,10 @@ class Ot_produccionsController {
                 $observaciones = "Actualizacion Estado OT Produccion (" . $_estado["descripcion"] . ") " . $otp["prod_standar"] . $otp["prod_personalizado"];
                 if ($estado == 2){ // en proceso
                     $observaciones = "Actualizacion Estado OT Produccion (" . $_estado["descripcion"] . " - " . $avance . "%) " . $otp["prod_standar"] . $otp["prod_personalizado"];
-                 
                 }
                 $this->conn->addOt_evento($ult_detalle, $codigo, $evento, 0, $observaciones);
             }
-            if ($ot_prod_estado_antes["estado_id"] != $estado){
+            /*if ($ot_prod_estado_antes["estado_id"] != $estado){
                 if ($estado == 3){ //aprobado
                     if ($atributo == 'ingenieria'){
                         $evento = 10;
@@ -235,7 +242,7 @@ class Ot_produccionsController {
                         $this->conn->addOt_estado($codigo, 1, null, $observaciones, 'gerencia');
                     }
                 }
-            }
+            }*/
         }
         return $devuelve;
         
@@ -243,8 +250,8 @@ class Ot_produccionsController {
     
     public function restablecerOt_produccion($codigo) {
         $devuelve = $this->conn->deleteOt_produccionEstados($codigo);
-        $devuelve = $this->conn->updateOt_produccionEstadoAll($codigo, 'ingenieria', 0, 1);        
-        $_estado = $this->conn->getEstado(1)[0];
+        //$devuelve = $this->conn->updateOt_produccionEstadoAll($codigo, 'ingenieria', 0, 1);        
+        //$_estado = $this->conn->getEstado(1)[0];
         if ($devuelve === 0){
             $otp = $this->conn->getOt_produccion($codigo)[0];
             $ult_detalle = $otp["ot_detalle_id"];
@@ -272,9 +279,14 @@ class Ot_produccionsController {
         
     }
     
-    public function getOt_produccionEstado($codigo, $atributo, $destino) {
-        $devuelve = $this->conn->getOt_produccionEstado($codigo, $atributo, $destino);
-        
+    public function getOt_produccionEstado($codigo, $atributo, $destino, $code = 0) {
+        if ($code > 0) {
+            $devuelve = $this->conn->getOt_produccionEstadoCode($code);
+            
+        } else {
+            $devuelve = $this->conn->getOt_produccionEstado($codigo, $atributo, $destino);
+
+        }        
         return json_encode($devuelve[0]);
         
     }

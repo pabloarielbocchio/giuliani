@@ -136,6 +136,10 @@ include 'inc/html/breadcrumb.php';
                             <label for="nombre0" class="control-label">Nombre:</label>
                             <input type="text" class="form-control" id="descripcionAdd" name="descripcionAdd" required maxlength="100">
                         </div>
+                        <div class="form-group">
+                            <label for="nombre0" class="control-label">Orden:</label>
+                            <input type="text" class="form-control" id="ordenAdd" name="ordenAdd" required maxlength="100">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-danger boton_marron_carni" >Guardar datos</button>
@@ -159,6 +163,10 @@ include 'inc/html/breadcrumb.php';
                         <div class="form-group">
                             <label for="nombre0" class="control-label">Nombre:</label>
                             <input type="text" class="form-control" id="descripcionUpdate" name="descripcionUpdate" required maxlength="100">
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre0" class="control-label">Orden:</label>
+                            <input type="text" class="form-control" id="ordenUpdate" name="ordenUpdate" required maxlength="100">
                         </div>
                     </div>
                     <div class="modal-footer">

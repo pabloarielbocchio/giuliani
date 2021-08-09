@@ -63,7 +63,7 @@
     </div>     
 </div>     
 <div class="row">
-    <div class="col-md-12 div_tabla">
+    <div class="col-md-12 div_tabla" scrollx="0" scrolly="0">
     </div>     
 </div>     
     
@@ -131,6 +131,7 @@
             data: parametros,
             success: function (datos) {
                 $(".div_tabla").html(datos);
+                $(".divespecial").scrollLeft($("#div_tabla").attr("scrollx"));
             },
             error: function () {
                 alert("Error");

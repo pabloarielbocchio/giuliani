@@ -74,6 +74,60 @@ class ArchivosModel {
         
     }
     
+    public function deleteArchivoOtp($codigo){
+        try {
+            $this->conn->beginTransaction();
+            $stmt = $this->conn->prepare('DELETE from archivos where codigo = (SELECT ad.archivo_id FROM orden_trabajos_archivos ad where ad.ot_produccion_id = ? )');
+            $stmt->bindValue(1, $codigo, PDO::PARAM_INT);
+            if($stmt->execute()){
+                $this->conn->commit();
+                return 0;
+            }  else {
+                $this->conn->rollBack();
+                return var_dump($stmt->errorInfo());
+            }
+        } catch(PDOException $e) {
+            $this->conn->rollBack();
+            return -1;
+        }
+    }
+    
+    public function deleteArchivoOtd($codigo){
+        try {
+            $this->conn->beginTransaction();
+            $stmt = $this->conn->prepare('DELETE from archivos where codigo = (SELECT ad.archivo_id FROM orden_trabajos_archivos ad where ad.ot_detalle_id = ? )');
+            $stmt->bindValue(1, $codigo, PDO::PARAM_INT);
+            if($stmt->execute()){
+                $this->conn->commit();
+                return 0;
+            }  else {
+                $this->conn->rollBack();
+                return var_dump($stmt->errorInfo());
+            }
+        } catch(PDOException $e) {
+            $this->conn->rollBack();
+            return -1;
+        }
+    }
+    
+    public function deleteArchivoOt($codigo){
+        try {
+            $this->conn->beginTransaction();
+            $stmt = $this->conn->prepare('DELETE from archivos where codigo = (SELECT ad.archivo_id FROM orden_trabajos_archivos ad where ad.ot_id = ? )');
+            $stmt->bindValue(1, $codigo, PDO::PARAM_INT);
+            if($stmt->execute()){
+                $this->conn->commit();
+                return 0;
+            }  else {
+                $this->conn->rollBack();
+                return var_dump($stmt->errorInfo());
+            }
+        } catch(PDOException $e) {
+            $this->conn->rollBack();
+            return -1;
+        }
+    }
+    
     public function deleteArchivo($codigo){
         try {
             $archivo = $this->getArchivo($codigo)[0];
@@ -112,6 +166,78 @@ class ArchivosModel {
         }
     }
 
+    public function deleteArchivo_destinoOt($codigo){
+        try {
+            $this->conn->beginTransaction();
+            $stmt = $this->conn->prepare('DELETE from archivo_destinos where archivo_id = (SELECT ad.archivo_id FROM orden_trabajos_archivos ad where ad.ot_id = ? )');
+            $stmt->bindValue(1, $codigo, PDO::PARAM_INT);
+            if($stmt->execute()){
+                $this->conn->commit();
+                return 0;
+            }  else {
+                $this->conn->rollBack();
+                return 1;
+            }
+        } catch(PDOException $e) {
+            $this->conn->rollBack();
+            return -1;
+        }
+    }
+
+    public function deleteArchivo_destinoOtd($codigo){
+        try {
+            $this->conn->beginTransaction();
+            $stmt = $this->conn->prepare('DELETE from archivo_destinos where archivo_id = (SELECT ad.archivo_id FROM orden_trabajos_archivos ad where ad.ot_detalle_id = ? )');
+            $stmt->bindValue(1, $codigo, PDO::PARAM_INT);
+            if($stmt->execute()){
+                $this->conn->commit();
+                return 0;
+            }  else {
+                $this->conn->rollBack();
+                return 1;
+            }
+        } catch(PDOException $e) {
+            $this->conn->rollBack();
+            return -1;
+        }
+    }
+
+    public function deleteArchivo_destinoOtp($codigo){
+        try {
+            $this->conn->beginTransaction();
+            $stmt = $this->conn->prepare('DELETE from archivo_destinos where archivo_id = (SELECT ad.archivo_id FROM orden_trabajos_archivos ad where ad.ot_produccion_id = ? )');
+            $stmt->bindValue(1, $codigo, PDO::PARAM_INT);
+            if($stmt->execute()){
+                $this->conn->commit();
+                return 0;
+            }  else {
+                $this->conn->rollBack();
+                return 1;
+            }
+        } catch(PDOException $e) {
+            $this->conn->rollBack();
+            return -1;
+        }
+    }
+
+    public function deleteArchivo_ot($codigo){
+        try {
+            $this->conn->beginTransaction();
+            $stmt = $this->conn->prepare('DELETE from orden_trabajos_archivos where codigo = ?');
+            $stmt->bindValue(1, $codigo, PDO::PARAM_INT);
+            if($stmt->execute()){
+                $this->conn->commit();
+                return 0;
+            }  else {
+                $this->conn->rollBack();
+                return 1;
+            }
+        } catch(PDOException $e) {
+            $this->conn->rollBack();
+            return -1;
+        }
+    }
+
     public function deleteArchivo_otp($codigo){
         try {
             $this->conn->beginTransaction();
@@ -130,11 +256,11 @@ class ArchivosModel {
         }
     }
     
-    public function addArchivo($descripcion, $ruta, $fecha_hora, $activo, $cod_prod_na, $cod_prod_nb, $cod_prod_nc, $cod_prod_nd, $cod_prod_ne, $cod_prod_nf, $cod_prod_personalizado_id, $cod_prod_estandar_id){
+    public function addArchivo($descripcion, $ruta, $fecha_hora, $activo, $cod_prod_na, $cod_prod_nb, $cod_prod_nc, $cod_prod_nd, $cod_prod_ne, $cod_prod_nf, $cod_prod_personalizado_id, $cod_prod_estandar_id, $cod_ot_detalle_id, $cod_ot){
         $hoy = date("Y-m-d H:i:s");
         try {
             $this->conn->beginTransaction();
-            $stmt = $this->conn->prepare('INSERT INTO archivos (descripcion, ruta, fecha_hora, activo, cod_prod_na, cod_prod_nb, cod_prod_nc, cod_prod_nd, cod_prod_ne, cod_prod_nf, cod_prod_personalizado_id, cod_prod_estandar_id, usuario_m, fecha_m) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);');
+            $stmt = $this->conn->prepare('INSERT INTO archivos (descripcion, ruta, fecha_hora, activo, cod_prod_na, cod_prod_nb, cod_prod_nc, cod_prod_nd, cod_prod_ne, cod_prod_nf, cod_prod_personalizado_id, cod_prod_estandar_id, cod_ot_detalle_id, cod_ot, usuario_m, fecha_m) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);');
             $stmt->bindValue(1, $descripcion, PDO::PARAM_STR);
             $stmt->bindValue(2, $ruta, PDO::PARAM_STR);
             $stmt->bindValue(3, $fecha_hora, PDO::PARAM_STR);
@@ -147,8 +273,10 @@ class ArchivosModel {
             $stmt->bindValue(10, $cod_prod_nf, PDO::PARAM_INT);
             $stmt->bindValue(11, $cod_prod_personalizado_id, PDO::PARAM_INT);
             $stmt->bindValue(12, $cod_prod_estandar_id, PDO::PARAM_INT);
-            $stmt->bindValue(13, $_SESSION["usuario"], PDO::PARAM_STR);
-            $stmt->bindValue(14, $hoy, PDO::PARAM_STR);
+            $stmt->bindValue(13, $cod_ot_detalle_id, PDO::PARAM_INT);
+            $stmt->bindValue(14, $cod_ot, PDO::PARAM_INT);
+            $stmt->bindValue(15, $_SESSION["usuario"], PDO::PARAM_STR);
+            $stmt->bindValue(16, $hoy, PDO::PARAM_STR);
             
             if($stmt->execute()){
                 $this->conn->commit();
@@ -163,7 +291,7 @@ class ArchivosModel {
         }
     }
     
-    public function updateArchivo($codigo, $descripcion, $ruta, $fecha_hora, $activo, $cod_prod_na, $cod_prod_nb, $cod_prod_nc, $cod_prod_nd, $cod_prod_ne, $cod_prod_nf, $cod_prod_personalizado_id, $cod_prod_estandar_id){
+    public function updateArchivo($codigo, $descripcion, $ruta, $fecha_hora, $activo, $cod_prod_na, $cod_prod_nb, $cod_prod_nc, $cod_prod_nd, $cod_prod_ne, $cod_prod_nf, $cod_prod_personalizado_id, $cod_prod_estandar_id, $cod_ot_detalle_id){
         $hoy = date("Y-m-d H:i:s");
         try {
             $this->conn->beginTransaction();
@@ -180,6 +308,7 @@ class ArchivosModel {
                                             . 'cod_prod_nf = ? , '
                                             . 'cod_prod_personalizado_id = ? , '
                                             . 'cod_prod_estandar_id = ? , '
+                                            . 'cod_ot_detalle_id = ? , '
                                             . 'usuario_m = ?, '
                                             . 'fecha_m = ? '
                                             . ' where codigo = ?');            
@@ -195,9 +324,10 @@ class ArchivosModel {
             $stmt->bindValue(10, $cod_prod_nf, PDO::PARAM_INT);
             $stmt->bindValue(11, $cod_prod_personalizado_id, PDO::PARAM_INT);
             $stmt->bindValue(12, $cod_prod_estandar_id, PDO::PARAM_INT);
-            $stmt->bindValue(13, $_SESSION["usuario"], PDO::PARAM_STR);
-            $stmt->bindValue(14, $hoy, PDO::PARAM_STR);
-            $stmt->bindValue(15, $codigo, PDO::PARAM_INT);
+            $stmt->bindValue(13, $cod_ot_detalle_id, PDO::PARAM_INT);
+            $stmt->bindValue(14, $_SESSION["usuario"], PDO::PARAM_STR);
+            $stmt->bindValue(15, $hoy, PDO::PARAM_STR);
+            $stmt->bindValue(16, $codigo, PDO::PARAM_INT);
             if($stmt->execute()){
                 $this->conn->commit();
                 return 0;
@@ -371,17 +501,19 @@ class ArchivosModel {
         }
     }
     
-    public function addArchivo_produccion($archivo, $produccion, $observaciones){
+    public function addArchivo_produccion($archivo, $produccion, $observaciones, $detalle, $ot){
         $hoy = date("Y-m-d H:i:s");
         try {
             $this->conn->beginTransaction();
-            $stmt = $this->conn->prepare('INSERT INTO orden_trabajos_archivos (archivo_id, ot_produccion_id, observaciones, usuario_m, fecha_m) VALUES (?,?,?,?,?);');
+            $stmt = $this->conn->prepare('INSERT INTO orden_trabajos_archivos (archivo_id, ot_produccion_id, observaciones, ot_detalle_id, ot_id, usuario_m, fecha_m) VALUES (?,?,?,?,?,?,?);');
             
             $stmt->bindValue(1, $archivo, PDO::PARAM_INT);
             $stmt->bindValue(2, $produccion, PDO::PARAM_INT);
             $stmt->bindValue(3, $observaciones, PDO::PARAM_STR);
-            $stmt->bindValue(4, $_SESSION["usuario"], PDO::PARAM_STR);
-            $stmt->bindValue(5, $hoy, PDO::PARAM_STR);
+            $stmt->bindValue(4, $detalle, PDO::PARAM_INT);
+            $stmt->bindValue(5, $ot, PDO::PARAM_INT);
+            $stmt->bindValue(6, $_SESSION["usuario"], PDO::PARAM_STR);
+            $stmt->bindValue(7, $hoy, PDO::PARAM_STR);
             
             if($stmt->execute()){
                 $this->conn->commit();

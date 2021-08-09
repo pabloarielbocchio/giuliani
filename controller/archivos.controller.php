@@ -31,7 +31,9 @@ function addArchivo() {
                                         $_POST['cod_prod_ne'],
                                         $_POST['cod_prod_nf'],
                                         $_POST['cod_prod_personalizado_id'],
-                                        $_POST['cod_prod_estandar_id']
+                                        $_POST['cod_prod_estandar_id'],
+                                        $_POST['cod_ot_detalle_id'],
+                                        $_POST['cod_ot']
             );
 }
 
@@ -50,7 +52,8 @@ function updateArchivo() {
                                         $_POST['cod_prod_ne'],
                                         $_POST['cod_prod_nf'],
                                         $_POST['cod_prod_personalizado_id'],
-                                        $_POST['cod_prod_estandar_id']
+                                        $_POST['cod_prod_estandar_id'],
+                                        $_POST['cod_ot_detalle_id']
             );
 }
 
@@ -58,6 +61,24 @@ function deleteArchivo() {
     $controlador = ArchivosController::singleton_archivos();
     
     echo $controlador->deleteArchivo($_POST['codigo']);
+}
+
+function deleteArchivoOt() {
+    $controlador = ArchivosController::singleton_archivos();
+    
+    echo $controlador->deleteArchivoOt($_POST['codigo']);
+}
+
+function deleteArchivoOtd() {
+    $controlador = ArchivosController::singleton_archivos();
+    
+    echo $controlador->deleteArchivoOtd($_POST['codigo']);
+}
+
+function deleteArchivoOtp() {
+    $controlador = ArchivosController::singleton_archivos();
+    
+    echo $controlador->deleteArchivoOtp($_POST['codigo']);
 }
 
 function getArchivo() {
@@ -126,15 +147,15 @@ class ArchivosController {
         
     }
     
-    public function addArchivo($descripcion, $ruta, $fecha_hora, $activo, $cod_prod_na, $cod_prod_nb, $cod_prod_nc, $cod_prod_nd, $cod_prod_ne, $cod_prod_nf, $cod_prod_personalizado_id, $cod_prod_estandar_id) {
-        $devuelve = $this->conn->addArchivo($descripcion, $ruta, $fecha_hora, $activo, $cod_prod_na, $cod_prod_nb, $cod_prod_nc, $cod_prod_nd, $cod_prod_ne, $cod_prod_nf, $cod_prod_personalizado_id, $cod_prod_estandar_id);
+    public function addArchivo($descripcion, $ruta, $fecha_hora, $activo, $cod_prod_na, $cod_prod_nb, $cod_prod_nc, $cod_prod_nd, $cod_prod_ne, $cod_prod_nf, $cod_prod_personalizado_id, $cod_prod_estandar_id, $cod_ot_detalle_id, $cod_ot = 0) {
+        $devuelve = $this->conn->addArchivo($descripcion, $ruta, $fecha_hora, $activo, $cod_prod_na, $cod_prod_nb, $cod_prod_nc, $cod_prod_nd, $cod_prod_ne, $cod_prod_nf, $cod_prod_personalizado_id, $cod_prod_estandar_id, $cod_ot_detalle_id, $cod_ot);
         
         return $devuelve;
         
     }
     
-    public function updateArchivo($codigo, $descripcion, $ruta, $fecha_hora, $activo, $cod_prod_na, $cod_prod_nb, $cod_prod_nc, $cod_prod_nd, $cod_prod_ne, $cod_prod_nf, $cod_prod_personalizado_id, $cod_prod_estandar_id) {
-        $devuelve = $this->conn->updateArchivo($codigo, $descripcion, $ruta, $fecha_hora, $activo, $cod_prod_na, $cod_prod_nb, $cod_prod_nc, $cod_prod_nd, $cod_prod_ne, $cod_prod_nf, $cod_prod_personalizado_id, $cod_prod_estandar_id);
+    public function updateArchivo($codigo, $descripcion, $ruta, $fecha_hora, $activo, $cod_prod_na, $cod_prod_nb, $cod_prod_nc, $cod_prod_nd, $cod_prod_ne, $cod_prod_nf, $cod_prod_personalizado_id, $cod_prod_estandar_id, $cod_ot_detalle_id, $cod_ot = 0) {
+        $devuelve = $this->conn->updateArchivo($codigo, $descripcion, $ruta, $fecha_hora, $activo, $cod_prod_na, $cod_prod_nb, $cod_prod_nc, $cod_prod_nd, $cod_prod_ne, $cod_prod_nf, $cod_prod_personalizado_id, $cod_prod_estandar_id, $cod_ot_detalle_id, $cod_ot);
         
         return $devuelve;
         
@@ -144,6 +165,33 @@ class ArchivosController {
         $devuelve = $this->conn->deleteArchivo($codigo);
         $devuelve = $this->conn->deleteArchivo_destino($codigo);
         $devuelve = $this->conn->deleteArchivo_otp($codigo);
+        
+        return $devuelve;
+        
+    }
+    
+    public function deleteArchivoOt($codigo) {
+        $devuelve = $this->conn->deleteArchivoOt($codigo);
+        $devuelve = $this->conn->deleteArchivo_destinoOt($codigo);
+        $devuelve = $this->conn->deleteArchivo_ot($codigo);
+        
+        return $devuelve;
+        
+    }
+    
+    public function deleteArchivoOtd($codigo) {
+        $devuelve = $this->conn->deleteArchivoOtd($codigo);
+        $devuelve = $this->conn->deleteArchivo_destinoOtd($codigo);
+        $devuelve = $this->conn->deleteArchivo_ot($codigo);
+        
+        return $devuelve;
+        
+    }
+    
+    public function deleteArchivoOtp($codigo) {
+        $devuelve = $this->conn->deleteArchivoOtp($codigo);
+        $devuelve = $this->conn->deleteArchivo_destinoOtp($codigo);
+        $devuelve = $this->conn->deleteArchivo_ot($codigo);
         
         return $devuelve;
         
@@ -201,8 +249,8 @@ class ArchivosController {
         return $devuelve;
     }
     
-    public function addArchivo_produccion($archivo, $produccion, $observaciones) {
-        $devuelve = $this->conn->addArchivo_produccion($archivo, $produccion, $observaciones);        
+    public function addArchivo_produccion($archivo, $produccion, $observaciones, $detalle = null, $ot = null) {
+        $devuelve = $this->conn->addArchivo_produccion($archivo, $produccion, $observaciones, $detalle, $ot);        
         return $devuelve;
     }
     

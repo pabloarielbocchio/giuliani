@@ -4,7 +4,7 @@ var fecha_modif;
 
 $(document).ready(function () {
     $("#busqueda-icono").click();
-    //$(".navbar-minimalize").click();
+    $(".navbar-minimalize").click();
 });
 
 /*$(document).on({
@@ -43,7 +43,8 @@ function getRegistros(orderby, sentido, registros, pagina, busqueda, objeto) {
             sentido: sentido,
             registros: registros,
             pagina: pagina,
-            busqueda: busqueda
+            busqueda: busqueda,
+            rol: $("#select_rol").val()
         }
         $.ajax({
             type: "POST",
@@ -346,3 +347,7 @@ function updateOrdenUpdate() {
         }
     });
 }
+
+$("#select_rol").change(function () {
+    $("#busqueda-icono").click();
+});

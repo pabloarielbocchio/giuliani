@@ -5,6 +5,7 @@ var sucursales_update = null;
 
 $(document).ready(function () {
     $("#busqueda-icono").click();
+    $(".navbar-minimalize").click();
 });
 
 $('#select_usuario').change(function() {

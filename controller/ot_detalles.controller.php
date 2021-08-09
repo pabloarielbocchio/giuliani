@@ -19,7 +19,13 @@ function getRegistrosFiltro(){
 function getRegistrosFiltroSeguimiento(){
     $controlador = Ot_detallesController::singleton_ot_detalles();
     
-    echo $controlador->getRegistrosFiltroSeguimiento($_POST['orderby'], $_POST['sentido'], $_POST['registros'], $_POST['pagina'], $_POST['busqueda'], $_POST['ot'], $_POST['estado']);
+    echo $controlador->getRegistrosFiltroSeguimiento($_POST['orderby'], $_POST['sentido'], $_POST['registros'], $_POST['pagina'], $_POST['busqueda'], $_POST['ot'], $_POST['area'], $_POST['estado']);
+}
+
+function getRegistrosFiltroSeguimientoArchivos(){
+    $controlador = Ot_detallesController::singleton_ot_detalles();
+    
+    echo $controlador->getRegistrosFiltroSeguimientoArchivos($_POST['orderby'], $_POST['sentido'], $_POST['registros'], $_POST['pagina'], $_POST['busqueda'], $_POST['ot'], $_POST['area'], $_POST['estado']);
 }
 
 function addOt_detalle() {
@@ -92,7 +98,11 @@ class Ot_detallesController {
         
     }
     
-    public function getRegistrosFiltroSeguimiento($orderby, $sentido, $registros, $pagina, $busqueda, $ot, $estado){
+    public function getMenuDestinos($rol){
+        return $this->conn->getMenuDestinos($rol);
+    }
+    
+    public function getRegistrosFiltroSeguimiento($orderby, $sentido, $registros, $pagina, $busqueda, $ot, $area, $estado){
         
         $_SESSION["pagina"] = $pagina;        
         $_SESSION["cant_reg"] = $registros;        
@@ -100,7 +110,10 @@ class Ot_detallesController {
         $_SESSION['orderby'] = $orderby;        
         $_SESSION['sentido'] = $sentido;
         $_SESSION['ot'] = $ot;
+        $_SESSION['area'] = $area;
         $_SESSION['estado'] = $estado;
+                                     
+        $menu_user_destinos = $this->getMenuDestinos($_SESSION["rol"]); 
         
         $roles = $this->getRoles();
         $destinos = $this->getDestinos();
@@ -112,6 +125,12 @@ class Ot_detallesController {
         $devuelve = $this->conn->getRegistrosFiltro($orderby, $sentido, $registros, $pagina, $busqueda, $ot, $estado);
 
         foreach($devuelve as $dev){
+            $secciones[$dev["seccion"]]["codigo"] = $dev["seccion"];
+            $secciones[$dev["seccion"]]["descripcion"] = $dev["seccion"];
+            $secciones[$dev["seccion"]]["sectores"][$dev["sector"]]["codigo"] = $dev["sector"];
+            $secciones[$dev["seccion"]]["sectores"][$dev["sector"]]["descripcion"] = $dev["sector"];
+            $secciones[$dev["seccion"]]["sectores"][$dev["sector"]]["registros"][] = $dev;
+            /*
             foreach($_secciones as $secc){
                 if ($dev["seccion_id"] == $secc["codigo"]){
                     $secciones[$secc["codigo"]]["codigo"] = $secc["codigo"];
@@ -125,16 +144,47 @@ class Ot_detallesController {
                         }
                     }                              
                 }
-            }
+            }*/
         }
 
         $prods = $this->conn->getPartesProduccions($ot);
         foreach($prods as $key => $prod){
-            $destinos_otps = $this->conn->getOtpsArchivosDestinos($prod["codigo"]);
+            // Aca hay q cambiar
+            /*$destinos_otps = $this->conn->getOtpsArchivosDestinos($prod["codigo"]);
             foreach($destinos_otps as $dtops){
                 if ($dtops["cuenta"] > 0) {
                     $prods[$key]["destinos"][$dtops["codigo"]] = $dtops["cuenta"];
                 }
+            }*/
+        }
+
+        if ($_SESSION["rol"] > 1) {
+            foreach($destinos as $pos => $dest){
+                $encuentra = 0;
+                foreach($menu_user_destinos as $mud){
+                    if ($mud["destino_id"] == $dest["codigo"]){
+                        if ($mud["permiso"] > 0){
+                            //if ($_SESSION['area'] == $dest["codigo"]) {
+                                $encuentra = 1;
+                                $destinos[$pos]["permiso"] = $dest["permiso"];
+                            //}
+                        }
+                    }
+                }
+                if ($encuentra == 0){
+                    unset($destinos[$pos]);
+                }
+            }
+        } else {
+            foreach($destinos as $pos => $dest){
+                $encuentra = 0;
+                /*if ($_SESSION['area'] == $dest["codigo"]) {
+                    $encuentra = 1;
+                    $destinos[$pos]["permiso"] = $dest["permiso"];
+                }
+                if ($encuentra == 0){
+                    unset($destinos[$pos]);
+                }*/
             }
         }
 
@@ -145,6 +195,68 @@ class Ot_detallesController {
         $_SESSION['registros'] = $registros;
 
         include $_SERVER['DOCUMENT_ROOT']."/Giuliani/templates/ot_detalles.seguimiento.template.php";
+        
+    }
+    
+    public function getRegistrosFiltroSeguimientoArchivos($orderby, $sentido, $registros, $pagina, $busqueda, $ot, $area, $estado){
+        
+        $_SESSION["pagina"] = $pagina;        
+        $_SESSION["cant_reg"] = $registros;        
+        $_SESSION["busqueda"] = $busqueda;                
+        $_SESSION['orderby'] = $orderby;        
+        $_SESSION['sentido'] = $sentido;
+        $_SESSION['ot'] = $ot;
+        $_SESSION['area'] = $area;
+        $_SESSION['estado'] = $estado;
+                                     
+        $menu_user_destinos = $this->getMenuDestinos($_SESSION["rol"]); 
+        
+        $roles = $this->getRoles();
+        $destinos = $this->getDestinos();
+        $_sectores = $this->getSectores();
+        $_secciones = $this->getSecciones();
+        $secciones = []; 
+        $sectores = []; 
+
+        $devuelve = $this->conn->getRegistrosFiltro($orderby, $sentido, $registros, $pagina, $busqueda, $ot, $estado);
+
+        foreach($devuelve as $dev){
+            $secciones[$dev["seccion"]]["codigo"] = $dev["seccion"];
+            $secciones[$dev["seccion"]]["descripcion"] = $dev["seccion"];
+            $secciones[$dev["seccion"]]["sectores"][$dev["sector"]]["codigo"] = $dev["sector"];
+            $secciones[$dev["seccion"]]["sectores"][$dev["sector"]]["descripcion"] = $dev["sector"];
+            $secciones[$dev["seccion"]]["sectores"][$dev["sector"]]["registros"][] = $dev;
+        }
+
+        $prods = $this->conn->getPartesProduccions($ot);
+
+        if ($_SESSION["rol"] > 1) {
+            foreach($destinos as $pos => $dest){
+                $encuentra = 0;
+                foreach($menu_user_destinos as $mud){
+                    if ($mud["destino_id"] == $dest["codigo"]){
+                        if ($mud["permiso"] > 0){
+                            //if ($_SESSION['area'] == $dest["codigo"]) {
+                                $encuentra = 1;
+                                $destinos[$pos]["permiso"] = $dest["permiso"];
+                            //}
+                        }
+                    }
+                }
+                if ($encuentra == 0){
+                    unset($destinos[$pos]);
+                }
+            }
+        } 
+
+        $estados = $this->conn->getPartesProduccionsEstados($ot);
+        $archivos = $this->conn->getArchivos();
+        
+        $registros = $devuelve;
+        
+        $_SESSION['registros'] = $registros;
+
+        include $_SERVER['DOCUMENT_ROOT']."/Giuliani/templates/ot_detalles.seguimiento.archivos.php";
         
     }
     
@@ -167,6 +279,12 @@ class Ot_detallesController {
         $devuelve = $this->conn->getRegistrosFiltro($orderby, $sentido, $registros, $pagina, $busqueda, $ot);
 
         foreach($devuelve as $dev){
+            $secciones[$dev["seccion"]]["codigo"] = $dev["seccion"];
+            $secciones[$dev["seccion"]]["descripcion"] = $dev["seccion"];
+            $secciones[$dev["seccion"]]["sectores"][$dev["sector"]]["codigo"] = $dev["sector"];
+            $secciones[$dev["seccion"]]["sectores"][$dev["sector"]]["descripcion"] = $dev["sector"];
+            $secciones[$dev["seccion"]]["sectores"][$dev["sector"]]["registros"][] = $dev;
+            /*
             foreach($_secciones as $secc){
                 if ($dev["seccion_id"] == $secc["codigo"]){
                     $secciones[$secc["codigo"]]["codigo"] = $secc["codigo"];
@@ -181,13 +299,13 @@ class Ot_detallesController {
                     }                              
                 }
             }
+            */
         } 
 
         $prods = $this->conn->getPartesProduccions($ot);
         $ot_header = $this->conn->getOt_header($ot)[0];
         
-        $registros = $devuelve;
-        
+        $registros = $devuelve;        
         $_SESSION['registros'] = $registros;
 
         include $_SERVER['DOCUMENT_ROOT']."/Giuliani/templates/ot_detalles.busqueda.template.php";

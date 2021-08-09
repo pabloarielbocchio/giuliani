@@ -2,7 +2,7 @@
     <thead>
         <tr class="row " style="background-color: transparent;">
             <th class="col-lg-11 col-md-11 col-sm-11 col-xs-11 text-left ordena" orderby="descripcion" sentido="asc">Descripción</th>
-            <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center noExl">Acciones</th>
+            <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center noExl"></th>
         </tr>
     </thead>
     <tbody id="body">
@@ -13,12 +13,19 @@
                     <tr class="row" codigo="<?php echo $m[5]; ?>" fecha_modif="<?php echo $usu["fecha_modif"]; ?>" nivel="1">
                         <td class="col-lg-11 col-md-11 col-sm-11 col-xs-11 text-left" style="vertical-align: middle; padding-left: 0px;"><?php echo '<i class="fa ' . $m[3] . '"></i> ' .  $m[0]; ?></td>
                         <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center noExl" style="vertical-align: middle;">
-                            <?php if ($_SESSION["permisos"][$_SESSION['menu']]["edit"]) { ?>
-                                <div class="editMenu" style="float: left; margin-left: 10px;"><a href="#"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></div>
-                            <?php  } ?>
-                            <?php if ($_SESSION["permisos"][$_SESSION['menu']]["eliminar"]) { ?>
-                                <div class="deleteMenu" style="float: right;margin-right: 10px;"><a href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></div>
-                            <?php  } ?>    
+                            <?php 
+                            switch ($m[6]){
+                                case 0:
+                                    echo'<span style="cursor: pointer;" estado="0" codigo="'.$m[5].'" class="estado_editable label label-danger m-t-lg" >Bloqueado</span>';
+                                    break;
+                                case 1:
+                                    echo '<span style="cursor: pointer;" estado="1" codigo="'.$m[5].'" class="estado_editable label label-info m-t-lg">Lectura</span>';
+                                    break;
+                                case 2:
+                                    echo '<span style="cursor: pointer;" estado="2" codigo="'.$m[5].'" class="estado_editable label label-success m-t-lg">Modificacion</span>';
+                                    break;
+                            }
+                            ?>
                         </td>
                     </tr>
         <?php   } ?>
@@ -26,12 +33,19 @@
                     <tr class="row" codigo="<?php echo $m[5]; ?>" fecha_modif="<?php echo $usu["fecha_modif"]; ?>" nivel="1">
                         <td class="col-lg-11 col-md-11 col-sm-11 col-xs-11 text-left" style="vertical-align: middle; padding-left: 0px;"><?php echo '<i class="fa ' . $m[3] . '"></i> ' . $m[0] . " [+] "; ?></td>
                         <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center noExl" style="vertical-align: middle;">
-                            <?php if ($_SESSION["permisos"][$_SESSION['menu']]["edit"]) { ?>
-                                <div class="editMenu" style="float: left; margin-left: 10px;"><a href="#"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></div>
-                            <?php  } ?>
-                            <?php if ($_SESSION["permisos"][$_SESSION['menu']]["eliminar"]) { ?>
-                                <div class="deleteMenu" style="float: right;margin-right: 10px;"><a href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></div>
-                            <?php  } ?>    
+                            <?php 
+                                switch ($m[6]){
+                                    case 0:
+                                        echo'<span style="cursor: pointer;" estado="0" codigo="'.$m[5].'" class="estado_editable label label-danger m-t-lg" >Bloqueado</span>';
+                                        break;
+                                    case 1:
+                                        echo '<span style="cursor: pointer;" estado="1" codigo="'.$m[5].'" class="estado_editable label label-info m-t-lg">Lectura</span>';
+                                        break;
+                                    case 2:
+                                        echo '<span style="cursor: pointer;" estado="2" codigo="'.$m[5].'" class="estado_editable label label-success m-t-lg">Modificacion</span>';
+                                        break;
+                                }
+                                ?> 
                         </td>
                     </tr>
         <?php foreach ($menu as $men) {
@@ -40,12 +54,19 @@
                     <tr class="row" codigo="<?php echo $men[5]; ?>" fecha_modif="<?php echo $usu["fecha_modif"]; ?>" nivel="2">
                         <td class="col-lg-11 col-md-11 col-sm-11 col-xs-11 text-left" style="vertical-align: middle; padding-left: 50px;"><?php echo $men[0] . " [+] "; ?></td>
                         <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center noExl" style="vertical-align: middle;">
-                            <?php if ($_SESSION["permisos"][$_SESSION['menu']]["edit"]) { ?>
-                                <div class="editMenu" style="float: left; margin-left: 10px;"><a href="#"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></div>
-                            <?php  } ?>
-                            <?php if ($_SESSION["permisos"][$_SESSION['menu']]["eliminar"]) { ?>
-                                <div class="deleteMenu" style="float: right;margin-right: 10px;"><a href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></div>
-                            <?php  } ?>    
+                            <?php 
+                                switch ($men[6]){
+                                    case 0:
+                                        echo'<span style="cursor: pointer;" estado="0" codigo="'.$men[5].'" class="estado_editable label label-danger m-t-lg" >Bloqueado</span>';
+                                        break;
+                                    case 1:
+                                        echo '<span style="cursor: pointer;" estado="1" codigo="'.$men[5].'" class="estado_editable label label-info m-t-lg">Lectura</span>';
+                                        break;
+                                    case 2:
+                                        echo '<span style="cursor: pointer;" estado="2" codigo="'.$men[5].'" class="estado_editable label label-success m-t-lg">Modificacion</span>';
+                                        break;
+                                }
+                                ?>   
                         </td>
                     </tr>
         <?php           foreach ($menu as $_m) {
@@ -53,12 +74,19 @@
                                 <tr class="row" codigo="<?php echo $_m[5]; ?>" fecha_modif="<?php echo $usu["fecha_modif"]; ?>" nivel="3">
                                     <td class="col-lg-11 col-md-11 col-sm-11 col-xs-11 text-left" style="vertical-align: middle; padding-left: 100px;"><?php echo $_m[0]; ?></td>
                                     <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center noExl" style="vertical-align: middle;">
-                                        <?php if ($_SESSION["permisos"][$_SESSION['menu']]["edit"]) { ?>
-                                            <div class="editMenu" style="float: left; margin-left: 10px;"><a href="#"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></div>
-                                        <?php  } ?>
-                                        <?php if ($_SESSION["permisos"][$_SESSION['menu']]["eliminar"]) { ?>
-                                            <div class="deleteMenu" style="float: right;margin-right: 10px;"><a href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></div>
-                                        <?php  } ?>    
+                                            <?php 
+                                    switch ($_m[6]){
+                                        case 0:
+                                            echo'<span style="cursor: pointer;" estado="0" codigo="'.$_m[5].'" class="estado_editable label label-danger m-t-lg" >Bloqueado</span>';
+                                            break;
+                                        case 1:
+                                            echo '<span style="cursor: pointer;" estado="1" codigo="'.$_m[5].'" class="estado_editable label label-info m-t-lg">Lectura</span>';
+                                            break;
+                                        case 2:
+                                            echo '<span style="cursor: pointer;" estado="2" codigo="'.$_m[5].'" class="estado_editable label label-success m-t-lg">Modificacion</span>';
+                                            break;
+                                    }
+                                    ?>   
                                     </td>
                                 </tr>
         <?php               }
@@ -69,12 +97,19 @@
                         <tr class="row" codigo="<?php echo $men[5]; ?>" fecha_modif="<?php echo $usu["fecha_modif"]; ?>" nivel="2">
                             <td class="col-lg-11 col-md-11 col-sm-11 col-xs-11 text-left" style="vertical-align: middle; padding-left: 50px;"><?php echo $men[0]; ?></td>
                             <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center noExl" style="vertical-align: middle;">
-                                <?php if ($_SESSION["permisos"][$_SESSION['menu']]["edit"]) { ?>
-                                    <div class="editMenu" style="float: left; margin-left: 10px;"><a href="#"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></div>
-                                <?php  } ?>
-                                <?php if ($_SESSION["permisos"][$_SESSION['menu']]["eliminar"]) { ?>
-                                    <div class="deleteMenu" style="float: right;margin-right: 10px;"><a href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></div>
-                                <?php  } ?>    
+                                <?php 
+                                switch ($men[6]){
+                                    case 0:
+                                        echo'<span style="cursor: pointer;" estado="0" codigo="'.$men[5].'" class="estado_editable label label-danger m-t-lg" >Bloqueado</span>';
+                                        break;
+                                    case 1:
+                                        echo '<span style="cursor: pointer;" estado="1" codigo="'.$men[5].'" class="estado_editable label label-info m-t-lg">Lectura</span>';
+                                        break;
+                                    case 2:
+                                        echo '<span style="cursor: pointer;" estado="2" codigo="'.$men[5].'" class="estado_editable label label-success m-t-lg">Modificacion</span>';
+                                        break;
+                                }
+                                ?>    
                             </td>
                         </tr>
         <?php       }
@@ -203,5 +238,41 @@
     $("tbody > tr").click(function () {
         $("tbody > tr").css("background-color", "");
         $(this).css("background-color", "#FFFFB8");
+    });
+
+    $(".estado_editable").click(function (){
+        var codigo = $(this).attr("codigo");
+        var estado = $(this).attr("estado");
+        var nuevo_estado = 0;
+        if (estado == 2){
+            nuevo_estado = 0;
+        }
+        if (estado == 0){
+            nuevo_estado = 1;
+        }
+        if (estado == 1){
+            nuevo_estado = 2;
+        }
+        var parametros = {
+            funcion: "cambiar_estadoRolMenu",         
+            codigo: codigo,
+            estado: nuevo_estado,
+            rol: $("#select_rol").val()
+        }
+        console.log(parametros);        
+        $.ajax({
+            type: "POST",
+            url: 'controller/menus.controller.php',
+            data: parametros,
+            success: function (datos) {
+                $("#busqueda-icono").click();
+            },
+            error: function () {
+                alert("Error");
+            },
+            complete: function () {
+                requestSent = false;
+            }
+        });
     });
 </script>

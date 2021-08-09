@@ -6,7 +6,7 @@ var sucursales_update = null;
 $(document).ready(function () {
     $("#busqueda-icono").click();
     $('#sucursalAdd').select2();
-    //$(".navbar-minimalize").click();
+    $(".navbar-minimalize").click();
 });
 
 $('#sucursalAdd').change(function() {

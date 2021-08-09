@@ -25,7 +25,8 @@ function getRegistrosFiltro(){
         $_POST['sentido'], 
         $_POST['registros'], 
         $_POST['pagina'], 
-        $_POST['busqueda']
+        $_POST['busqueda'],
+        $_POST['rol']
     );
     if (!$_POST["json"]){
         echo $devuelve;
@@ -88,6 +89,18 @@ function getMenus() {
     }
 }
 
+function cambiar_estadoRolMenu() {
+    $controlador = MenusController::singleton_menus();    
+    $devuelve = $controlador->cambiar_estadoRolMenu(
+        $_POST['codigo'],
+        $_POST['estado'],
+        $_POST['rol']
+    );
+    if (!$_POST["json"]){
+        echo $devuelve;
+    }
+}
+
 class MenusController {
 
     public static $utils;
@@ -118,7 +131,7 @@ class MenusController {
         return intval($this->conn->getCountMenus()[0]);        
     }
     
-    public function getRegistrosFiltro($orderby, $sentido, $registros, $pagina, $busqueda){    
+    public function getRegistrosFiltro($orderby, $sentido, $registros, $pagina, $busqueda, $rol){    
         $this->utils->newController($_SERVER["REQUEST_URI"], $_SESSION['menu']);
         $this->utils->newFunction(__FUNCTION__, $_SERVER["REQUEST_URI"]);    
         $_SESSION["pagina"]     = $pagina;        
@@ -126,7 +139,9 @@ class MenusController {
         $_SESSION["busqueda"]   = $busqueda;                
         $_SESSION['orderby']    = $orderby;        
         $_SESSION['sentido']    = $sentido;        
+        $_SESSION['rol_selected']    = $rol;        
         $devuelve               = $this->conn->getRegistrosFiltro($orderby, $sentido, $registros, $pagina, $busqueda);                                
+        $roles_menu             = $this->conn->getRolesMenus();
         $menu                   = array();
         foreach ($devuelve as $me){
             switch ($me["nivel"]) {
@@ -139,7 +154,13 @@ class MenusController {
                     }
                     break;
             }
-            $aux    = [$me["nombre"], $me["destino"],$me["nivel"],$me["icono"],$me["subnivel"],$me["codigo"]];
+            $permiso = 0;
+            foreach($roles_menu as $rm){
+                if ($rm["menu_id"] == $me["codigo"]){
+                    $permiso = $rm["permiso"];
+                }
+            }
+            $aux    = [$me["nombre"], $me["destino"],$me["nivel"],$me["icono"],$me["subnivel"],$me["codigo"], $permiso];
             $menu[] = $aux;
         }
         $registros              = $devuelve;        
@@ -160,6 +181,14 @@ class MenusController {
         $this->utils->newController($_SERVER["REQUEST_URI"], $_SESSION['menu']);
         $this->utils->newFunction(__FUNCTION__, $_SERVER["REQUEST_URI"]);    
         $devuelve = $this->conn->updateMenus($codigo, $fecha_modif, $descripcion, $nivel, $niveles, $subniveles, $visible, $destino, $icono, $orden);        
+        return $devuelve;        
+    }
+    
+    public function cambiar_estadoRolMenu($codigo, $estado, $rol) {
+        $this->utils->newController($_SERVER["REQUEST_URI"], $_SESSION['menu']);
+        $this->utils->newFunction(__FUNCTION__, $_SERVER["REQUEST_URI"]);    
+        $this->conn->deleteArchivo_destino($codigo, $rol);
+        $devuelve = $this->conn->cambiar_estadoRolMenu($codigo, $estado, $rol);        
         return $devuelve;        
     }
     
@@ -195,6 +224,13 @@ class MenusController {
         $this->utils->newController($_SERVER["REQUEST_URI"], $_SESSION['menu']);
         $this->utils->newFunction(__FUNCTION__, $_SERVER["REQUEST_URI"]);    
         $devuelve = $this->conn->getMenusAll();        
+        return $devuelve;        
+    }
+    
+    public function getRoles() {
+        $this->utils->newController($_SERVER["REQUEST_URI"], $_SESSION['menu']);
+        $this->utils->newFunction(__FUNCTION__, $_SERVER["REQUEST_URI"]);    
+        $devuelve = $this->conn->getRoles();        
         return $devuelve;        
     }
     

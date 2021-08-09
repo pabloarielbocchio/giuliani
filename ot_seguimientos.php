@@ -15,6 +15,7 @@ $sectores = $controlador->getSectores();
 $secciones = $controlador->getSecciones();
 $roles = $controlador->getRoles();
 $destinos = $controlador->getDestinos();
+$destinos_rol = $controlador->getMenuDestinos($_SESSION["rol"]);
 
 $_SESSION["totales"] = $controlador->getCountOt_detalles();
 
@@ -95,6 +96,7 @@ if ($_GET["cod_ot"] > 0){
 
 $cod_ot = intval($_SESSION['cod_ot']);
 
+
 ?>
 
 
@@ -103,10 +105,11 @@ $cod_ot = intval($_SESSION['cod_ot']);
     <div id="loading" class="loading"></div>
     
     <div id="modulo_paginacion">
-        <?php include 'inc/html/paginacion_ots.php'; ?>
+        <?php include 'inc/html/paginacion_ots_seg.php'; ?>
     </div>
 
     <div    id="div_tabla" 
+            scrollx="0" scrolly="0"
             class="row col-lg-12" 
             style="float: none"
             registros="<?php echo $_SESSION['cant_reg']; ?>" 
@@ -143,14 +146,14 @@ $cod_ot = intval($_SESSION['cod_ot']);
                                 ?>
                             </select>
                         </div>
-                        <div class="form-group div_alcance"> 
+                        <div class="form-group div_alcance" style="display: none;"> 
                             <label for="nombre0" class="control-label">Alcance:</label>
                             <select id="alcanceUpdate" style="width: 100%;" class="form-control" name="alcanceUpdate"  required>
                                 <option class="opcion_alcance" value="0" >En Proceso</option>
                                 <option class="opcion_alcance" value="1" >Finalizado</option>
                             </select>
                         </div>
-                        <div class="form-group div_plano"> 
+                        <div class="form-group div_plano" style="display: none;"> 
                             <label for="nombre0" class="control-label">Planos:</label>
                             <select id="planoUpdate" style="width: 100%;" class="form-control" name="planoUpdate"  required>
                                 <option class="opcion_plano" value="0" >En Proceso</option>
@@ -159,7 +162,7 @@ $cod_ot = intval($_SESSION['cod_ot']);
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-danger boton_marron_carni" >Actualizar datos</button>
+                        <button type="submit" class="btn btn-danger boton_marron_carni " >Actualizar datos</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>

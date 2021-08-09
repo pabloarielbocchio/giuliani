@@ -49,9 +49,9 @@ class Ot_detallesModel {
         try {
             $desde = ($pagina - 1) * $registros;
             $sql = " SELECT 
-                        otd.*,
+                        otd.*,/*
                         (select descripcion from secciones s where s.codigo = otd.seccion_id) as seccion,
-                        (select descripcion from sectores s where s.codigo = otd.sector_id) as sector,
+                        (select descripcion from sectores s where s.codigo = otd.sector_id) as sector,*/
                         (select abrev from estados s where s.codigo = otd.estado_id) as estado,
                         (select descripcion from prioridades s where s.codigo = otd.prioridad_id) as prioridad
                      FROM orden_trabajos_detalles otd WHERE 1 = 1 ";                     
@@ -95,8 +95,6 @@ class Ot_detallesModel {
                         (select descripcion from productos_estandar s where s.codigo = otp.prod_estandar_id) as prod_standar,
                         (select descripcion from productos_personalizados s where s.codigo = otp.prod_personalizado_id) as prod_personalizado,
                         (select descrip_abrev from unidades s where s.codigo = otp.unidad_id) as unidad,
-                        (select descripcion from secciones s where s.codigo = otd.seccion_id) as seccion,
-                        (select descripcion from sectores s where s.codigo = otd.sector_id) as sector,
                         (select abrev from estados s where s.codigo = otp.estado_id) as estado,
                         (select descripcion from prioridades s where s.codigo = otp.prioridad_id) as prioridad
                     FROM orden_trabajos_produccion otp, orden_trabajos_detalles otd WHERE otd.orden_trabajo_id = " . intval($ot) . " and otp.ot_detalle_id = otd.codigo  ";
@@ -161,10 +159,10 @@ class Ot_detallesModel {
         $hoy = date("Y-m-d H:i:s");
         try {
             $this->conn->beginTransaction();
-            $stmt = $this->conn->prepare('INSERT INTO orden_trabajos_detalles (orden_trabajo_id, seccion_id, sector_id, estado_id, prioridad_id, item_vendido, cantidad, observaciones, usuario_m, fecha_m) VALUES (?,?,?,?,?,?,?,?,?,?);');
+            $stmt = $this->conn->prepare('INSERT INTO orden_trabajos_detalles (orden_trabajo_id, seccion, sector, estado_id, prioridad_id, item_vendido, cantidad, observaciones, usuario_m, fecha_m) VALUES (?,?,?,?,?,?,?,?,?,?);');
             $stmt->bindValue(1, $ot, PDO::PARAM_INT);
-            $stmt->bindValue(2, $seccion, PDO::PARAM_INT);
-            $stmt->bindValue(3, $sector, PDO::PARAM_INT);
+            $stmt->bindValue(2, $seccion, PDO::PARAM_STR);
+            $stmt->bindValue(3, $sector, PDO::PARAM_STR);
             $stmt->bindValue(4, $estado, PDO::PARAM_INT);
             $stmt->bindValue(5, $prioridad, PDO::PARAM_INT);
             $stmt->bindValue(6, $item, PDO::PARAM_STR);
@@ -192,8 +190,8 @@ class Ot_detallesModel {
             $this->conn->beginTransaction();
             $stmt = $this->conn->prepare('UPDATE orden_trabajos_detalles set '
                                             . 'orden_trabajo_id = ? , '
-                                            . 'seccion_id = ? , '
-                                            . 'sector_id = ? , '
+                                            . 'seccion = ? , '
+                                            . 'sector = ? , '
                                             . 'estado_id = ? , '
                                             . 'prioridad_id = ? , '
                                             . 'item_vendido = ? , '
@@ -203,8 +201,8 @@ class Ot_detallesModel {
                                             . 'fecha_m = ? '
                                             . ' where codigo = ?');     
             $stmt->bindValue(1, $ot, PDO::PARAM_INT);
-            $stmt->bindValue(2, $seccion, PDO::PARAM_INT);
-            $stmt->bindValue(3, $sector, PDO::PARAM_INT);
+            $stmt->bindValue(2, $seccion, PDO::PARAM_STR);
+            $stmt->bindValue(3, $sector, PDO::PARAM_STR);
             $stmt->bindValue(4, $estado, PDO::PARAM_INT);
             $stmt->bindValue(5, $prioridad, PDO::PARAM_INT);
             $stmt->bindValue(6, $item, PDO::PARAM_STR);
@@ -325,8 +323,9 @@ class Ot_detallesModel {
     public function getOts(){
         try {
             $sql = "SELECT *,
+                        CAST(nro_serie AS UNSIGNED) serie,
                         concat('#', nro_serie, ': ', cliente, ' - ', fecha) as descripcion
-                    FROM orden_trabajos ORDER BY finalizada;";
+                    FROM orden_trabajos ORDER BY serie desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -471,7 +470,7 @@ class Ot_detallesModel {
     
     public function getDestinos(){
         try {
-            $sql = "SELECT * FROM destinos order by descripcion;";
+            $sql = "SELECT * FROM destinos order by orden;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -571,5 +570,62 @@ class Ot_detallesModel {
             return -1;
         }
     }
+    
+    public function getMenuDestinos($rol){
+        try {
+            $sql = "select 
+                        m.*,
+                        d.descripcion as descripcion
+                    from 
+                        roles_destinos m,
+                        destinos d
+                    where
+                        m.destino_id = d.codigo and
+                        m.rol_id = " . intval($rol) . " 
+                    order by
+                        d.orden asc;";
+            if ($rol == 1){
+                $sql = "select 
+                            d.codigo as destino_id,
+                            d.descripcion as descripcion
+                        from 
+                            destinos d
+                        order by
+                            d.orden asc;";
+            }
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+            return $error;
+        }
+        
+    }    
+    
+    public function getArchivos(){
+        try {
+            $sql = "select 
+                        a.*,
+                        ota.ot_produccion_id,
+                        ota.ot_detalle_id,
+                        ota.ot_id
+                    from 
+                        archivos a,
+                        orden_trabajos_archivos ota
+                    where 
+                        ota.archivo_id = a.codigo
+                    ;";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+            return $error;
+        }
+        
+    }    
 }	
 ?>

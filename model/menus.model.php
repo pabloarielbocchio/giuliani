@@ -57,6 +57,8 @@ class MenusModel {
                         m.*
                     from 
                         menus m
+                    where 
+                        publico = 1
                     order by
                         m.orden asc;";
             $sql_limit = $sql ;
@@ -330,6 +332,97 @@ class MenusModel {
             return $error;
         }
     }
-      
+    
+    public function getRoles(){
+        try {
+            $sql = "SELECT 
+                        roles.*
+                    FROM 
+                        roles
+                    where 
+                        codigo > 1
+                    ORDER BY
+                        descripcion;";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll(PDO::FETCH_ASSOC);
+                $_SESSION["JSON"]["status"] = "Success";
+                $_SESSION["JSON"]["data"] = $result;
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+            $_SESSION["JSON"]["status"] = "Error";
+            $_SESSION["JSON"]["message"] = $error;
+            return $error;
+        }
+    }
+    
+    public function getRolesMenus(){
+        try {
+            $sql = "SELECT 
+                        *
+                    FROM 
+                        roles_menus 
+                    where 
+                        rol_id = " . $_SESSION["rol_selected"] . " ;";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll(PDO::FETCH_ASSOC);
+                $_SESSION["JSON"]["status"] = "Success";
+                $_SESSION["JSON"]["data"] = $result;
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+            $_SESSION["JSON"]["status"] = "Error";
+            $_SESSION["JSON"]["message"] = $error;
+            return $error;
+        }
+    }
+
+    public function cambiar_estadoRolMenu($codigo, $estado, $rol){
+        $hoy = date("Y-m-d H:i:s");
+        try {
+            $this->conn->beginTransaction();
+            $stmt = $this->conn->prepare('INSERT INTO roles_menus (menu_id, rol_id, permiso) VALUES (?,?,?);');
+            
+            $stmt->bindValue(1, $codigo, PDO::PARAM_INT);
+            $stmt->bindValue(2, $rol, PDO::PARAM_INT);
+            $stmt->bindValue(3, $estado, PDO::PARAM_INT);
+            
+            if($stmt->execute()){
+                $this->conn->commit();
+                return 0;
+            }  else {
+                $this->conn->rollBack();
+                return var_dump($stmt->errorInfo());
+            }
+        } catch(PDOException $e) {
+            $this->conn->rollBack();
+            return -1;
+        }
+    }
+
+    public function deleteArchivo_destino($codigo, $rol){
+        try {
+            $this->conn->beginTransaction();
+            $stmt = $this->conn->prepare('DELETE from roles_menus where menu_id = ? and rol_id = ?');
+            $stmt->bindValue(1, $codigo, PDO::PARAM_INT);
+            $stmt->bindValue(2, $rol, PDO::PARAM_INT);
+            if($stmt->execute()){
+                $this->conn->commit();
+                return 0;
+            }  else {
+                $this->conn->rollBack();
+                return 1;
+            }
+        } catch(PDOException $e) {
+            $this->conn->rollBack();
+            return -1;
+        }
+    }
 }	
 ?>

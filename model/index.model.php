@@ -146,6 +146,48 @@ class IndexModel {
         }
     }
     
+    public function getMenuDestinos($rol){
+        try {
+            $sql = "select 
+                        m.*
+                    from 
+                        roles_destinos m
+                    where
+                        m.rol_id = " . intval($rol) . " 
+                    order by
+                        m.destino_id asc;";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+            return $error;
+        }
+        
+    }    
+
+    public function getMenuRoles($rol){
+        try {
+            $sql = "select 
+                        m.*
+                    from 
+                        roles_menus m
+                    where
+                        m.rol_id = " . intval($rol) . " 
+                    order by
+                        m.menu_id asc;";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+            return $error;
+        }
+        
+    }    
+    
     public function getMenuUser($user){
         try {
             $sql = "select 
@@ -451,6 +493,22 @@ class IndexModel {
     public function getTextoInicio(){
         try {
             $sql = "SELECT * FROM utils where descripcion = 'texto_inicio';";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll(PDO::FETCH_ASSOC);
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+    }
+    
+    public function updateFrase($textarea){
+        try {
+            $sql = "update utils set valor = '" . $textarea . "' where descripcion = 'texto_inicio';";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {

@@ -22,6 +22,7 @@ function addOt_listado() {
     echo $controlador->addOt_listado  (    
                                         $_POST['nroserie'],
                                         $_POST['cliente'],
+                                        $_POST['prioridad'],
                                         $_POST['fecha'],
                                         $_POST['entrega'],
                                         $_POST['observaciones']
@@ -34,6 +35,7 @@ function updateOt_listado() {
     echo $controlador->updateOt_listado(    $_POST['codigo'], 
                                             $_POST['nroserie'],
                                             $_POST['cliente'],
+                                            $_POST['prioridad'],
                                             $_POST['fecha'],
                                             $_POST['entrega'],
                                             $_POST['observaciones']
@@ -44,7 +46,8 @@ function estadoOt_listado() {
     $controlador = Ot_listadosController::singleton_ot_listados();
     
     echo $controlador->estadoOt_listado(    $_POST['codigo'], 
-                                            $_POST['estado']
+                                            $_POST['estado'],
+                                            $_POST['avance']
             );
 }
 
@@ -141,8 +144,8 @@ class Ot_listadosController {
         
     }
     
-    public function addOt_listado($nroserie, $cliente, $fecha, $entrega, $observaciones) {
-        $devuelve = $this->conn->addOt_listado($nroserie, $cliente, $fecha, $entrega, $observaciones);
+    public function addOt_listado($nroserie, $cliente, $prioridad, $fecha, $entrega, $observaciones) {
+        $devuelve = $this->conn->addOt_listado($nroserie, $cliente, $prioridad, $fecha, $entrega, $observaciones);
         
         return $devuelve;
         
@@ -192,15 +195,15 @@ class Ot_listadosController {
         
     }
     
-    public function updateOt_listado($codigo, $nroserie, $cliente, $fecha, $entrega, $observaciones) {
-        $devuelve = $this->conn->updateOt_listado($codigo, $nroserie, $cliente, $fecha, $entrega, $observaciones);
+    public function updateOt_listado($codigo, $nroserie, $cliente, $prioridad, $fecha, $entrega, $observaciones) {
+        $devuelve = $this->conn->updateOt_listado($codigo, $nroserie, $cliente, $prioridad, $fecha, $entrega, $observaciones);
         
         return $devuelve;
         
     }
     
-    public function estadoOt_listado($codigo, $estado) {
-        $devuelve = $this->conn->estadoOt_listado($codigo, $estado);
+    public function estadoOt_listado($codigo, $estado, $avance) {
+        $devuelve = $this->conn->estadoOt_listado($codigo, $estado, $avance);
         
         return $devuelve;
         
@@ -217,6 +220,13 @@ class Ot_listadosController {
         $devuelve = $this->conn->getOt_listado($codigo);
         
         return json_encode($devuelve[0]);
+        
+    }
+
+    public function getPrioridades() {
+        $devuelve = $this->conn->getPrioridades();
+        
+        return $devuelve;
         
     }
 }

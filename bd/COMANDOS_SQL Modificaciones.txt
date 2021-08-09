@@ -1,0 +1,9 @@
+ALTER TABLE `orden_trabajos_detalles`
+	ADD COLUMN `seccion` TEXT NULL DEFAULT NULL AFTER `seccion_id`,
+	ADD COLUMN `sector` TEXT NULL DEFAULT NULL AFTER `sector_id`;
+
+ALTER TABLE `archivos`
+	ADD COLUMN `cod_ot_detalle_id` INT(11) NULL DEFAULT NULL AFTER `cod_prod_estandar_id`,
+	ADD COLUMN `cod_ot` INT(11) NULL DEFAULT NULL AFTER `cod_ot_detalle_id`;
+
+

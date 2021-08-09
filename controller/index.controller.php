@@ -15,6 +15,11 @@ function logueo() {
     echo $controlador->logueo($_POST['nombre'], $_POST['password']);
 }
 
+function updateFrase() {
+    $controlador = IndexController::singleton_index();    
+    echo $controlador->updateFrase($_POST['textarea']);
+}
+
 function updateBell() {
     $controlador = IndexController::singleton_index();    
     echo $controlador->updateBell();
@@ -69,6 +74,19 @@ class IndexController {
     
     public function getMenuUser($user){
         return $this->utils->getMenuUser($user);
+    }
+    
+    public function getMenuRoles($rol){
+        return $this->conn->getMenuRoles($rol);
+    }
+    
+    public function getMenuDestinos($rol){
+        return $this->conn->getMenuDestinos($rol);
+    }
+    
+    public function updateFrase($textarea){
+        $this->conn->updateFrase($textarea);
+        return 0;
     }
     
     public function updateBell(){

@@ -32,7 +32,7 @@ $('#dataRegister').on('shown.bs.modal', function () {
 });
 
 $('#select_ot').change(function () {
-    $("#busqueda-icono").click();
+    window.location.href = "detalles.php?cod_ot=" + $("#select_ot").val();
 });
 
 function getRegistros(orderby, sentido, registros, pagina, busqueda, objeto) {
@@ -252,3 +252,6 @@ $("#guardarDatosOt_prodperso").submit(function (event) {
     }
 });
 
+$("#descargar").click(function () {
+    window.location.href = 'uploads/model_ot.xls';
+});

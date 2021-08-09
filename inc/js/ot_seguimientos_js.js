@@ -2,6 +2,7 @@ var requestSent = false;
 var codigo;
 var code;
 var atributo;
+var destino;
 
 $(document).ready(function () {
     $("#busqueda-icono").click();
@@ -25,6 +26,10 @@ $('#select_estado').change(function () {
     $("#busqueda-icono").click();
 });
 
+$('#select_area').change(function () {
+    $("#busqueda-icono").click();
+});
+
 function getRegistros(orderby, sentido, registros, pagina, busqueda, objeto) {
     if (!requestSent) {
         requestSent = true;
@@ -36,6 +41,7 @@ function getRegistros(orderby, sentido, registros, pagina, busqueda, objeto) {
             pagina: pagina,
             busqueda: busqueda,
             ot: $("#select_ot").val(),
+            area: $("#select_area").val(),
             estado: -2 //$("#select_estado").val()
         }
         $.ajax({
@@ -126,6 +132,7 @@ $("#actualidarDatosOt_produccion").submit(function (event) {
             codigo: codigo,
             code: code,
             atributo: atributo,
+            destino: destino,
             avance: $("#avanceUpdate").val(),
             estado: $("#estadoUpdate").val(),
             ing_alcance: $("#alcanceUpdate").val(),
@@ -137,6 +144,8 @@ $("#actualidarDatosOt_produccion").submit(function (event) {
             data: parametros,
             success: function (datos) {
                 if (parseInt(datos) == 0) {
+                    //$("#busqueda-icono").click();
+                    //$(".divespecial").scrollLeft($("#div_tabla").attr("scrollx"));
                     location.reload();
                 } else {
                     alert("Error " + datos);
@@ -151,9 +160,9 @@ $("#actualidarDatosOt_produccion").submit(function (event) {
 });
 
 $("#estadoUpdate").change(function () {
-    var estado = $(this).val();
+    /*var estado = $(this).val();
     $(".div_avance").css("display", "none");
     if (estado == 2){
         $(".div_avance").css("display", "block");
-    }
+    }*/
 });

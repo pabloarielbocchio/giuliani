@@ -50,10 +50,10 @@
                     $fecha_hora = date("Y-m-d H:i:s");
                     $activo = 1;
                     if ($standar > 0){
-                        $controlador->addArchivo($fileName, $uploadPath . $fileName, $fecha_hora, $activo, null, null, null, null, null, null, null, $prod_std);
+                        $controlador->addArchivo($fileName, $uploadPath . $fileName, $fecha_hora, $activo, null, null, null, null, null, null, null, $prod_std, null);
                         $ultimo = $controlador->getLastArchivo()[0]["codigo"];
                     } else {
-                        $controlador->addArchivo($fileName, $uploadPath . $fileName, $fecha_hora, $activo, null, null, null, null, null, null, $prod_perso, null);
+                        $controlador->addArchivo($fileName, $uploadPath . $fileName, $fecha_hora, $activo, null, null, null, null, null, null, $prod_perso, null, null);
                         $ultimo = $controlador->getLastArchivo()[0]["codigo"];
                     }
                     //buscar el ultimo archivo insertado

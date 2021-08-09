@@ -7,10 +7,13 @@ if (!isset($_SESSION["usuario"]) || !isset($_SESSION['password'])) {
     header("Location: login.php");
 }
 
+
 include_once $_SERVER['DOCUMENT_ROOT'] . "/Giuliani/controller/index.controller.php";
 $controlador_       = IndexController::singleton_index();
 $menu_              = $controlador_->getMenu();
 $menu_user_login    = $controlador_->getMenuUser($_SESSION["user_id"]);                                
+$menu_user_roles    = $controlador_->getMenuRoles($_SESSION["rol"]);                                
+$menu_user_destinos = $controlador_->getMenuDestinos($_SESSION["rol"]);                                
 
 $favicon            = "imagenes/favicon.ico";
 $bootstrap          = "inc/bootstrap/css/bootstrap.css";
@@ -35,6 +38,20 @@ foreach ($menu_ as $me){
     if ($prohibido == 1){
         continue;
     }    
+
+    $prohibido = 0;
+    foreach($menu_user_roles as $rm){
+        if ($rm["menu_id"] == $me["codigo"]){
+            if ($rm["permiso"] == 0) {
+                $prohibido = 1;
+            }
+        }
+    }
+
+    if ($prohibido == 1){
+        continue;
+    }    
+
     switch ($me["nivel"]) {
         case 0:
             $me["nombre"] = strtoupper($me["nombre"]);
@@ -119,13 +136,13 @@ $menu[] = $_salir;
 						foreach ($menu as $m) {
 							if ($m[2] == 0){
 								if ($m[1] == $_SESSION['menu']) {
-									echo '<li class="active"><a href="' . $m[1] . '"><i class="fa ' . $m[3] . '"></i><span class="nav-label"><b>' . $m[0] . '</b></span></a></li>';
+									echo '<li data-toggle="tooltip" title="' . $m[0] . '" class="active"><a href="' . $m[1] . '"><i class="fa ' . $m[3] . '"></i><span class="nav-label"><b>' . $m[0] . '</b></span></a></li>';
 								} else {
-									echo '<li><a href="' . $m[1] . '"><i class="fa ' . $m[3] . '"></i><span class="nav-label"><b>' . $m[0] . '</b></span></a></li>';
+									echo '<li data-toggle="tooltip" title="' . $m[0] . '" ><a href="' . $m[1] . '"><i class="fa ' . $m[3] . '"></i><span class="nav-label"><b>' . $m[0] . '</b></span></a></li>';
 								}
 							} 
 							if ($m[2] > 0){
-                                                                echo '<li><a href="#"><i class="fa ' . $m[3] . '"></i><span class="nav-label"><b>' . $m[0] . '</b></span><span class="fa arrow"></span></a>';
+                                                                echo '<li><a data-toggle="tooltip" title="' . $m[0] . '" href="#"><i class="fa ' . $m[3] . '"></i><span class="nav-label"><b>' . $m[0] . '</b></span><span class="fa arrow"></span></a>';
                                                                 echo '<ul class="nav nav-second-level">';
                                                                 foreach ($menu as $men) {
                                                                         if ($men[2] * -1 == $m[2]){

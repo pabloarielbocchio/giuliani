@@ -185,7 +185,18 @@ td{
     font-size: 10px !important;
 }
 */
-th{
+th {
     text-transform: capitalize !important;
     font-size: 11px !important;
+}
+
+td {
+    font-size: 11px !important;
+    padding-bottom: 4px !important;
+    padding-top: 4px !important;
+}
+
+.container {
+    width: 98% !important;
+    margin-left: 1% !important;
 }

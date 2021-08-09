@@ -99,6 +99,18 @@ $cod_ot = intval($_SESSION['ot']);
 
 <div class="container">
 
+    <div class="row barra_descarga hidden">
+        <div class="col-lg-7">
+            <form action="upload.php?file=nueva_ot" method="post" id="selectorarchivo" enctype="multipart/form-data">
+                <input type="file" name="fileToUpload" id="fileToUpload" style="font-size: 120%;font-weight: bold;">
+                <input type="submit" value="Aceptar " name="submit" id="submitToUpload" style="display: none;">
+            </form>
+        </div>
+        <div class="col-lg-5">
+            <input type="button" id="descargar" name="descargar" class="btn-danger btn-sm boton_marron_carni" style="border-radius: 10px; margin-left: 10px;" value="Descargar"/>
+        </div>
+    </div>
+
     <div id="loading" class="loading"></div>
     
     <div id="modulo_paginacion">
@@ -210,7 +222,8 @@ $cod_ot = intval($_SESSION['ot']);
                         </div>
                         <div class="form-group"> 
                             <label for="nombre0" class="control-label">Sección:</label>
-                            <select id="seccionAdd" style="width: 100%;" class="form-control" name="seccionAdd"  required>
+                            <input type="text" class="form-control" id="seccionAdd" name="seccionAdd" required maxlength="100">
+                            <!--<select id="seccionAdd" style="width: 100%;" class="form-control" name="seccionAdd"  required>
                                 <?php 
                                     foreach ($secciones as $aux) { 
                                 ?>
@@ -218,11 +231,12 @@ $cod_ot = intval($_SESSION['ot']);
                                 <?php 
                                     }
                                 ?>
-                            </select>
+                            </select>-->
                         </div>
                         <div class="form-group"> 
                             <label for="nombre0" class="control-label">Sector:</label>
-                            <select id="sectorAdd" style="width: 100%;" class="form-control" name="sectorAdd"  required>
+                            <input type="text" class="form-control" id="sectorAdd" name="sectorAdd" required maxlength="100">
+                            <!--<select id="sectorAdd" style="width: 100%;" class="form-control" name="sectorAdd"  required>
                                 <?php 
                                     foreach ($sectores as $aux) { 
                                 ?>
@@ -230,7 +244,7 @@ $cod_ot = intval($_SESSION['ot']);
                                 <?php 
                                     }
                                 ?>
-                            </select>
+                            </select>-->
                         </div>
                         <div class="form-group" style="display: none;"> 
                             <label for="nombre0" class="control-label">Estados:</label>
@@ -244,7 +258,7 @@ $cod_ot = intval($_SESSION['ot']);
                                 ?>
                             </select>
                         </div>
-                        <div class="form-group"> 
+                        <div class="form-group"  style="display: none;"> 
                             <label for="nombre0" class="control-label">Prioridad:</label>
                             <select id="prioridadAdd" style="width: 100%;" class="form-control" name="prioridadAdd"  required>
                                 <?php 
@@ -302,7 +316,8 @@ $cod_ot = intval($_SESSION['ot']);
                         </div>
                         <div class="form-group"> 
                             <label for="nombre0" class="control-label">Sección:</label>
-                            <select id="seccionUpdate" style="width: 100%;" class="form-control" name="seccionUpdate"  required>
+                            <input type="text" class="form-control" id="seccionUpdate" name="seccionUpdate" required maxlength="100">
+                            <!--<select id="seccionUpdate" style="width: 100%;" class="form-control" name="seccionUpdate"  required>
                                 <?php 
                                     foreach ($secciones as $aux) { 
                                 ?>
@@ -310,11 +325,12 @@ $cod_ot = intval($_SESSION['ot']);
                                 <?php 
                                     }
                                 ?>
-                            </select>
+                            </select>-->
                         </div>
                         <div class="form-group"> 
                             <label for="nombre0" class="control-label">Sector:</label>
-                            <select id="sectorUpdate" style="width: 100%;" class="form-control" name="sectorUpdate"  required>
+                            <input type="text" class="form-control" id="sectorUpdate" name="sectorUpdate" required maxlength="100">
+                            <!--<select id="sectorUpdate" style="width: 100%;" class="form-control" name="sectorUpdate"  required>
                                 <?php 
                                     foreach ($sectores as $aux) { 
                                 ?>
@@ -322,7 +338,7 @@ $cod_ot = intval($_SESSION['ot']);
                                 <?php 
                                     }
                                 ?>
-                            </select>
+                            </select>-->
                         </div>
                         <div class="form-group"> 
                             <label for="nombre0" class="control-label">Estados:</label>
@@ -336,7 +352,7 @@ $cod_ot = intval($_SESSION['ot']);
                                 ?>
                             </select>
                         </div>
-                        <div class="form-group"> 
+                        <div class="form-group" style="display: none;"> 
                             <label for="nombre0" class="control-label">Prioridad:</label>
                             <select id="prioridadUpdate" style="width: 100%;" class="form-control" name="prioridadUpdate"  required>
                                 <?php 
@@ -397,3 +413,19 @@ include 'inc/html/footer.php';
 <script type="text/javascript" src="inc/js/detalles_js.js?version=<?php echo date("Y-m-d H:i:s"); ?>"></script>
 <script type="text/javascript" src="inc/js/utils.js"></script>
 <script type="text/javascript" src="inc/js/jquery.table2excel.js"></script>
+
+<script>
+    $("#fileToUpload").click(function () {
+        //alert(1);
+    });
+
+    $("#fileToUpload").change(function (e) {
+        //alert(1);
+        $("#submitToUpload").click();
+        //location.reload();
+    });
+    
+    $("#download").click(function (){
+        window.location.href = 'uploads/model_ot.xls';
+    });
+</script>

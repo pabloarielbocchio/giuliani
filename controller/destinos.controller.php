@@ -20,7 +20,8 @@ function addDestino() {
     $controlador = DestinosController::singleton_destinos();
     
     echo $controlador->addDestino  (    
-                                        $_POST['descripcion']
+                                        $_POST['descripcion'],
+                                        $_POST['orden']
             );
 }
 
@@ -28,7 +29,8 @@ function updateDestino() {
     $controlador = DestinosController::singleton_destinos();
     
     echo $controlador->updateDestino(    $_POST['codigo'], 
-                                        $_POST['descripcion']
+                                        $_POST['descripcion'],
+                                        $_POST['orden']
             );
 }
 
@@ -95,15 +97,15 @@ class DestinosController {
         
     }
     
-    public function addDestino($descripcion) {
-        $devuelve = $this->conn->addDestino($descripcion);
+    public function addDestino($descripcion, $orden) {
+        $devuelve = $this->conn->addDestino($descripcion, $orden);
         
         return $devuelve;
         
     }
     
-    public function updateDestino($codigo, $descripcion) {
-        $devuelve = $this->conn->updateDestino($codigo, $descripcion);
+    public function updateDestino($codigo, $descripcion, $orden) {
+        $devuelve = $this->conn->updateDestino($codigo, $descripcion, $orden);
         
         return $devuelve;
         

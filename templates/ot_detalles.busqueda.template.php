@@ -1,9 +1,8 @@
-<table id="tabla" finalizada="<?php echo intval($ot_header["finalizada"]); ?>" namefile="Ot_detalles" totales="<?php echo $_SESSION["totales"]; ?>" registros="<?php echo $_SESSION['cant_reg']; ?>" pagina="<?php $_SESSION['pagina']; ?>" class="table table-striped table-hover" mes="<?php echo $mes; ?>" anio="<?php echo $anio; ?>" dia="<?php echo $dia; ?>" opcion="<?php echo $opcion; ?>"> 
+<table id="tabla" cantidad_total="<?php echo count($registros); ?>" finalizada="<?php echo intval($ot_header["finalizada"]); ?>" namefile="Ot_detalles" totales="<?php echo $_SESSION["totales"]; ?>" registros="<?php echo $_SESSION['cant_reg']; ?>" pagina="<?php $_SESSION['pagina']; ?>" class="table table-striped table-hover" mes="<?php echo $mes; ?>" anio="<?php echo $anio; ?>" dia="<?php echo $dia; ?>" opcion="<?php echo $opcion; ?>"> 
     <thead>
         <tr class="row " style="background-color: transparent;">
             <th class="text-center ordena" orderby="orden_trabajo_id" sentido="asc"></th>
             <th class="text-center ordena" orderby="orden_trabajo_id" sentido="asc"></th>
-            <th class="text-center ordena" orderby="prioridad" sentido="asc">Prioridad</th>
             <th class="text-center ordena" orderby="cantidad" sentido="asc">Cantidad</th>
             <th class="text-left ordena" orderby="observaciones" sentido="asc">Observaciones</th>
             <th class="text-center noExl">Acciones</th>
@@ -13,20 +12,18 @@
         <?php foreach ($secciones as $secc) { ?>
             <tr class="row seccion" codigo="<?php echo $secc["codigo"]; ?>">
                 <td class="text-left  " style="vertical-align: middle; font-weight: bolder;"><?php echo "SECCION: " . $secc["descripcion"]; ?></td>
-                <td class="text-center" style="vertical-align: middle; width: 5%;"></td>   
-                <td class="text-center" style="vertical-align: middle; width: 5%;"></td>   
-                <td class="text-center" style="vertical-align: middle; width: 5%;"></td>   
-                <td class="text-center" style="vertical-align: middle; width: 5%;"></td>   
-                <td class="text-center" style="vertical-align: middle; width: 5%;"></td>   
+                <td class="text-center" style="vertical-align: middle;"></td>   
+                <td class="text-center" style="vertical-align: middle;"></td>   
+                <td class="text-center" style="vertical-align: middle;"></td>   
+                <td class="text-center" style="vertical-align: middle;"></td>   
             </tr>             
             <?php foreach ($secc["sectores"] as $sect) { ?>  
                 <tr class="row sector" codigo="<?php echo $sect["codigo"]; ?>">              
                     <td class="text-left  " style="vertical-align: middle; font-weight: bolder; padding-left: 25px;"><?php echo "SECTOR: " . $sect["descripcion"]; ?></td>
-                    <td class="text-center" style="vertical-align: middle; width: 5%;"></td>   
-                    <td class="text-center" style="vertical-align: middle; width: 5%;"></td>   
-                    <td class="text-center" style="vertical-align: middle; width: 5%;"></td>   
-                    <td class="text-center" style="vertical-align: middle; width: 5%;"></td>   
-                    <td class="text-center" style="vertical-align: middle; width: 5%;"></td>       
+                    <td class="text-center" style="vertical-align: middle;"></td>   
+                    <td class="text-center" style="vertical-align: middle;"></td>   
+                    <td class="text-center" style="vertical-align: middle;"></td>   
+                    <td class="text-center" style="vertical-align: middle;"></td>       
                 </tr>   
                 <?php foreach ($sect["registros"] as $usu) { ?>
                     <tr class="row" 
@@ -37,7 +34,6 @@
                         <!--<td class="text-center verprod" oculto="1" style="vertical-align: middle; cursor: pointer; font-weight: bolder;">[+]</td>-->
                         <td class="text-left  " style="vertical-align: middle; font-weight: bolder; padding-left: 50px;"><?php echo $usu["item_vendido"]; ?></td>
                         <td class="text-center" style="vertical-align: middle;"><?php echo ""; ?></td>
-                        <td class="text-center" style="vertical-align: middle;"><?php echo $usu["prioridad"]; ?></td>
                         <td class="text-center" style="vertical-align: middle;"><?php echo $usu["cantidad"]; ?></td>
                         <td class="text-left" style="vertical-align: middle;"><?php echo $usu["observaciones"]; ?></td>
                         <td class="text-center noExl" style="vertical-align: middle;">
@@ -50,6 +46,13 @@
                                         <li role="presentation" class="editOt_detalle"><a role="menuitem" tabindex="-1" href="#">Editar</a></li>
                                         <li role="presentation" class="prodestandar_detalle"><a role="menuitem" tabindex="-1" href="#">Prod. Estandar</a></li>
                                         <li role="presentation" class="prodperso_detalle"><a role="menuitem" tabindex="-1" href="#">Prod. Personalizado</a></li>
+                                        
+                                        <?php if (in_array($_SESSION["rol"], [1,2,5]) and intval($ot_header["finalizada"]) == 0) { ?>
+                                            <li role="presentation" class="editprodot_archivo"><a role="menuitem" tabindex="-1" href="#">Archivos</a></li>   
+                                        <?php } else { ?>
+                                            <li role="presentation" class="viewprodot_archivo"><a role="menuitem" tabindex="-1" href="#">Archivos</a></li>
+                                        <?php }  ?>
+
                                         <li class="divider"></li>
                                         <li role="presentation" class="deleteOt_detalle"><a role="menuitem" tabindex="-1" href="#">Eliminar</a></li>
                                     <?php } ?>
@@ -69,9 +72,9 @@
                                 <td class="text-left" style="vertical-align: middle; padding-left: 75px;">
                                     <?php 
                                         if ($prod["standar"] == 1) {
-                                            echo $prod["numero"] . " - " . $prod["prod_standar"] . " (" . $prod["unidad"] . ")";
+                                            echo $prod["numero"] . " - " . $prod["prod_standar"];
                                         } else {
-                                            echo $prod["numero"] . " - " . $prod["prod_personalizado"] . " (" . $prod["unidad"] . ")";
+                                            echo $prod["numero"] . " - " . $prod["prod_personalizado"];
                                         }
                                     ?>
                                 </td>
@@ -84,9 +87,8 @@
                                         }
                                     ?>
                                 </td>
-                                <td class="text-center" style="vertical-align: middle;"><?php echo ""; ?></td>
                                 <td class="text-center" style="vertical-align: middle;"><?php echo $prod["cantidad"]; ?></td>
-                                <td class="text-center" style="vertical-align: middle;"><?php echo $prod["observaciones"]; ?></td>
+                                <td class="text-left" style="vertical-align: middle;"><?php echo $prod["observaciones"]; ?></td>
                                 <td class="text-center noExl" style="vertical-align: middle;">
                                     <div class="dropdown">
                                         <button class="btn btn-sm btn-primary dropdown-toggle nuevo" id="menu" type="button" data-toggle="dropdown"  style="font-size: 10px;height: 15px;">
@@ -215,8 +217,8 @@
                 var datos = JSON.parse(data);
                 $('#itemUpdate').val(datos.item_vendido);
                 $('#cantidadUpdate').val(datos.cantidad);
-                $('#seccionUpdate').val(datos.seccion_id);
-                $('#sectorUpdate').val(datos.sector_id);
+                $('#seccionUpdate').val(datos.seccion);
+                $('#sectorUpdate').val(datos.sector);
                 $('#estadoUpdate').val(datos.estado_id);
                 $('#prioridadUpdate').val(datos.prioridad_id);
                 $('#otUpdate').val(datos.orden_trabajo_id);
@@ -305,6 +307,16 @@
         }
     });
     
+    $(".editprodot_archivo").click(function () {
+        codigo = $(this).closest('tr').attr("codigo");
+        window.location.href = "files_otd.php?opc="+codigo;
+    });
+    
+    $(".viewprodot_archivo").click(function () {
+        codigo = $(this).closest('tr').attr("codigo");
+        window.location.href = "files_otd.php?readonly=1&opc="+codigo;
+    });
+    
     $(".editprod_archivo").click(function () {
         codigo = $(this).closest('tr').attr("codigo");
         window.location.href = "files_otp.php?opc="+codigo;
@@ -324,5 +336,12 @@
     $(".div_add").css("display", "none");
     if (finalizada == 0){
         $(".div_add").css("display", "block");
+    }
+
+    var cantidad_total = $("#tabla").attr("cantidad_total");
+    if (cantidad_total == 0){
+        $(".barra_descarga").removeClass("hidden");
+    } else {        
+        $(".barra_descarga").addClass("hidden");
     }
 </script>

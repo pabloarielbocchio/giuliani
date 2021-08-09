@@ -43,7 +43,7 @@
                     $controlador = ArchivosController::singleton_archivos();
                     $fecha_hora = date("Y-m-d H:i:s");
                     $activo = 1;
-                    $controlador->addArchivo($fileName, $uploadPath . $fileName, $fecha_hora, $activo, null, null, null, null, null, null, $opc, null);
+                    $controlador->addArchivo($fileName, $uploadPath . $fileName, $fecha_hora, $activo, null, null, null, null, null, null, $opc, null, null);
                 }
             }                      
         }

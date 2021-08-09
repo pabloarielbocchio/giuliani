@@ -22,7 +22,7 @@
             <tr class="row" codigo="<?php echo $usu["codigo"]; ?>">
                 <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center" style="vertical-align: middle;"><?php echo $usu["codigo"]; ?></td>
                 <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-center" style="vertical-align: middle;"><?php echo $usu["password"]; ?></td>
-                <td class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-left" style="vertical-align: middle;"><?php echo $usu["nombre"]; ?></td>
+                <td class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-left" style="vertical-align: middle;"><?php echo $usu["nombre"] . " (" . $usu["usuario"] . ")"; ?></td>
                 <td class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-left" style="vertical-align: middle;"><?php echo $usu["mail"]; ?></td>
                 <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-left" style="vertical-align: middle;">
                     <?php 

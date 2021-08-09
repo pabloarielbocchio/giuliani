@@ -11,6 +11,10 @@
                             if ($archivo["cod_prod_nf"] != $opc){
                                 continue;
                             }
+                        } else {
+                            if ($archivo["cod_prod_nf"] > 0){
+                                continue;
+                            }
                         }
                     ?>
                         <div class="col-md-3">   

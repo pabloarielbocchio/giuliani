@@ -3,7 +3,7 @@ var codigo;
 
 $(document).ready(function () {
     $("#busqueda-icono").click();
-    //$(".navbar-minimalize").click();
+    $(".navbar-minimalize").click();
 });
 
 $(document).on({
@@ -128,7 +128,8 @@ $("#actualidarDatosDestino").submit(function (event) {
         var parametros = {
             funcion: "updateDestino",
             codigo: codigo,
-            descripcion: $("#descripcionUpdate").val()
+            descripcion: $("#descripcionUpdate").val(),
+            orden: $("#ordenUpdate").val()
         }
         $.ajax({
             type: "POST",
@@ -154,7 +155,8 @@ $("#guardarDatosDestino").submit(function (event) {
         requestSent = true;
         var parametros = {
             funcion: "addDestino",
-            descripcion: $("#descripcionAdd").val()
+            descripcion: $("#descripcionAdd").val(),
+            orden: $("#ordenAdd").val()
         }
         $.ajax({
             type: "POST",
