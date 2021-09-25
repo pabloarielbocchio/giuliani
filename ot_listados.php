@@ -180,8 +180,12 @@ include 'inc/html/breadcrumb.php';
                             <select id="prioridadAdd" style="width: 100%;" class="form-control" name="prioridadAdd"  required>
                                 <?php 
                                     foreach ($prioridades as $aux) { 
+                                        $selected = "";
+                                        if ($aux["prioridad"] == 4){
+                                            $selected = "selected";
+                                        }
                                 ?>
-                                        <option value="<?php echo $aux["codigo"]; ?>" ><?php echo $aux["descripcion"]; ?></option>
+                                        <option value="<?php echo $aux["codigo"]; ?>" <?php echo $selected; ?>><?php echo $aux["descripcion"]; ?></option>
                                 <?php 
                                     }
                                 ?>

@@ -107,6 +107,9 @@ class Ot_listadosModel {
     
     public function addOt_listado($nroserie, $cliente, $prioridad, $fecha, $entrega, $observaciones){
         $hoy = date("Y-m-d H:i:s");
+        if (date("Y", strtotime($entrega)) < 1980){
+            $entrega = null;
+        }
         try {
             $this->conn->beginTransaction();
             $stmt = $this->conn->prepare('INSERT INTO orden_trabajos (nro_serie, cliente, fecha, fecha_entrega, observaciones, prioridad, usuario_m, fecha_m) VALUES (?,?,?,?,?,?,?,?);');
@@ -124,7 +127,7 @@ class Ot_listadosModel {
                 return 0;
             }  else {
                 $this->conn->rollBack();
-                return 1;
+                return var_dump($stmt->errorInfo());
             }
         } catch(PDOException $e) {
             $this->conn->rollBack();
@@ -273,7 +276,10 @@ class Ot_listadosModel {
     }
     
     public function updateOt_listado($codigo, $nroserie, $cliente, $prioridad, $fecha, $entrega, $observaciones){
-        $hoy = date("Y-m-d H:i:s");
+        $hoy = date("Y-m-d H:i:s"); 
+        if (date("Y", strtotime($entrega)) < 1980){
+            $entrega = null;
+        }
         try {
             $this->conn->beginTransaction();
             $stmt = $this->conn->prepare('UPDATE orden_trabajos set '
@@ -300,7 +306,7 @@ class Ot_listadosModel {
                 return 0;
             }  else {
                 $this->conn->rollBack();
-                return 1;
+                return var_dump($stmt->errorInfo());
             }
         } catch(PDOException $e) {
             $this->conn->rollBack();
