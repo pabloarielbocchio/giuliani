@@ -129,6 +129,7 @@ $("#actualidarDatosDestino").submit(function (event) {
             funcion: "updateDestino",
             codigo: codigo,
             descripcion: $("#descripcionUpdate").val(),
+            visible: $("#visibleUpdate").val(),
             orden: $("#ordenUpdate").val()
         }
         $.ajax({
@@ -156,6 +157,7 @@ $("#guardarDatosDestino").submit(function (event) {
         var parametros = {
             funcion: "addDestino",
             descripcion: $("#descripcionAdd").val(),
+            visible: $("#visibleAdd").val(),
             orden: $("#ordenAdd").val()
         }
         $.ajax({

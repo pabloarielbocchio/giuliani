@@ -141,6 +141,10 @@ $("#actualidarDatosOt_detalle").submit(function (event) {
             prioridad: $("#prioridadUpdate").val(),
             //ot: $("#otUpdate").val(),
             ot: $("#select_ot").val(),
+            pu: $("#puUpdate").val(),
+            pucant: $("#pucantUpdate").val(),
+            puneto: $("#punetoUpdate").val(),
+            clasificacion: $("#clasificacionUpdate").val(),
             observaciones: $("#observacionesUpdate").val()
         }
         $.ajax({
@@ -176,6 +180,10 @@ $("#guardarDatosOt_detalle").submit(function (event) {
             prioridad: $("#prioridadAdd").val(),
             //ot: $("#otAdd").val(),
             ot: $("#select_ot").val(),
+            pu: $("#puAdd").val(),
+            pucant: $("#pucantAdd").val(),
+            puneto: $("#punetoAdd").val(),
+            clasificacion: $("#clasificacionAdd").val(),
             observaciones: $("#observacionesAdd").val()
         }
         $.ajax({

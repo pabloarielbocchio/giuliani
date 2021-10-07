@@ -155,11 +155,11 @@ class Ot_detallesModel {
         }
     }
     
-    public function addOt_detalle($item,$cantidad,$seccion,$sector,$estado,$prioridad,$ot,$observaciones){
+    public function addOt_detalle($item,$cantidad,$seccion,$sector,$estado,$prioridad,$ot,$pu,$pucant,$puneto,$clasificacion,$observaciones){
         $hoy = date("Y-m-d H:i:s");
         try {
             $this->conn->beginTransaction();
-            $stmt = $this->conn->prepare('INSERT INTO orden_trabajos_detalles (orden_trabajo_id, seccion, sector, estado_id, prioridad_id, item_vendido, cantidad, observaciones, usuario_m, fecha_m) VALUES (?,?,?,?,?,?,?,?,?,?);');
+            $stmt = $this->conn->prepare('INSERT INTO orden_trabajos_detalles (orden_trabajo_id, seccion, sector, estado_id, prioridad_id, item_vendido, cantidad, pu, pu_cant, pu_neto, clasificacion, observaciones, usuario_m, fecha_m) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);');
             $stmt->bindValue(1, $ot, PDO::PARAM_INT);
             $stmt->bindValue(2, $seccion, PDO::PARAM_STR);
             $stmt->bindValue(3, $sector, PDO::PARAM_STR);
@@ -167,9 +167,13 @@ class Ot_detallesModel {
             $stmt->bindValue(5, $prioridad, PDO::PARAM_INT);
             $stmt->bindValue(6, $item, PDO::PARAM_STR);
             $stmt->bindValue(7, $cantidad, PDO::PARAM_STR);
-            $stmt->bindValue(8, $observaciones, PDO::PARAM_STR);
-            $stmt->bindValue(9, $_SESSION["usuario"], PDO::PARAM_STR);
-            $stmt->bindValue(10, $hoy, PDO::PARAM_STR);
+            $stmt->bindValue(8, $pu, PDO::PARAM_STR);
+            $stmt->bindValue(9, $pucant, PDO::PARAM_STR);
+            $stmt->bindValue(10, $puneto, PDO::PARAM_STR);
+            $stmt->bindValue(11, $clasificacion, PDO::PARAM_STR);
+            $stmt->bindValue(12, $observaciones, PDO::PARAM_STR);
+            $stmt->bindValue(13, $_SESSION["usuario"], PDO::PARAM_STR);
+            $stmt->bindValue(14, $hoy, PDO::PARAM_STR);
             
             if($stmt->execute()){
                 $this->conn->commit();
@@ -184,7 +188,7 @@ class Ot_detallesModel {
         }
     }
     
-    public function updateOt_detalle($codigo, $item,$cantidad,$seccion,$sector,$estado,$prioridad,$ot,$observaciones){
+    public function updateOt_detalle($codigo, $item,$cantidad,$seccion,$sector,$estado,$prioridad,$ot,$pu,$pucant,$puneto,$clasificacion,$observaciones){
         $hoy = date("Y-m-d H:i:s");
         try {
             $this->conn->beginTransaction();
@@ -196,6 +200,10 @@ class Ot_detallesModel {
                                             . 'prioridad_id = ? , '
                                             . 'item_vendido = ? , '
                                             . 'cantidad = ? , '
+                                            . 'pu = ? , '
+                                            . 'pu_cant = ? , '
+                                            . 'pu_neto = ? , '
+                                            . 'clasificacion = ? , '
                                             . 'observaciones = ? , '
                                             . 'usuario_m = ?, '
                                             . 'fecha_m = ? '
@@ -207,10 +215,14 @@ class Ot_detallesModel {
             $stmt->bindValue(5, $prioridad, PDO::PARAM_INT);
             $stmt->bindValue(6, $item, PDO::PARAM_STR);
             $stmt->bindValue(7, $cantidad, PDO::PARAM_STR);
-            $stmt->bindValue(8, $observaciones, PDO::PARAM_STR);
-            $stmt->bindValue(9, $_SESSION["usuario"], PDO::PARAM_STR);
-            $stmt->bindValue(10, $hoy, PDO::PARAM_STR);
-            $stmt->bindValue(11, $codigo, PDO::PARAM_INT);
+            $stmt->bindValue(8, $pu, PDO::PARAM_STR);
+            $stmt->bindValue(9, $pucant, PDO::PARAM_STR);
+            $stmt->bindValue(10, $puneto, PDO::PARAM_STR);
+            $stmt->bindValue(11, $clasificacion, PDO::PARAM_STR);
+            $stmt->bindValue(12, $observaciones, PDO::PARAM_STR);
+            $stmt->bindValue(13, $_SESSION["usuario"], PDO::PARAM_STR);
+            $stmt->bindValue(14, $hoy, PDO::PARAM_STR);
+            $stmt->bindValue(15, $codigo, PDO::PARAM_INT);
             if($stmt->execute()){
                 $this->conn->commit();
                 return 0;
@@ -358,7 +370,7 @@ class Ot_detallesModel {
     
     public function getProductosA(){
         try {
-            $sql = "SELECT * FROM productos_nivel_a order by descripcion;";
+            $sql = "SELECT * FROM productos_nivel_a order by descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -374,7 +386,7 @@ class Ot_detallesModel {
     
     public function getProductosB(){
         try {
-            $sql = "SELECT * FROM productos_nivel_b order by descripcion;";
+            $sql = "SELECT * FROM productos_nivel_b order by descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -390,7 +402,7 @@ class Ot_detallesModel {
     
     public function getProductosC(){
         try {
-            $sql = "SELECT * FROM productos_nivel_c order by descripcion;";
+            $sql = "SELECT * FROM productos_nivel_c order by descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -406,7 +418,7 @@ class Ot_detallesModel {
     
     public function getProductosD(){
         try {
-            $sql = "SELECT * FROM productos_nivel_d order by descripcion;";
+            $sql = "SELECT * FROM productos_nivel_d order by descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -422,7 +434,7 @@ class Ot_detallesModel {
     
     public function getProductosE(){
         try {
-            $sql = "SELECT * FROM productos_nivel_e order by descripcion;";
+            $sql = "SELECT * FROM productos_nivel_e order by descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -438,7 +450,7 @@ class Ot_detallesModel {
     
     public function getProductosF(){
         try {
-            $sql = "SELECT * FROM productos_nivel_f order by descripcion;";
+            $sql = "SELECT * FROM productos_nivel_f order by descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -617,6 +629,19 @@ class Ot_detallesModel {
                     where 
                         ota.archivo_id = a.codigo
                     ;";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+            return $error;
+        }
+        
+    }    
+    
+    public function ejecutarSql($sql){
+        try {
             $query = $this->conn->prepare($sql);
             $query->execute();
             $result = $query->fetchAll(PDO::FETCH_ASSOC);

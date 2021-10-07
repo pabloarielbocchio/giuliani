@@ -21,6 +21,7 @@ function addDestino() {
     
     echo $controlador->addDestino  (    
                                         $_POST['descripcion'],
+                                        $_POST['visible'],
                                         $_POST['orden']
             );
 }
@@ -30,6 +31,7 @@ function updateDestino() {
     
     echo $controlador->updateDestino(    $_POST['codigo'], 
                                         $_POST['descripcion'],
+                                        $_POST['visible'],
                                         $_POST['orden']
             );
 }
@@ -97,15 +99,15 @@ class DestinosController {
         
     }
     
-    public function addDestino($descripcion, $orden) {
-        $devuelve = $this->conn->addDestino($descripcion, $orden);
+    public function addDestino($descripcion, $visible, $orden) {
+        $devuelve = $this->conn->addDestino($descripcion, $visible, $orden);
         
         return $devuelve;
         
     }
     
-    public function updateDestino($codigo, $descripcion, $orden) {
-        $devuelve = $this->conn->updateDestino($codigo, $descripcion, $orden);
+    public function updateDestino($codigo, $descripcion, $visible, $orden) {
+        $devuelve = $this->conn->updateDestino($codigo, $descripcion, $visible, $orden);
         
         return $devuelve;
         

@@ -92,15 +92,16 @@ class DestinosModel {
         }
     }
     
-    public function addDestino($descripcion, $orden){
+    public function addDestino($descripcion, $visible, $orden){
         $hoy = date("Y-m-d H:i:s");
         try {
             $this->conn->beginTransaction();
-            $stmt = $this->conn->prepare('INSERT INTO destinos (descripcion, orden, usuario_m, fecha_m) VALUES (?,?,?,?);');
+            $stmt = $this->conn->prepare('INSERT INTO destinos (descripcion, orden, siempre_visible, usuario_m, fecha_m) VALUES (?,?,?,?,?);');
             $stmt->bindValue(1, $descripcion, PDO::PARAM_STR);
             $stmt->bindValue(2, $orden, PDO::PARAM_INT);
-            $stmt->bindValue(3, $_SESSION["usuario"], PDO::PARAM_STR);
-            $stmt->bindValue(4, $hoy, PDO::PARAM_STR);
+            $stmt->bindValue(3, $visible, PDO::PARAM_INT);
+            $stmt->bindValue(4, $_SESSION["usuario"], PDO::PARAM_STR);
+            $stmt->bindValue(5, $hoy, PDO::PARAM_STR);
             
             if($stmt->execute()){
                 $this->conn->commit();
@@ -115,21 +116,23 @@ class DestinosModel {
         }
     }
     
-    public function updateDestino($codigo, $descripcion, $orden){
+    public function updateDestino($codigo, $descripcion, $visible, $orden){
         $hoy = date("Y-m-d H:i:s");
         try {
             $this->conn->beginTransaction();
             $stmt = $this->conn->prepare('UPDATE destinos set '
                                             . 'descripcion = ? , '
                                             . 'orden = ? , '
+                                            . 'siempre_visible = ? , '
                                             . 'usuario_m = ?, '
                                             . 'fecha_m = ? '
                                             . ' where codigo = ?');            
             $stmt->bindValue(1, $descripcion, PDO::PARAM_STR);
             $stmt->bindValue(2, $orden, PDO::PARAM_INT);
-            $stmt->bindValue(3, $_SESSION["usuario"], PDO::PARAM_STR);
-            $stmt->bindValue(4, $hoy, PDO::PARAM_STR);
-            $stmt->bindValue(5, $codigo, PDO::PARAM_INT);
+            $stmt->bindValue(3, $visible, PDO::PARAM_INT);
+            $stmt->bindValue(4, $_SESSION["usuario"], PDO::PARAM_STR);
+            $stmt->bindValue(5, $hoy, PDO::PARAM_STR);
+            $stmt->bindValue(6, $codigo, PDO::PARAM_INT);
             if($stmt->execute()){
                 $this->conn->commit();
                 return 0;

@@ -32,7 +32,9 @@
                         item_vendido="<?php echo $usu["item_vendido"]; ?>"
                     >
                         <!--<td class="text-center verprod" oculto="1" style="vertical-align: middle; cursor: pointer; font-weight: bolder;">[+]</td>-->
-                        <td class="text-left  " style="vertical-align: middle; font-weight: bolder; padding-left: 50px;"><?php echo $usu["item_vendido"]; ?></td>
+                        <td class="text-left  " 
+                        data-toggle="tooltip" title="<?php echo "PU: " . $usu["pu"] . " | PU_CANT: " . $usu["pu_cant"] . " | PU_NETO: " . $usu["pu_neto"] . " | CLASIFICACION: " . $usu["clasificacion"]; ?> "
+                        style="vertical-align: middle; font-weight: bolder; padding-left: 50px;"><?php echo $usu["item_vendido"]; ?></td>
                         <td class="text-center" style="vertical-align: middle;"><?php echo ""; ?></td>
                         <td class="text-center" style="vertical-align: middle;"><?php echo $usu["cantidad"]; ?></td>
                         <td class="text-left" style="vertical-align: middle;"><?php echo $usu["observaciones"]; ?></td>
@@ -46,13 +48,13 @@
                                         <li role="presentation" class="editOt_detalle"><a role="menuitem" tabindex="-1" href="#">Editar</a></li>
                                         <li role="presentation" class="prodestandar_detalle"><a role="menuitem" tabindex="-1" href="#">Prod. Estandar</a></li>
                                         <li role="presentation" class="prodperso_detalle"><a role="menuitem" tabindex="-1" href="#">Prod. Personalizado</a></li>
-                                        
+                                        <!--
                                         <?php if (in_array($_SESSION["rol"], [1,2,5]) and intval($ot_header["finalizada"]) == 0) { ?>
                                             <li role="presentation" class="editprodot_archivo"><a role="menuitem" tabindex="-1" href="#">Archivos</a></li>   
                                         <?php } else { ?>
                                             <li role="presentation" class="viewprodot_archivo"><a role="menuitem" tabindex="-1" href="#">Archivos</a></li>
                                         <?php }  ?>
-
+                                        -->
                                         <li class="divider"></li>
                                         <li role="presentation" class="deleteOt_detalle"><a role="menuitem" tabindex="-1" href="#">Eliminar</a></li>
                                     <?php } ?>
@@ -222,6 +224,10 @@
                 $('#estadoUpdate').val(datos.estado_id);
                 $('#prioridadUpdate').val(datos.prioridad_id);
                 $('#otUpdate').val(datos.orden_trabajo_id);
+                $('#puUpdate').val(datos.pu);
+                $('#pucantUpdate').val(datos.pu_cant);
+                $('#punetoUpdate').val(datos.pu_neto);
+                $('#clasificacionUpdate').val(datos.clasificacion);
                 $('#observacionesUpdate').val(datos.observaciones);
             },
             error: function () {

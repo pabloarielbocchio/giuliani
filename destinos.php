@@ -136,6 +136,13 @@ include 'inc/html/breadcrumb.php';
                             <label for="nombre0" class="control-label">Nombre:</label>
                             <input type="text" class="form-control" id="descripcionAdd" name="descripcionAdd" required maxlength="100">
                         </div>
+                        <div class="form-group"> 
+                            <label for="nombre0" class="control-label">Siempre Visible:</label>
+                            <select id="visibleAdd" style="width: 100%;" class="form-control" name="visibleAdd"  required>
+                                <option value="<?php echo "0"; ?>" >NO</option>
+                                <option value="<?php echo "1"; ?>" >SI</option>
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label for="nombre0" class="control-label">Orden:</label>
                             <input type="text" class="form-control" id="ordenAdd" name="ordenAdd" required maxlength="100">
@@ -163,6 +170,13 @@ include 'inc/html/breadcrumb.php';
                         <div class="form-group">
                             <label for="nombre0" class="control-label">Nombre:</label>
                             <input type="text" class="form-control" id="descripcionUpdate" name="descripcionUpdate" required maxlength="100">
+                        </div>
+                        <div class="form-group"> 
+                            <label for="nombre0" class="control-label">Siempre Visible:</label>
+                            <select id="visibleUpdate" style="width: 100%;" class="form-control" name="visibleUpdate"  required>
+                                <option value="<?php echo 0; ?>" >NO</option>
+                                <option value="<?php echo 1; ?>" >SI</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="nombre0" class="control-label">Orden:</label>

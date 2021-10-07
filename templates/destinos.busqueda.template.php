@@ -1,16 +1,26 @@
 <table id="tabla" namefile="Destinos" totales="<?php echo $_SESSION["totales"]; ?>" registros="<?php echo $_SESSION['cant_reg']; ?>" pagina="<?php $_SESSION['pagina']; ?>" class="table table-striped table-hover" mes="<?php echo $mes; ?>" anio="<?php echo $anio; ?>" dia="<?php echo $dia; ?>" opcion="<?php echo $opcion; ?>"> 
     <thead>
         <tr class="row " style="background-color: transparent;">
-            <th class="col-lg-10 col-md-10 col-sm-10 col-xs-10 text-left ordena" orderby="descripcion" sentido="asc">Descripción</th>
+            <th class="col-lg-9 col-md-9 col-sm-9 col-xs-9 text-left ordena" orderby="descripcion" sentido="asc">Descripción</th>
             <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center ordena" orderby="orden" sentido="asc">Orden</th>
+            <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center ordena" orderby="orden" sentido="asc">Siempre Visible</th>
             <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center noExl">Acciones</th>
         </tr>
     </thead>
     <tbody id="body">
         <?php foreach ($registros as $usu) { ?>
             <tr class="row" codigo="<?php echo $usu["codigo"]; ?>">
-                <td class="col-lg-10 col-md-10 col-sm-10 col-xs-10 text-left" style="vertical-align: middle;"><?php echo $usu["descripcion"]; ?></td>
+                <td class="col-lg-9 col-md-9 col-sm-9 col-xs-9 text-left" style="vertical-align: middle;"><?php echo $usu["descripcion"]; ?></td>
                 <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center" style="vertical-align: middle;"><?php echo $usu["orden"]; ?></td>
+                <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center" style="vertical-align: middle;">
+                    <?php
+                    if ($usu["siempre_visible"] > 0) {
+                        echo '<span class="glyphicon glyphicon-ok opcion ok" style="color: #0A0; cursor: pointer;" aria-hidden="true"></span>';
+                    } else {
+                        echo '<span class="glyphicon glyphicon-remove opcion nook" style="color: #A00; cursor: pointer;" aria-hidden="true"></span>';
+                    }
+                    ?>
+                </td>
                 <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center noExl" style="vertical-align: middle;">
                     <div class="editDestino" style="float: left; margin-left: 10px;"><a href="#"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></div>
                     <div class="deleteDestino" style="float: right;margin-right: 10px;"><a href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></div>
@@ -83,6 +93,7 @@
             success: function (data) {
                 var datos = JSON.parse(data);
                 $('#descripcionUpdate').val(datos.descripcion);
+                $('#visibleUpdate').val(datos.siempre_visible);
                 $('#ordenUpdate').val(datos.orden);
             },
             error: function () {

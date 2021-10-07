@@ -61,7 +61,7 @@ class ProductosModel {
                 $conditions .= " and cod_prod_nd = " . intval($n4);
             }
             $tabla = "archivos";
-            $sql = "SELECT *, descripcion as nombre FROM " . $tabla . " WHERE 1 = 1 " . $conditions . " and descripcion like '%" . $busqueda . "%' ";
+            $sql = "SELECT *, descripcion as nombre FROM " . $tabla . " WHERE 1 = 1 " . $conditions . " and descripcion like '%" . $busqueda . "%' order by descripcion";
             
             $query = $this->conn->prepare($sql);
             $query->execute();
@@ -82,7 +82,7 @@ class ProductosModel {
             $conditions = "";
             $conditions .= " and cod_ot_detalle_id = " . intval($opc);
             $tabla = "archivos";
-            $sql = "SELECT *, descripcion as nombre FROM " . $tabla . " WHERE 1 = 1 " . $conditions . " and descripcion like '%" . $busqueda . "%' ";
+            $sql = "SELECT *, descripcion as nombre FROM " . $tabla . " WHERE 1 = 1 " . $conditions . " and descripcion like '%" . $busqueda . "%' order by descripcion ";
             
             $query = $this->conn->prepare($sql);
             $query->execute();
@@ -103,7 +103,7 @@ class ProductosModel {
             $conditions = "";
             $conditions .= " and cod_ot = " . intval($opc);
             $tabla = "archivos";
-            $sql = "SELECT *, descripcion as nombre FROM " . $tabla . " WHERE 1 = 1 " . $conditions . " and descripcion like '%" . $busqueda . "%' ";
+            $sql = "SELECT *, descripcion as nombre FROM " . $tabla . " WHERE 1 = 1 " . $conditions . " and descripcion like '%" . $busqueda . "%' order by descripcion ";
             
             $query = $this->conn->prepare($sql);
             $query->execute();
@@ -124,7 +124,7 @@ class ProductosModel {
             $conditions = "";
             $conditions .= " and cod_prod_personalizado_id = " . intval($opc);
             $tabla = "archivos";
-            $sql = "SELECT *, descripcion as nombre FROM " . $tabla . " WHERE 1 = 1 " . $conditions . " ";            
+            $sql = "SELECT *, descripcion as nombre FROM " . $tabla . " WHERE 1 = 1 " . $conditions . " order by descripcion ";            
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -552,14 +552,15 @@ class ProductosModel {
                     nf.codigo AS cnf,
                     nf.ing_estado AS enf,
                     nf.descripcion AS dnf
-                FROM productos_nivel_f nf, productos_nivel_e ne, productos_nivel_d nd, productos_nivel_c nc, productos_nivel_b nb, productos_nivel_a na
-                WHERE 
-                    1 = 1
-                    and nf.cod_prod_ne = ne.codigo
-                    AND ne.cod_prod_nd = nd.codigo
-                    and nd.cod_prod_nc = nc.codigo
-                    and nc.cod_prod_nb = nb.codigo
-                    and nb.cod_prod_na = na.codigo
+                FROM 
+                    productos_nivel_a na
+                        LEFT JOIN productos_nivel_b nb ON nb.cod_prod_na = na.codigo
+                        LEFT JOIN productos_nivel_c nc ON nc.cod_prod_nb = nb.codigo
+                        LEFT JOIN productos_nivel_d nd ON nd.cod_prod_nc = nc.codigo
+                        LEFT JOIN productos_nivel_e ne ON ne.cod_prod_nd = nd.codigo
+                        LEFT JOIN productos_nivel_f nf ON nf.cod_prod_ne = ne.codigo
+                    WHERE 
+                        1 = 1
                 ORDER BY dna, cna, dnb, cnb, dnc, cnc, dnd, cnd, dne, cnd, dnf, cnf
             ";
             $query = $this->conn->prepare($sql);
@@ -577,7 +578,7 @@ class ProductosModel {
     
     public function getProductosA(){
         try {
-            $sql = "SELECT * FROM productos_nivel_a order by descripcion;";
+            $sql = "SELECT * FROM productos_nivel_a order by descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -593,7 +594,7 @@ class ProductosModel {
     
     public function getProductosB(){
         try {
-            $sql = "SELECT * FROM productos_nivel_b order by descripcion;";
+            $sql = "SELECT * FROM productos_nivel_b order by descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -609,7 +610,7 @@ class ProductosModel {
     
     public function getProductosC(){
         try {
-            $sql = "SELECT * FROM productos_nivel_c order by descripcion;";
+            $sql = "SELECT * FROM productos_nivel_c order by descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -625,7 +626,7 @@ class ProductosModel {
     
     public function getProductosD(){
         try {
-            $sql = "SELECT * FROM productos_nivel_d order by descripcion;";
+            $sql = "SELECT * FROM productos_nivel_d order by descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -641,7 +642,7 @@ class ProductosModel {
     
     public function getProductosE(){
         try {
-            $sql = "SELECT * FROM productos_nivel_e order by descripcion;";
+            $sql = "SELECT * FROM productos_nivel_e order by descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -657,7 +658,7 @@ class ProductosModel {
     
     public function getProductosF(){
         try {
-            $sql = "SELECT * FROM productos_nivel_f order by descripcion;";
+            $sql = "SELECT * FROM productos_nivel_f order by descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -723,7 +724,7 @@ class ProductosModel {
     
     public function getUnidades(){
         try {
-            $sql = "SELECT * FROM unidades order by descripcion;";
+            $sql = "SELECT * FROM unidades order by descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -1028,7 +1029,7 @@ class ProductosModel {
             }
             $sql = "SELECT 
             *
-            FROM archivos a WHERE a." . $tabla . " = " . intval($codigo) . " ";
+            FROM archivos a WHERE a." . $tabla . " = " . intval($codigo) . " order by descripcion ";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {

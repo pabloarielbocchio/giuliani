@@ -621,5 +621,132 @@ class Ot_produccionsModel {
             return $error;
         }
     }
+    
+    public function getOt_listado($codigo){
+        try {
+            $sql = "SELECT * FROM orden_trabajos WHERE codigo = " . $codigo . ";";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll();
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+    }
+    
+    public function getOtps($ult_detalle){
+        try {
+            $sql = "SELECT * FROM orden_trabajos_produccion WHERE ot_detalle_id = " . $ult_detalle . ";";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll();
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+    }
+    
+    public function getOtpsDestinos($codigo){
+        try {
+            $sql = "SELECT * FROM orden_trabajos_estados WHERE ot_prod_id = " . $codigo . ";";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll();
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+    }
+    
+    public function getOtpsDestinoSingle($otp, $destino){
+        try {
+            $sql = "SELECT * FROM orden_trabajos_estados WHERE ot_prod_id = " . $otp . " and destino_id = " . $destino . " ;";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll();
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+    }
+    
+    public function abrirOtDetalle_listado($codigo){
+        $hoy = date("Y-m-d H:i:s");
+        try {
+            $this->conn->beginTransaction();
+            $stmt = $this->conn->prepare('UPDATE orden_trabajos_detalles set '
+                                            . 'finalizada = 0 , '
+                                            . 'usuario_m = ?, '
+                                            . 'fecha_m = ? '
+                                            . ' where codigo = ?');  
+            $stmt->bindValue(1, $_SESSION["usuario"], PDO::PARAM_STR);
+            $stmt->bindValue(2, $hoy, PDO::PARAM_STR);
+            $stmt->bindValue(3, $codigo, PDO::PARAM_INT);
+            if($stmt->execute()){
+                $this->conn->commit();
+                return 0;
+            }  else {
+                $this->conn->rollBack();
+                return 1;
+            }
+        } catch(PDOException $e) {
+            $this->conn->rollBack();
+            return -1;
+        }
+    }
+    
+    public function finalizarOtDetalle_listado($codigo){
+        $hoy = date("Y-m-d H:i:s");
+        try {
+            $this->conn->beginTransaction();
+            $stmt = $this->conn->prepare('UPDATE orden_trabajos_detalles set '
+                                            . 'finalizada = 1 , '
+                                            . 'usuario_m = ?, '
+                                            . 'fecha_m = ? '
+                                            . ' where codigo = ?');  
+            $stmt->bindValue(1, $_SESSION["usuario"], PDO::PARAM_STR);
+            $stmt->bindValue(2, $hoy, PDO::PARAM_STR);
+            $stmt->bindValue(3, $codigo, PDO::PARAM_INT);
+            if($stmt->execute()){
+                $this->conn->commit();
+                return 0;
+            }  else {
+                $this->conn->rollBack();
+                return 1;
+            }
+        } catch(PDOException $e) {
+            $this->conn->rollBack();
+            return -1;
+        }
+    }
+    
+    public function ejecutarSql($sql){
+        try {
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+            return $error;
+        }
+        
+    }    
 }	
 ?>

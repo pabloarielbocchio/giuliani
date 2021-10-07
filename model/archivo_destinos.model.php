@@ -194,7 +194,7 @@ class Archivo_destinosModel {
     
     public function getArchivos(){
         try {
-            $sql = "SELECT * FROM archivos order by descripcion;";
+            $sql = "SELECT * FROM archivos order by descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -210,7 +210,7 @@ class Archivo_destinosModel {
     
     public function getDestinos(){
         try {
-            $sql = "SELECT * FROM destinos order by descripcion;";
+            $sql = "SELECT * FROM destinos order by descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {

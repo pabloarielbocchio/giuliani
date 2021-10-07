@@ -39,6 +39,10 @@ function addOt_detalle() {
                                         $_POST['estado'],
                                         $_POST['prioridad'],
                                         $_POST['ot'],
+                                        $_POST['pu'],
+                                        $_POST['pucant'],
+                                        $_POST['puneto'],
+                                        $_POST['clasificacion'],
                                         $_POST['observaciones']
             );
 }
@@ -54,6 +58,10 @@ function updateOt_detalle() {
                                             $_POST['estado'],
                                             $_POST['prioridad'],
                                             $_POST['ot'],
+                                            $_POST['pu'],
+                                            $_POST['pucant'],
+                                            $_POST['puneto'],
+                                            $_POST['clasificacion'],
                                             $_POST['observaciones']
             );
 }
@@ -189,8 +197,53 @@ class Ot_detallesController {
         }
 
         $estados = $this->conn->getPartesProduccionsEstados($ot);
+        /* Aca hay que traer todos los archivos por linea de OTP (Prod. Estandar y Prod. Custom), verificar los archivos por OTD y verificar por OT general. */
+        $parte_sql = "SELECT 
+        pns.descripcion AS standar,
+        pnp.descripcion AS personalizado,
+        pnf.descripcion AS conf,";
+        foreach($destinos as $pos => $dest){
+            $cod_dest = $dest["codigo"];
+            $parte_sql .= "(SELECT COUNT(*) FROM archivo_destinos ad WHERE ad.archivo_id = a.codigo AND ad.destino_id = " . $cod_dest . ") AS cuenta_" . $cod_dest . ",";
+        }
+        $parte_sql .= " otp.codigo 
+        FROM 
+            orden_trabajos ot,
+            orden_trabajos_detalles otd,
+            orden_trabajos_produccion otp
+                LEFT JOIN productos_personalizados pnp ON otp.prod_personalizado_id = pnp.codigo
+                LEFT JOIN productos_estandar pns ON otp.prod_estandar_id = pns.codigo
+                LEFT JOIN productos_configuraciones pnconf ON pns.codigo = pnconf.prod_standar_id
+                LEFT JOIN productos_nivel_f pnf ON pnf.codigo = pnconf.prod_f_id
+                LEFT JOIN productos_nivel_d pnd ON pnd.codigo = pns.cod_prod_nd
+                LEFT JOIN productos_nivel_c pnc ON pnc.codigo = pnd.cod_prod_nc
+                LEFT JOIN productos_nivel_b pnb ON pnb.codigo = pnc.cod_prod_nb
+                LEFT JOIN productos_nivel_a pna ON pna.codigo = pnb.cod_prod_na
+                LEFT JOIN archivos a ON 
+                    (
+                        a.cod_prod_na = pna.codigo OR 
+                        a.cod_prod_nb = pnb.codigo OR 
+                        a.cod_prod_nc = pnc.codigo OR 
+                        a.cod_prod_nd = pnd.codigo OR 
+                        a.cod_prod_nf = pnf.codigo OR 
+                        a.cod_prod_personalizado_id=pnp.codigo
+                    )
+        WHERE otp.ot_detalle_id = otd.codigo and otd.orden_trabajo_id = ot.codigo and ot.codigo = " . intval($ot);
+        $archivos = $this->conn->ejecutarSql($parte_sql);
         
         $registros = $devuelve;
+
+        foreach($prods as $key => $prod){
+            $prods[$key]["destinos_cuenta"] = [];
+            foreach($archivos as $a) {
+                if ($a["codigo"] != $prod["codigo"] ) {
+                    continue;
+                }
+                foreach ($destinos as $k => $d){
+                    $prods[$key]["destinos_cuenta"][$d["codigo"]] = $a["cuenta_".$d["codigo"]];
+                }
+            }
+        }
         
         $_SESSION['registros'] = $registros;
 
@@ -312,8 +365,8 @@ class Ot_detallesController {
         
     }
     
-    public function addOt_detalle($item,$cantidad,$seccion,$sector,$estado,$prioridad,$ot,$observaciones) {
-        $devuelve = $this->conn->addOt_detalle($item,$cantidad,$seccion,$sector,$estado,$prioridad,$ot,$observaciones);
+    public function addOt_detalle($item,$cantidad,$seccion,$sector,$estado,$prioridad,$ot,$pu,$pucant,$puneto,$clasificacion,$observaciones) {
+        $devuelve = $this->conn->addOt_detalle($item,$cantidad,$seccion,$sector,$estado,$prioridad,$ot,$pu,$pucant,$puneto,$clasificacion,$observaciones);
         if ($devuelve === 0){
             $ult_detalle = $this->conn->getLastOtDetalle()[0]["codigo"];
             if ($ult_detalle > 0){
@@ -326,8 +379,8 @@ class Ot_detallesController {
         return $devuelve;        
     }
     
-    public function updateOt_detalle($codigo, $item,$cantidad,$seccion,$sector,$estado,$prioridad,$ot,$observaciones) {
-        $devuelve = $this->conn->updateOt_detalle($codigo, $item,$cantidad,$seccion,$sector,$estado,$prioridad,$ot,$observaciones);
+    public function updateOt_detalle($codigo, $item,$cantidad,$seccion,$sector,$estado,$prioridad,$ot,$pu,$pucant,$puneto,$clasificacion,$observaciones) {
+        $devuelve = $this->conn->updateOt_detalle($codigo, $item,$cantidad,$seccion,$sector,$estado,$prioridad,$ot,$pu,$pucant,$puneto,$clasificacion,$observaciones);
         if ($devuelve === 0){
             $ult_detalle = $codigo;
             if ($ult_detalle > 0){

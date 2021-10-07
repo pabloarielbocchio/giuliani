@@ -216,35 +216,13 @@ $cod_ot = intval($_SESSION['ot']);
                             <label for="nombre0" class="control-label">Item Vendido:</label>
                             <input type="text" class="form-control" id="itemAdd" name="itemAdd" required maxlength="100">
                         </div>
-                        <div class="form-group">
-                            <label for="nombre0" class="control-label">Cantidad:</label>
-                            <input type="text" class="form-control" id="cantidadAdd" name="cantidadAdd" required maxlength="100">
-                        </div>
                         <div class="form-group"> 
                             <label for="nombre0" class="control-label">Sección:</label>
                             <input type="text" class="form-control" id="seccionAdd" name="seccionAdd" required maxlength="100">
-                            <!--<select id="seccionAdd" style="width: 100%;" class="form-control" name="seccionAdd"  required>
-                                <?php 
-                                    foreach ($secciones as $aux) { 
-                                ?>
-                                        <option value="<?php echo $aux["codigo"]; ?>" ><?php echo $aux["descripcion"]; ?></option>
-                                <?php 
-                                    }
-                                ?>
-                            </select>-->
                         </div>
                         <div class="form-group"> 
                             <label for="nombre0" class="control-label">Sector:</label>
                             <input type="text" class="form-control" id="sectorAdd" name="sectorAdd" required maxlength="100">
-                            <!--<select id="sectorAdd" style="width: 100%;" class="form-control" name="sectorAdd"  required>
-                                <?php 
-                                    foreach ($sectores as $aux) { 
-                                ?>
-                                        <option value="<?php echo $aux["codigo"]; ?>" ><?php echo $aux["descripcion"]; ?></option>
-                                <?php 
-                                    }
-                                ?>
-                            </select>-->
                         </div>
                         <div class="form-group" style="display: none;"> 
                             <label for="nombre0" class="control-label">Estados:</label>
@@ -283,6 +261,22 @@ $cod_ot = intval($_SESSION['ot']);
                             </select>
                         </div>
                         <div class="form-group">
+                            <label for="nombre0" class="control-label">Cantidad:</label>
+                            <input type="text" class="form-control" id="cantidadAdd" name="cantidadAdd" required maxlength="100">
+                            <label for="nombre0" class="control-label">PU:</label>
+                            <input type="text" class="form-control" id="puAdd" name="puAdd"  maxlength="100">
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre0" class="control-label">PU Cant.:</label>
+                            <input type="text" class="form-control" id="pucantAdd" name="pucantAdd"  maxlength="100">
+                            <label for="nombre0" class="control-label">PU NETO:</label>
+                            <input type="text" class="form-control" id="punetoAdd" name="punetoAdd"  maxlength="100">
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre0" class="control-label">Clasificacion:</label>
+                            <input type="text" class="form-control" id="clasificacionAdd" name="clasificacionAdd" >
+                        </div>
+                        <div class="form-group">
                             <label for="nombre0" class="control-label">Observaciones:</label>
                             <input type="text" class="form-control" id="observacionesAdd" name="observacionesAdd" >
                         </div>
@@ -310,38 +304,16 @@ $cod_ot = intval($_SESSION['ot']);
                             <label for="nombre0" class="control-label">Item Vendido:</label>
                             <input type="text" class="form-control" id="itemUpdate" name="itemUpdate" required maxlength="100">
                         </div>
-                        <div class="form-group">
-                            <label for="nombre0" class="control-label">Cantidad:</label>
-                            <input type="text" class="form-control" id="cantidadUpdate" name="cantidadUpdate" required maxlength="100">
-                        </div>
                         <div class="form-group"> 
                             <label for="nombre0" class="control-label">Sección:</label>
                             <input type="text" class="form-control" id="seccionUpdate" name="seccionUpdate" required maxlength="100">
-                            <!--<select id="seccionUpdate" style="width: 100%;" class="form-control" name="seccionUpdate"  required>
-                                <?php 
-                                    foreach ($secciones as $aux) { 
-                                ?>
-                                        <option value="<?php echo $aux["codigo"]; ?>" ><?php echo $aux["descripcion"]; ?></option>
-                                <?php 
-                                    }
-                                ?>
-                            </select>-->
                         </div>
                         <div class="form-group"> 
                             <label for="nombre0" class="control-label">Sector:</label>
                             <input type="text" class="form-control" id="sectorUpdate" name="sectorUpdate" required maxlength="100">
-                            <!--<select id="sectorUpdate" style="width: 100%;" class="form-control" name="sectorUpdate"  required>
-                                <?php 
-                                    foreach ($sectores as $aux) { 
-                                ?>
-                                        <option value="<?php echo $aux["codigo"]; ?>" ><?php echo $aux["descripcion"]; ?></option>
-                                <?php 
-                                    }
-                                ?>
-                            </select>-->
                         </div>
                         <div class="form-group"> 
-                            <label for="nombre0" class="control-label">Estados:</label>
+                            <label for="nombre0" class="control-label" style="display: none;">Estados:</label>
                             <select id="estadoUpdate" style="width: 100%;" class="form-control" name="estadoUpdate"  required>
                                 <?php 
                                     foreach ($estados as $aux) { 
@@ -375,6 +347,22 @@ $cod_ot = intval($_SESSION['ot']);
                                     }
                                 ?>
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre0" class="control-label">Cantidad:</label>
+                            <input type="text" class="form-control" id="cantidadUpdate" name="cantidadUpdate" required maxlength="100">
+                            <label for="nombre0" class="control-label">PU:</label>
+                            <input type="text" class="form-control" id="puUpdate" name="puUpdate"  maxlength="100">
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre0" class="control-label">PU Cant.:</label>
+                            <input type="text" class="form-control" id="pucantUpdate" name="pucantUpdate"  maxlength="100">
+                            <label for="nombre0" class="control-label">PU NETO:</label>
+                            <input type="text" class="form-control" id="punetoUpdate" name="punetoUpdate"  maxlength="100">
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre0" class="control-label">Clasificacion:</label>
+                            <input type="text" class="form-control" id="clasificacionUpdate" name="clasificacionUpdate" >
                         </div>
                         <div class="form-group">
                             <label for="nombre0" class="control-label">Observaciones:</label>

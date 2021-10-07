@@ -177,7 +177,7 @@ class ProductosModel {
     
     public function getProductosF(){
         try {
-            $sql = "SELECT * FROM productos_nivel_f order by descripcion;";
+            $sql = "SELECT * FROM productos_nivel_f order by descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -193,7 +193,7 @@ class ProductosModel {
     
     public function getProductosS(){
         try {
-            $sql = "SELECT * FROM productos_estandar order by descripcion;";
+            $sql = "SELECT * FROM productos_estandar order by descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {

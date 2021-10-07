@@ -177,7 +177,7 @@ class Ot_produccionsController {
         if ($code == 0){ 
             $devuelve = $this->conn->insertOt_produccionEstado($codigo, $atributo, $avance, $estado, $code, intval($ing_alcance), intval($ing_planos), $destino); 
             if ($devuelve === 0){
-                $codigo = $this->conn->getLastOtProduccion()[0]["codigo"];
+                //$codigo = $this->conn->getLastOtProduccion()[0]["codigo"];
             }
         } else {
             $ot_prod_estado_antes = $this->conn->getOt_produccionEstadoCode($code)[0];
@@ -195,54 +195,107 @@ class Ot_produccionsController {
                     $observaciones = "Actualizacion Estado OT Produccion (" . $_estado["descripcion"] . " - " . $avance . "%) " . $otp["prod_standar"] . $otp["prod_personalizado"];
                 }
                 $this->conn->addOt_evento($ult_detalle, $codigo, $evento, 0, $observaciones);
-            }
-            /*if ($ot_prod_estado_antes["estado_id"] != $estado){
-                if ($estado == 3){ //aprobado
-                    if ($atributo == 'ingenieria'){
-                        $evento = 10;
-                        $observaciones = "Cambio Estado OT Produccion, paso de ingenieria a produccion " . $otp["prod_standar"] . $otp["prod_personalizado"];
-                        $this->conn->addOt_evento($ult_detalle, $codigo, $evento, 0, $observaciones);
+                /* 
+                    Aca hay que agregar que cuando se hace el cambio, se verifica todas las OTP del OTD, 
+                    y si hay al menos uno que no es EN COLA => ENCURSO; 
+                    si todos estan APRO => FINALIZAR; 
+                    los Anulados omitirlos 
 
-                        foreach($destinos as $destino){
-                            $observaciones = "Actualizacion Estado OT Produccion " . $otp["prod_standar"] . $otp["prod_personalizado"];
-                            $this->conn->addOt_estado($codigo, 1, $destino["codigo"], $observaciones, 'produccion');
+                    public function finalizarOtDetalle_listado($codigo) {
+                    public function abrirOtDetalle_listado($codigo) {
+
+                    El estado finalizado automatico esta dificil de hacer, primero hay que verificar los destinos que le corresponden => siempre_visibles + archivos si tienen destinos habilitados
+                */
+                $otps = $this->conn->getOtps($ult_detalle);
+                $encurso = 0;
+                $finalizada = 1;    
+                
+                // Consulta
+                $parte_sql = "SELECT 
+                pns.descripcion AS standar,
+                pnp.descripcion AS personalizado,
+                pnf.descripcion AS conf,";
+                foreach($destinos as $pos => $dest){
+                    $cod_dest = $dest["codigo"];
+                    $parte_sql .= "(SELECT COUNT(*) FROM archivo_destinos ad WHERE ad.archivo_id = a.codigo AND ad.destino_id = " . $cod_dest . ") AS cuenta_" . $cod_dest . ",";
+                }
+                $parte_sql .= " otp.codigo 
+                FROM 
+                    orden_trabajos ot,
+                    orden_trabajos_detalles otd,
+                    orden_trabajos_produccion otp
+                        LEFT JOIN productos_personalizados pnp ON otp.prod_personalizado_id = pnp.codigo
+                        LEFT JOIN productos_estandar pns ON otp.prod_estandar_id = pns.codigo
+                        LEFT JOIN productos_configuraciones pnconf ON pns.codigo = pnconf.prod_standar_id
+                        LEFT JOIN productos_nivel_f pnf ON pnf.codigo = pnconf.prod_f_id
+                        LEFT JOIN productos_nivel_d pnd ON pnd.codigo = pns.cod_prod_nd
+                        LEFT JOIN productos_nivel_c pnc ON pnc.codigo = pnd.cod_prod_nc
+                        LEFT JOIN productos_nivel_b pnb ON pnb.codigo = pnc.cod_prod_nb
+                        LEFT JOIN productos_nivel_a pna ON pna.codigo = pnb.cod_prod_na
+                        LEFT JOIN archivos a ON 
+                            (
+                                a.cod_prod_na = pna.codigo OR 
+                                a.cod_prod_nb = pnb.codigo OR 
+                                a.cod_prod_nc = pnc.codigo OR 
+                                a.cod_prod_nd = pnd.codigo OR 
+                                a.cod_prod_nf = pnf.codigo OR 
+                                a.cod_prod_personalizado_id=pnp.codigo
+                            )
+                WHERE otp.ot_detalle_id = otd.codigo and otd.orden_trabajo_id = ot.codigo and otd.codigo = " . intval($ult_detalle);                        
+                $archivos = $this->conn->ejecutarSql($parte_sql);
+                
+                foreach($otps as $aux){
+                    $cod_otp = $aux["codigo"];
+                    $otpd = $this->conn->getOtpsDestinos($cod_otp);
+                    foreach($otpd as $ote){
+                        if ($ote["estado_id"] == 2 or $ote["estado_id"] == 3){ // En Curso o APRO
+                            $encurso = 1;
+                            break;
                         }
-                                
                     }
-                    if ($atributo == 'produccion'){
-                        $evento = 10;
-                        $observaciones = "Cambio Estado OT Produccion, paso de produccion a calidad " . $otp["prod_standar"] . $otp["prod_personalizado"];
-                        $this->conn->addOt_evento($ult_detalle, $codigo, $evento, 0, $observaciones);
-
-                        // validar que los destinos habilitados esten todos en aprobados
-
-                        $aprobada = true;
-                        $destinos_otps = $this->conn->getOtpsArchivosDestinos($codigo);
-                        $aux = "";
-                        foreach($destinos_otps as $dtops){
-                            $aux = $this->conn->getOt_produccionDestino($codigo, $dtops["codigo"])[0];
-                            if ($aux["estado_id"] != 3){
-                                $aprobada = false;
-                                break;
-                            }
-                        }
-                        if ($aprobada) {
-                            $observaciones = "Actualizacion Estado OT Produccion " . $otp["prod_standar"] . $otp["prod_personalizado"];
-                            $this->conn->addOt_estado($codigo, 1, null, $observaciones, 'calidad');
-                        }
-                    
-                    }
-                    if ($atributo == 'calidad'){
-
-                        $evento = 10;
-                        $observaciones = "Cambio Estado OT Produccion, paso de calidad a gerencia " . $otp["prod_standar"] . $otp["prod_personalizado"];
-                        $this->conn->addOt_evento($ult_detalle, $codigo, $evento, 0, $observaciones);
-
-                        $observaciones = "Actualizacion Estado OT Produccion " . $otp["prod_standar"] . $otp["prod_personalizado"];
-                        $this->conn->addOt_estado($codigo, 1, null, $observaciones, 'gerencia');
+                    if ($encurso == 1){
+                        break;
                     }
                 }
-            }*/
+
+                foreach($otps as $key => $prod){
+                    foreach ($destinos as $k => $destino){
+                        if($destino["siempre_visible"] == 1){
+                            $status = $this->conn->getOtpsDestinoSingle($prod["codigo"], $destino["codigo"])[0]["estado_id"];
+                            if ($status != 3 and $status != 4){
+                                $finalizada = 0; 
+                            }
+                        } else {
+                            foreach($archivos as $a) {
+                                if ($a["codigo"] != $prod["codigo"] ) {
+                                    continue;
+                                }
+                                if ($a["cuenta_".$destino["codigo"]] > 0){
+                                    $status = $this->conn->getOtpsDestinoSingle($prod["codigo"], $destino["codigo"])[0]["estado_id"];
+                                    if ($status != 3 and $status != 4){
+                                        $finalizada = 0; 
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        if ($finalizada == 0){
+                            break;
+                        }
+                    }                    
+                    if ($finalizada == 0){
+                        break;
+                    }
+                }
+
+                if ($encurso == 1){
+                    if ($finalizada == 0){
+                        $resultado = $this->abrirOtDetalle_listado($ult_detalle);
+                    } else {
+                        $resultado = $this->finalizarOtDetalle_listado($ult_detalle);
+                    }
+                } 
+            }          
         }
         return $devuelve;
         
@@ -350,6 +403,36 @@ class Ot_produccionsController {
     public function getOtsDetalles() {
         $devuelve = $this->conn->getOtsDetalles();
         
+        return $devuelve;
+        
+    }    
+    
+    public function finalizarOtDetalle_listado($codigo) {
+        $item = $this->conn->getOt_listado($codigo)[0];
+        $devuelve = $this->conn->finalizarOtDetalle_listado($codigo);
+        if ($devuelve == 0){
+            $ult_detalle = $codigo;
+            if ($ult_detalle > 0){
+                $evento = 6;
+                $observaciones = "Finalizacion Item Vendido " . $item["item_vendido"];
+                $this->conn->addOt_evento($ult_detalle, 0, $evento, 0, $observaciones);
+            }
+        }        
+        return $devuelve;
+        
+    }
+    
+    public function abrirOtDetalle_listado($codigo) {
+        $item = $this->conn->getOt_listado($codigo)[0];
+        $devuelve = $this->conn->abrirOtDetalle_listado($codigo);
+        if ($devuelve == 0){
+            $ult_detalle = $codigo;
+            if ($ult_detalle > 0){
+                $evento = 6;
+                $observaciones = "Reapertura Item Vendido " . $item["item_vendido"];
+                $this->conn->addOt_evento($ult_detalle, 0, $evento, 0, $observaciones);
+            }
+        }        
         return $devuelve;
         
     }

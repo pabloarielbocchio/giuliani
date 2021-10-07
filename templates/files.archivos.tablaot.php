@@ -18,7 +18,7 @@ tr {
 }
 
 td {
-  min-width: 15em;
+  min-width: 08em;
   border: 1px solid #DEDEDE;
 }
 

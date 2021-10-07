@@ -127,7 +127,8 @@ class UtilsModel {
                         *,
                         usuario as descripcion
                     FROM 
-                        usuarios;";
+                        usuarios
+                    order by usuario;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -147,7 +148,8 @@ class UtilsModel {
                     FROM 
                         usuarios
                     WHERE
-                        sistemas = 1;";
+                        sistemas = 1
+                    order by usuario;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -165,7 +167,8 @@ class UtilsModel {
             $sql = "SELECT 
                         *
                     FROM 
-                        roles";
+                        roles
+                    order by descripcion";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {

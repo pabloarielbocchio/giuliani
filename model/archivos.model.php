@@ -359,7 +359,7 @@ class ArchivosModel {
     
     public function getProductosA(){
         try {
-            $sql = "SELECT * FROM productos_nivel_a order by descripcion;";
+            $sql = "SELECT * FROM productos_nivel_a order by descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -375,7 +375,7 @@ class ArchivosModel {
     
     public function getProductosB(){
         try {
-            $sql = "SELECT * FROM productos_nivel_b order by descripcion;";
+            $sql = "SELECT * FROM productos_nivel_b order by descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -391,7 +391,7 @@ class ArchivosModel {
     
     public function getProductosC(){
         try {
-            $sql = "SELECT * FROM productos_nivel_c order by descripcion;";
+            $sql = "SELECT * FROM productos_nivel_c order by descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -407,7 +407,7 @@ class ArchivosModel {
     
     public function getProductosD(){
         try {
-            $sql = "SELECT * FROM productos_nivel_d order by descripcion;";
+            $sql = "SELECT * FROM productos_nivel_d order by descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -423,7 +423,7 @@ class ArchivosModel {
     
     public function getProductosE(){
         try {
-            $sql = "SELECT * FROM productos_nivel_e order by descripcion;";
+            $sql = "SELECT * FROM productos_nivel_e order by descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -439,7 +439,7 @@ class ArchivosModel {
     
     public function getProductosF(){
         try {
-            $sql = "SELECT * FROM productos_nivel_f order by descripcion;";
+            $sql = "SELECT * FROM productos_nivel_f order by descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {

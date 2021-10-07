@@ -18,7 +18,7 @@ tr {
 }
 
 td {
-  min-width: 15em;
+  min-width: 08em;
   border: 1px solid #DEDEDE;
 }
 
@@ -104,7 +104,9 @@ thead th{
 
                         <?php foreach ($sect["registros"] as $reg) { ?>  
                             <tr class="row registro" codigo="<?php echo $reg["codigo"]; ?>" finalizada="<?php echo intval($reg["finalizada"]); ?>" >                                  
-                                <th class="text-left nombre " style="vertical-align: middle; padding-left: 20px;"><?php echo $reg["item_vendido"]; ?></th>
+                                <th class="text-left nombre " 
+                                data-toggle="tooltip" title="<?php echo "PU: " . $reg["pu"] . " | PU_CANT: " . $reg["pu_cant"] . " | PU_NETO: " . $reg["pu_neto"] . " | CLASIFICACION: " . $reg["clasificacion"]; ?> "
+                                style="vertical-align: middle; padding-left: 20px;"><?php echo $reg["item_vendido"]; ?></th>
                                 <th class="text-center _opciones" style="vertical-align: middle;  z-index: 100;">
                                 <?php //if ($_SESSION["rol"] == 1 or $_SESSION["rol"] == 2) { ?>
                                     <div class="dropdown">
@@ -149,6 +151,7 @@ thead th{
                             
                             <?php 
                                 foreach ($prods as $prod) { 
+                                    $_prod = $prod;
                                     if ($prod["ot_detalle_id"] != $reg["codigo"]){
                                         continue;
                                     }
@@ -213,7 +216,17 @@ thead th{
                                         }
                                     ?>
                                         <?php 
-                                            $estado_html = '<span modificable="' . $modificable . '" style="background-color: #CECECE;" codigo="0" userrol="4" destino="'.$destino["codigo"].'" class="estado_editable label label-danger m-t-lg">EN COLA</span>';            
+                                            // Aca hay que aplicar la logica que si es siempre visible, entonces lo muestre siempre, sino hay que ver si los destinos tienen archivos.
+                                            if($destino["siempre_visible"] == 1){
+                                                $estado_html = '<span modificable="' . $modificable . '" style="background-color: #CECECE;" codigo="0" userrol="4" destino="'.$destino["codigo"].'" class="estado_editable label label-danger m-t-lg">EN COLA</span>';            
+                                            } else {
+                                                if ($_prod["destinos_cuenta"][$destino["codigo"]] > 0){
+                                                    $estado_html = '<span modificable="' . $modificable . '" style="background-color: #CECECE;" codigo="0" userrol="4" destino="'.$destino["codigo"].'" class="estado_editable label label-danger m-t-lg">EN COLA</span>';            
+                                                } else {
+                                                    $estado_html = '';
+                                                }
+                                            }
+                                            //$estado_html = '<span modificable="' . $modificable . '" style="background-color: #CECECE;" codigo="0" userrol="4" destino="'.$destino["codigo"].'" class="estado_editable label label-danger m-t-lg">EN COLA</span>';            
                                             foreach($estados as $estado) {  
                                                 if ($estado["ot_prod_id"] != $prod["codigo"]){
                                                     continue;
