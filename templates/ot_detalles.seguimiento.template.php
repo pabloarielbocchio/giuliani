@@ -114,7 +114,7 @@ thead th{
                                             <div class="opciones" style="margin-top: -6px">Opciones <span class="caret"></span></div>
                                         </button>
                                         <ul class="dropdown-menu" role="menu" aria-labelledby="menu">
-                                            <li role="presentation" class="editprodotd_archivo"><a role="menuitem" tabindex="-1" href="#">Archivos</a></li>
+                                            <!--<li role="presentation" class="editprodotd_archivo"><a role="menuitem" tabindex="-1" href="#">Archivos</a></li>-->
                                                     
                                         <?php 
                                             if ($reg["finalizada"] == 1){

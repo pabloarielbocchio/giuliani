@@ -240,7 +240,7 @@ class Ot_detallesController {
                     continue;
                 }
                 foreach ($destinos as $k => $d){
-                    $prods[$key]["destinos_cuenta"][$d["codigo"]] = $a["cuenta_".$d["codigo"]];
+                    $prods[$key]["destinos_cuenta"][$d["codigo"]] += $a["cuenta_".$d["codigo"]];
                 }
             }
         }

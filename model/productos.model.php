@@ -578,7 +578,7 @@ class ProductosModel {
     
     public function getProductosA(){
         try {
-            $sql = "SELECT * FROM productos_nivel_a order by descripcion desc;";
+            $sql = "SELECT * FROM productos_nivel_a order by CAST(descripcion AS UNSIGNED) desc, descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -594,7 +594,7 @@ class ProductosModel {
     
     public function getProductosB(){
         try {
-            $sql = "SELECT * FROM productos_nivel_b order by descripcion desc;";
+            $sql = "SELECT * FROM productos_nivel_b order by CAST(descripcion AS UNSIGNED) desc, descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -610,7 +610,7 @@ class ProductosModel {
     
     public function getProductosC(){
         try {
-            $sql = "SELECT * FROM productos_nivel_c order by descripcion desc;";
+            $sql = "SELECT * FROM productos_nivel_c order by CAST(descripcion AS UNSIGNED) desc, descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -626,7 +626,7 @@ class ProductosModel {
     
     public function getProductosD(){
         try {
-            $sql = "SELECT * FROM productos_nivel_d order by descripcion desc;";
+            $sql = "SELECT * FROM productos_nivel_d order by CAST(descripcion AS UNSIGNED) desc, descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -642,7 +642,7 @@ class ProductosModel {
     
     public function getProductosE(){
         try {
-            $sql = "SELECT * FROM productos_nivel_e order by descripcion desc;";
+            $sql = "SELECT * FROM productos_nivel_e order by CAST(descripcion AS UNSIGNED) desc, descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -658,7 +658,7 @@ class ProductosModel {
     
     public function getProductosF(){
         try {
-            $sql = "SELECT * FROM productos_nivel_f order by descripcion desc;";
+            $sql = "SELECT * FROM productos_nivel_f order by CAST(descripcion AS UNSIGNED) desc, descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
