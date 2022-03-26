@@ -25,9 +25,11 @@
             if ($standar > 0){
                 $uploadPath .= "prod_std_" . $prod_std . '/';
                 (!file_exists($uploadPath)) && mkdir($uploadPath, 0755, true);
+                $fileName = $prod_std . "_" . $fileName;
             } else {
                 $uploadPath .= "prod_perso_" . $prod_perso . '/';
                 (!file_exists($uploadPath)) && mkdir($uploadPath, 0755, true);
+                $fileName = $prod_perso . "_" . $fileName;
             }
 
             $_fileNameTmp = $file['file']['tmp_name'];

@@ -71,6 +71,19 @@ thead th{
 
 <div class="divespecial m-t-lg">
     <?php if (count($archivos) > 0) { ?>
+
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" style="float: left;text-align: left;margin-top: 0px;">
+            <label style="text-align: right; margin-right: 10px;">Mostrar <br />Estado:</label>
+            <select id="select_estado" class="form-control asistencia" style="width: 65%;display: inline-block;vertical-align: middle; font-size: 11px; height: auto; margin-top: -15px;">
+                <?php 
+                    echo '<option class="" value="100">TODOS</option>';
+                    echo '<option class="" value="-1">Inactivo</option>';
+                    echo '<option class="" value="0">En Proceso</option>';
+                    echo '<option class="" value="1">Activo</option>';
+                ?>
+            </select>
+        </div>
+
         <table id="tabla" class="table table-striped table-hover" > 
             <thead>
                 <tr class="row " style="background-color: transparent;">
@@ -95,12 +108,13 @@ thead th{
                             }
                             $usados[] = $usu["codigo"];
                     ?>
-                        <tr class="row" 
+                        <tr class="row fila_tabla" 
                                 codigo="<?php echo $usu["codigo"]; ?>" 
                                 ruta="<?php echo $usu["ruta"]; ?>"
                                 archivo="<?php echo $usu["archivo"]; ?>"
+                                activo="<?php echo $usu["activo"]; ?>"
                             >
-                            <th class="text-left nombre" style="vertical-align: middle;"><?php echo $usu["descripcion"]; ?></th>
+                            <th class="text-left nombre" style="vertical-align: middle;"><?php echo $usu["prefijo"] . $usu["descripcion"]; ?></th>
                             <td class="text-center" style="vertical-align: middle;"><?php echo $nivel; ?></td>
                             <td class="text-left" style="vertical-align: middle;">
                                 <div class="dropdown">
@@ -173,6 +187,18 @@ thead th{
         link.download=archivo;
         link.href=ruta;
         link.click();
+    });
+
+    $("#select_estado").change(function () {
+        var estado = $(this).val();
+        if (estado == 100){
+            $(".fila_tabla").css("display","table-row");
+        } else {
+            $(".fila_tabla").css("display","none");
+            $(".fila_tabla[activo='"+estado+"']").each(function () {
+                $(this).css("display","table-row");
+            });
+        }
     });
 </script>
 

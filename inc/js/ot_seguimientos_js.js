@@ -134,6 +134,7 @@ $("#actualidarDatosOt_produccion").submit(function (event) {
             atributo: atributo,
             destino: destino,
             avance: $("#avanceUpdate").val(),
+            observaciones: $("#observacionesUpdate").val(),
             estado: $("#estadoUpdate").val(),
             ing_alcance: $("#alcanceUpdate").val(),
             ing_planos: $("#planoUpdate").val()

@@ -67,6 +67,25 @@ class ProductosModel {
             $query->execute();
             if ($query->rowCount() > 0) {
                 $result = $query->fetchAll();
+
+                foreach($result as $k => $aux){
+                    $prefijo = "";
+                    if ($aux["codigo"] < 10000){
+                        $prefijo .= "0";
+                    }
+                    if ($aux["codigo"] < 1000){
+                        $prefijo .= "0";
+                    }
+                    if ($aux["codigo"] < 100){
+                        $prefijo .= "0";
+                    }
+                    if ($aux["codigo"] < 10){
+                        $prefijo .= "0";
+                    }
+                    $prefijo .= $aux["codigo"] . " - ";
+                    $result[$k]["prefijo"] = $prefijo;
+                }
+
                 return $result;
             }
         } catch (PDOException $e) {
@@ -1032,8 +1051,27 @@ class ProductosModel {
             FROM archivos a WHERE a." . $tabla . " = " . intval($codigo) . " order by descripcion ";
             $query = $this->conn->prepare($sql);
             $query->execute();
-            if ($query->rowCount() > 0) {
+            if ($query->rowCount() > 0) { 
                 $result = $query->fetchAll();
+                
+                foreach($result as $k => $aux){
+                    $prefijo = "";
+                    if ($aux["codigo"] < 10000){
+                        $prefijo .= "0";
+                    }
+                    if ($aux["codigo"] < 1000){
+                        $prefijo .= "0";
+                    }
+                    if ($aux["codigo"] < 100){
+                        $prefijo .= "0";
+                    }
+                    if ($aux["codigo"] < 10){
+                        $prefijo .= "0";
+                    }
+                    $prefijo .= $aux["codigo"] . " - ";
+                    $result[$k]["prefijo"] = $prefijo;
+                }
+
                 return $result;
             }
         } catch (PDOException $e) {

@@ -74,7 +74,7 @@ thead th{
         <table id="tabla" class="table table-striped table-hover"> 
             <thead>
                 <tr class="row " style="background-color: transparent;">
-                    <th  class="text-left " orderby="seccion" sentido="asc">Archivo</th>
+                    <th  class="text-left " orderby="seccion" sentido="asc">Archivos</th>
                     <th  class="text-left " orderby="seccion" sentido="asc" style="width: 5%;"></th>   
                     <th  class="text-left " orderby="seccion" sentido="asc">Dependencia</th>
                     <th  class="text-center " orderby="seccion" sentido="asc">Última Actualización</th>
@@ -85,7 +85,14 @@ thead th{
                 </tr>
             </thead>
             <tbody id="body">
-                <?php foreach ($archivos as $usu) { ?>
+                <?php 
+                    foreach ($archivos as $usu) { 
+                        if (!($_SESSION["rol"] == 1 or $_SESSION["rol"] == 5)){
+                            if ($usu["activo"] != 1){
+                                continue;
+                            }
+                        }
+                ?>
                     <tr class="row" 
                             otp="<?php echo $usu["ot_produccion_id"]; ?>" 
                             otd="<?php echo $usu["ot_detalle_id"]; ?>" 
@@ -94,7 +101,7 @@ thead th{
                             archivo="<?php echo $usu["archivo"]; ?>"
                             nuevo="<?php echo $usu["nuevo"]; ?>"
                         >
-                        <th class="text-left nombre" style="vertical-align: middle;"><?php echo $usu["archivo"]; ?></th>
+                        <th class="text-left nombre" style="vertical-align: middle;"><?php echo $usu["prefijo"] .$usu["archivo"]; ?></th>
                         
                         <td class="text-left" style="vertical-align: middle;">
                             <div class="dropdown">

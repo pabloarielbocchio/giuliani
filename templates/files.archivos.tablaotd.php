@@ -93,7 +93,7 @@ thead th{
                             archivo="<?php echo $usu["archivo"]; ?>"
                             nuevo="<?php echo $usu["nuevo"]; ?>"
                         >
-                        <th class="text-left nombre" style="vertical-align: middle;"><?php echo $usu["archivo"]; ?></th>
+                        <th class="text-left nombre" style="vertical-align: middle;"><?php echo $usu["prefijo"] . $usu["archivo"]; ?></th>
                         
                         <td class="text-left" style="vertical-align: middle;">
                             <div class="dropdown">

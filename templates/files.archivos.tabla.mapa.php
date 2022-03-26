@@ -13,7 +13,7 @@
                 ruta="<?php echo $usu["ruta"]; ?>"
                 archivo="<?php echo $usu["descripcion"]; ?>"
             >
-                <td class="text-left descargar" style="cursor: pointer; vertical-align: middle;"><?php echo $usu["descripcion"]; ?></td>
+                <td class="text-left descargar" style="cursor: pointer; vertical-align: middle;"><?php echo $usu["prefijo"] . $usu["descripcion"]; ?></td>
                 <td class="text-center" style="vertical-align: middle; width: 15%;">
                     <?php 
                         switch ($usu["activo"]){

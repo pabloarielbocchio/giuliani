@@ -146,6 +146,10 @@ $cod_ot = intval($_SESSION['cod_ot']);
                                 ?>
                             </select>
                         </div>
+                        <div class="form-group div_avance">
+                            <label for="nombre0" class="control-label ">Observaciones:</label>
+                            <input type="text" class="form-control" id="observacionesUpdate" name="observacionesUpdate" required maxlength="100">
+                        </div>
                         <div class="form-group div_alcance" style="display: none;"> 
                             <label for="nombre0" class="control-label">Alcance:</label>
                             <select id="alcanceUpdate" style="width: 100%;" class="form-control" name="alcanceUpdate"  required>

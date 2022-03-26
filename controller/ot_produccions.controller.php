@@ -60,7 +60,8 @@ function updateOt_produccionEstado() {
                                                 $_POST['code'],
                                                 $_POST['ing_alcance'],
                                                 $_POST['ing_planos'],
-                                                $_POST['destino']
+                                                $_POST['destino'],
+                                                $_POST['observaciones']
             );
 }
 
@@ -173,15 +174,15 @@ class Ot_produccionsController {
         return $devuelve;        
     }
     
-    public function updateOt_produccionEstado($codigo, $atributo, $avance, $estado, $code, $ing_alcance, $ing_planos, $destino) { //aca quede
+    public function updateOt_produccionEstado($codigo, $atributo, $avance, $estado, $code, $ing_alcance, $ing_planos, $destino, $observaciones) { //aca quede
         if ($code == 0){ 
-            $devuelve = $this->conn->insertOt_produccionEstado($codigo, $atributo, $avance, $estado, $code, intval($ing_alcance), intval($ing_planos), $destino); 
+            $devuelve = $this->conn->insertOt_produccionEstado($codigo, $atributo, $avance, $estado, $code, intval($ing_alcance), intval($ing_planos), $destino, $observaciones); 
             if ($devuelve === 0){
                 //$codigo = $this->conn->getLastOtProduccion()[0]["codigo"];
             }
         } else {
             $ot_prod_estado_antes = $this->conn->getOt_produccionEstadoCode($code)[0];
-            $devuelve = $this->conn->updateOt_produccionEstado($codigo, $atributo, $avance, $estado, $code, intval($ing_alcance), intval($ing_planos));    
+            $devuelve = $this->conn->updateOt_produccionEstado($codigo, $atributo, $avance, $estado, $code, intval($ing_alcance), intval($ing_planos), $observaciones);    
         }
         $destinos = $this->conn->getDestinos();
         $_estado = $this->conn->getEstado($estado)[0];

@@ -223,15 +223,19 @@ class Ot_produccionsModel {
         }
     }
     
-    public function updateOt_produccionEstado($codigo, $atributo, $avance, $estado, $code, $ing_alcance, $ing_planos){
+    public function updateOt_produccionEstado($codigo, $atributo, $avance, $estado, $code, $ing_alcance, $ing_planos, $observaciones = null){
         $hoy = date("Y-m-d H:i:s");
         try {
             $this->conn->beginTransaction();
+            if (!$observaciones){
+                $observaciones = "Actualizacion Estado OT Produccion."; 
+            }
             $stmt = $this->conn->prepare('UPDATE orden_trabajos_estados set '
                                             . 'estado_id = ? , '
                                             . 'avance = ? , '
                                             . 'ing_alcance = ? , '
                                             . 'ing_planos = ? , '
+                                            . 'observaciones = ? , '
                                             . 'usuario_m = ?, '
                                             . 'fecha_m = ? '
                                             . ' where ot_prod_id = ? and codigo = ?' );     
@@ -239,10 +243,11 @@ class Ot_produccionsModel {
             $stmt->bindValue(2, $avance, PDO::PARAM_STR);
             $stmt->bindValue(3, $ing_alcance, PDO::PARAM_INT);
             $stmt->bindValue(4, $ing_planos, PDO::PARAM_INT);
-            $stmt->bindValue(5, $_SESSION["usuario"], PDO::PARAM_STR);
-            $stmt->bindValue(6, $hoy, PDO::PARAM_STR);
-            $stmt->bindValue(7, $codigo, PDO::PARAM_INT);
-            $stmt->bindValue(8, $code, PDO::PARAM_INT);
+            $stmt->bindValue(5, $observaciones, PDO::PARAM_STR);
+            $stmt->bindValue(6, $_SESSION["usuario"], PDO::PARAM_STR);
+            $stmt->bindValue(7, $hoy, PDO::PARAM_STR);
+            $stmt->bindValue(8, $codigo, PDO::PARAM_INT);
+            $stmt->bindValue(9, $code, PDO::PARAM_INT);
             if($stmt->execute()){
                 $this->conn->commit();
                 return 0;
@@ -256,11 +261,13 @@ class Ot_produccionsModel {
         }
     }
     
-    public function insertOt_produccionEstado($codigo, $atributo, $avance, $estado, $code, $ing_alcance, $ing_planos, $destino){
+    public function insertOt_produccionEstado($codigo, $atributo, $avance, $estado, $code, $ing_alcance, $ing_planos, $destino, $observaciones = null){
         $hoy = date("Y-m-d H:i:s");
         try {
             $this->conn->beginTransaction();
-            $observaciones = "Actualizacion Estado OT Produccion."; 
+            if (!$observaciones){
+                $observaciones = "Actualizacion Estado OT Produccion."; 
+            }
             $stmt = $this->conn->prepare('INSERT INTO orden_trabajos_estados (estado_id, avance, ot_prod_id, destino_id, observaciones, usuario_m, fecha_m) VALUES (?,?,?,?,?,?,?);');
             $stmt->bindValue(1, $estado, PDO::PARAM_INT);
             $stmt->bindValue(2, $avance, PDO::PARAM_STR);

@@ -21,6 +21,7 @@
             $uploadPath = 'uploads/';
             $uploadPath .= "otd_" . $otp . '/';
             (!file_exists($uploadPath)) && mkdir($uploadPath, 0755, true);
+            $fileName = $otp . "_" . $fileName;
 
             $_fileNameTmp = $file['file']['tmp_name'];
             $existia_antes = 0;            

@@ -67,6 +67,25 @@ thead th{
   border-right: 1px solid #CCC;
 }
 
+.unidad {
+  position: -webkit-sticky; /* for Safari */
+  position: sticky;
+  min-width: 8em;
+  background: #f1f1f1;
+  font-family: 'montserrat';
+  font-weight: normal;
+  border-right: 1px solid #CCC;
+}
+
+.observaciones {
+  position: -webkit-sticky; /* for Safari */
+  position: sticky;
+  min-width: 45em;
+  font-family: 'montserrat';
+  font-weight: normal;
+  border-right: 1px solid #CCC;
+}
+
 </style>
 
 <div class="divespecial m-t-lg">
@@ -74,32 +93,38 @@ thead th{
     <thead>
         <tr class="row ">
             <th class="text-left " orderby="item_vendido" sentido="asc"> </th>
+            <th class="text-center " orderby="cantidad" sentido="asc">Cantidad</th>
             <th class="text-center " orderby="estado" sentido="asc"></th>
             <th class="text-center " orderby="seccion" sentido="asc"></th>
             <?php foreach($destinos as $destino) { ?>
                 <th class="text-center " orderby="item_vendido" sentido="asc"><?php echo $destino["descripcion"]; ?></th>
             <?php } ?>
+            <th class="text-center " orderby="observaciones" sentido="asc">Observaciones</th>
         </tr>
     </thead>
     <tbody id="body">   
                 <?php foreach ($secciones as $secc) { ?>
                     <tr class="row seccion" codigo="<?php echo $secc["codigo"]; ?>">
                         <th class="text-left nombre" style="vertical-align: middle;"><?php echo "SECCION: " . $secc["descripcion"]; ?></th>
+                        <th class="text-center unidad" style="vertical-align: middle;"></th>   
                         <th class="text-center _opciones" style="vertical-align: middle; z-index: 100;"></th>   
                         <td class="text-center" style="vertical-align: middle; "></td>   
                         <?php foreach($destinos as $destino) { ?>
                             <td class="text-center" style="vertical-align: middle; "></td>                
                         <?php } ?>  
+                        <th class="text-center observaciones" style="vertical-align: middle;"></th>   
                     </tr>  
                            
                     <?php foreach ($secc["sectores"] as $sect) { ?>  
                         <tr class="row sector" codigo="<?php echo $sect["codigo"]; ?>">              
                             <th class="text-left nombre " style="vertical-align: middle; padding-left: 10px;"><?php echo "SECTOR: " . $sect["descripcion"]; ?></th>
-                            <th class="text-center _opciones" style="vertical-align: middle;  z-index: 100;"></th>       
+                            <th class="text-center unidad" style="vertical-align: middle; "></th>   
+                            <th class="text-center _opciones noExl" style="vertical-align: middle;  z-index: 100;"></th>       
                             <td class="text-center" style="vertical-align: middle; "></td>  
                             <?php foreach($destinos as $destino) { ?>
                                 <td class="text-center" style="vertical-align: middle; "></td>                
                             <?php } ?> 
+                            <th class="text-center observaciones" style="vertical-align: middle;"></th>  
                         </tr>  
 
                         <?php foreach ($sect["registros"] as $reg) { ?>  
@@ -107,7 +132,8 @@ thead th{
                                 <th class="text-left nombre " 
                                 data-toggle="tooltip" title="<?php echo "PU: " . $reg["pu"] . " | PU_CANT: " . $reg["pu_cant"] . " | PU_NETO: " . $reg["pu_neto"] . " | CLASIFICACION: " . $reg["clasificacion"]; ?> "
                                 style="vertical-align: middle; padding-left: 20px;"><?php echo $reg["item_vendido"]; ?></th>
-                                <th class="text-center _opciones" style="vertical-align: middle;  z-index: 100;">
+                                <th class="text-center unidad" style="vertical-align: middle; "><?php echo $reg["pu_cant"]; ?></th>   
+                                <th class="text-center _opciones noExl" style="vertical-align: middle;  z-index: 100;">
                                 <?php //if ($_SESSION["rol"] == 1 or $_SESSION["rol"] == 2) { ?>
                                     <div class="dropdown">
                                         <button class="btn btn-sm btn-primary dropdown-toggle nuevo" id="menu" type="button" data-toggle="dropdown"  style="font-size: 10px;height: 15px;">
@@ -147,6 +173,7 @@ thead th{
                                 <?php foreach($destinos as $destino) { ?>
                                     <td class="text-center" style="vertical-align: middle; "></td>                
                                 <?php } ?>     
+                                <th class="text-center observaciones" style="vertical-align: middle;"><?php echo $reg["observaciones"]; ?></th>  
                             </tr>   
                             
                             <?php 
@@ -172,6 +199,7 @@ thead th{
                                             }
                                         ?>
                                     </th>
+                                    <th class="text-center unidad" style="vertical-align: middle; "><?php echo $prod["cantidad"]; ?></th>   
                                     <th class="text-center _opciones noExl" style="vertical-align: middle;  z-index: 100; ">
                                         <div class="dropdown">
                                             <button class="btn btn-sm btn-primary dropdown-toggle nuevo" id="menu" type="button" data-toggle="dropdown"  style="font-size: 10px;height: 15px;">
@@ -227,13 +255,15 @@ thead th{
                                                 }
                                             }
                                             //$estado_html = '<span modificable="' . $modificable . '" style="background-color: #CECECE;" codigo="0" userrol="4" destino="'.$destino["codigo"].'" class="estado_editable label label-danger m-t-lg">EN COLA</span>';            
+                                            $obs = null;
                                             foreach($estados as $estado) {  
                                                 if ($estado["ot_prod_id"] != $prod["codigo"]){
                                                     continue;
                                                 }
                                                 if ($estado["destino_id"] != $destino["codigo"]){
                                                     continue;
-                                                }
+                                                }                                                
+                                                $obs = $estado["observaciones"];
                                                 switch($estado["estado_id"]){
                                                     case 1:
                                                         $estado_html = '<span modificable="' . $modificable . '"  style="background-color: #ea4d3b;" codigo="'.$estado["codigo"].'" userrol="4" destino="'.$estado["destino_id"].'" estado="'.$estado["estado_id"].'" class="estado_editable label label-warning m-t-lg">'.$estado["estado"].'</span>';
@@ -250,8 +280,12 @@ thead th{
                                                 } 
                                             } 
                                         ?>
-                                        <td class="text-center" atributo="produccion" style="vertical-align: middle; "><?php echo $estado_html; ?></td>
-                                    <?php } ?>  
+                                        <td 
+                                        data-toggle="tooltip" title="<?php echo $obs; ?> "
+                                        class="text-center" atributo="produccion" style="vertical-align: middle; "><?php echo $estado_html; ?></td>
+                                    <?php } ?>
+                                    
+                                    <th class="text-center observaciones" style="vertical-align: middle;"><?php echo $prod["observaciones"]; ?></th>  
                                 </tr>
                             <?php } ?>
 
