@@ -103,7 +103,7 @@
                                                 <li role="presentation" class="configprod_archivo"><a role="menuitem" tabindex="-1" href="#">Configuracion</a></li>
                                             
                                             <?php } ?>
-                                            <?php if (in_array($_SESSION["rol"], [1,2,5]) and intval($ot_header["finalizada"]) == 0) { ?>
+                                            <?php if (in_array($_SESSION["rol"], [1,2,5]) and in_array(intval($ot_header["finalizada"]), [0,2])) { ?>
                                                 <li role="presentation" class="editprod_archivo"><a role="menuitem" tabindex="-1" href="#">Archivos</a></li>   
                                             <?php } else { ?>
                                                 <li role="presentation" class="viewprod_archivo"><a role="menuitem" tabindex="-1" href="#">Archivos</a></li>

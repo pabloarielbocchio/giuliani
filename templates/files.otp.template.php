@@ -24,7 +24,7 @@
 
             </div>
         </div>              
-        <div class="row" style="margin-top: 10px; <?php if ($readonly == 1) { echo 'display: none; '; } ?>">
+        <div class="row" style="margin-top: 10px; <?php if ($readonly == 1 or $otp["standar"] == 1) { echo 'display: none; '; } ?>">
             <div class="col-md-12">
                 <form action="subir_otp.php" class="dropzone" id="formdropZone">
                     <input type="text" class="form-control hidden" id="otp" name="otp" value="<?php echo $opc; ?>" />

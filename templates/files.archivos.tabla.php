@@ -220,6 +220,7 @@ thead th{
         var nuevo_estado = 0;
         if (estado == -1){
             nuevo_estado = 0;
+            return false;
         }
         if (estado == 0){
             nuevo_estado = 1;
