@@ -17,9 +17,9 @@ session_start();
                 echo '<option class="" value="0"></option>';
                 foreach ($prod_a as $aux){
                     if ($aux["codigo"] == $cod_nivel_1){
-                        echo '<option class="opt_nivel1" value="' . $aux["codigo"] . '" selected>' . $aux["descripcion"] . '</option>';
+                        echo '<option class="opt_nivel1" value="' . $aux["codigo"] . '" selected>' . $aux["codigo"] . " - " .  $aux["descripcion"] . '</option>';
                     } else {
-                        echo '<option class="opt_nivel1" value="' . $aux["codigo"] . '">' . $aux["descripcion"] . '</option>';
+                        echo '<option class="opt_nivel1" value="' . $aux["codigo"] . '">' . $aux["codigo"] . " - " .  $aux["descripcion"] . '</option>';
                     }
                 }
             ?>
@@ -33,9 +33,9 @@ session_start();
                 echo '<option class="" value="0"></option>';
                 foreach ($prod_b as $aux){
                     if ($aux["codigo"] == $cod_nivel_2){
-                        echo '<option class="opt_nivel2" nivel_anterior="' . $aux["cod_prod_na"] . '" value="' . $aux["codigo"] . '" selected>' . $aux["descripcion"] . '</option>';
+                        echo '<option class="opt_nivel2" nivel_anterior="' . $aux["cod_prod_na"] . '" value="' . $aux["codigo"] . '" selected>' . $aux["codigo"] . " - " .  $aux["descripcion"] . '</option>';
                     } else {
-                        echo '<option class="opt_nivel2" nivel_anterior="' . $aux["cod_prod_na"] . '" value="' . $aux["codigo"] . '">' . $aux["descripcion"] . '</option>';
+                        echo '<option class="opt_nivel2" nivel_anterior="' . $aux["cod_prod_na"] . '" value="' . $aux["codigo"] . '">' . $aux["codigo"] . " - " .  $aux["descripcion"] . '</option>';
                     }
                 }
             ?>
@@ -49,9 +49,9 @@ session_start();
                 echo '<option class="" value="0"></option>';
                 foreach ($prod_c as $aux){
                     if ($aux["codigo"] == $cod_nivel_3){
-                        echo '<option class="opt_nivel3" nivel_anterior="' . $aux["cod_prod_nb"] . '" value="' . $aux["codigo"] . '" selected>' . $aux["descripcion"] . '</option>';
+                        echo '<option class="opt_nivel3" nivel_anterior="' . $aux["cod_prod_nb"] . '" value="' . $aux["codigo"] . '" selected>' . $aux["codigo"] . " - " .  $aux["descripcion"] . '</option>';
                     } else {
-                        echo '<option class="opt_nivel3" nivel_anterior="' . $aux["cod_prod_nb"] . '" value="' . $aux["codigo"] . '">' . $aux["descripcion"] . '</option>';
+                        echo '<option class="opt_nivel3" nivel_anterior="' . $aux["cod_prod_nb"] . '" value="' . $aux["codigo"] . '">' . $aux["codigo"] . " - " .  $aux["descripcion"] . '</option>';
                     }
                 }
             ?>
@@ -65,9 +65,9 @@ session_start();
                 echo '<option class="" value="0"></option>';
                 foreach ($prod_d as $aux){
                     if ($aux["codigo"] == $cod_nivel_4){
-                        echo '<option class="opt_nivel4" nivel_anterior="' . $aux["cod_prod_nc"] . '" value="' . $aux["codigo"] . '" selected>' . $aux["descripcion"] . '</option>';
+                        echo '<option class="opt_nivel4" nivel_anterior="' . $aux["cod_prod_nc"] . '" value="' . $aux["codigo"] . '" selected>' . $aux["codigo"] . " - " .  $aux["descripcion"] . '</option>';
                     } else {
-                        echo '<option class="opt_nivel4" nivel_anterior="' . $aux["cod_prod_nc"] . '" value="' . $aux["codigo"] . '">' . $aux["descripcion"] . '</option>';
+                        echo '<option class="opt_nivel4" nivel_anterior="' . $aux["cod_prod_nc"] . '" value="' . $aux["codigo"] . '">' . $aux["codigo"] . " - " .  $aux["descripcion"] . '</option>';
                     }
                 }
             ?>

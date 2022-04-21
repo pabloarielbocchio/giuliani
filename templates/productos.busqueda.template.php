@@ -9,7 +9,7 @@
     <tbody id="body">
         <?php foreach ($registros as $usu) { ?>
             <tr class="row" codigo="<?php echo $usu["codigo"]; ?>">
-                <td class="col-lg-10 col-md-10 col-sm-10 col-xs-10 text-left" style="vertical-align: middle;"><?php echo $usu["descripcion"]; ?></td>
+                <td class="col-lg-10 col-md-10 col-sm-10 col-xs-10 text-left" style="vertical-align: middle;"><?php echo $usu["codigo"] . " - " . $usu["descripcion"]; ?></td>
                 <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center" style="vertical-align: middle;">
                     <?php 
                         switch (intval($usu["ing_estado"])){

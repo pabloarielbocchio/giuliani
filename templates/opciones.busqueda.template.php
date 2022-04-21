@@ -9,7 +9,7 @@
     <tbody id="body">
         <?php foreach ($registros as $usu) { ?>
             <tr class="row" codigo="<?php echo $usu["codigo"]; ?>">
-                <td class="col-lg-10 col-md-10 col-sm-10 col-xs-10 text-left" style="vertical-align: middle;"><?php echo $usu["descripcion"]; ?></td>
+                <td class="col-lg-10 col-md-10 col-sm-10 col-xs-10 text-left" style="vertical-align: middle;"><?php echo $usu["codigo"] . " - " .  $usu["descripcion"]; ?></td>
                 <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-left" style="vertical-align: middle;">
                     <?php 
                         //echo $usu["ing_estado"]; 
@@ -38,7 +38,7 @@
                 <tr class="row" codigo="<?php echo $pf["codigo"]; ?>" codigo_opc="<?php echo $usu["codigo"]; ?>">
                     <td class="col-lg-10 col-md-10 col-sm-10 col-xs-10 text-left" style="vertical-align: middle; ">
                         <span style="margin-left: 25px;">
-                            <?php echo $pf["descripcion"]; ?>
+                            <?php echo $pf["codigo"] . " - " .  $pf["descripcion"]; ?>
                         </span>
                     </td>
                     <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center" style="vertical-align: middle;">

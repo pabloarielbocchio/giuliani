@@ -69,6 +69,24 @@ thead th{
 
 </style>
 
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 id="name-header-modal" class="modal-title">Inactivar</h4>
+            </div>
+            <div class="modal-body text-center"  id="text-header-body">
+                ¿Confirma que desea inhabilitar el archivo? Tenga en cuenta que no podrá volver atrás.
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btn-eliminar-archivo" name="btn-eliminar-archivo" class="btn btn-danger boton_marron_carni" data-dismiss="modal" >Inhabilitar</button>
+                <button type="button" id="btn-cancelar" name="btn-cancelar" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="divespecial m-t-lg">
     <?php if (count($archivos) > 0) { ?>
         <table id="tabla" class="table table-striped table-hover"> 
@@ -220,12 +238,25 @@ thead th{
         var nuevo_estado = 0;
         if (estado == -1){
             nuevo_estado = 0;
+            return false;
         }
         if (estado == 0){
             nuevo_estado = 1;
         }
         if (estado == 1){
             nuevo_estado = -1;
+        }
+        
+        if (estado == 1){
+            nuevo_estado = -1;
+            codigo = $(this).closest('tr').attr("codigo");
+            //$("#name-header-modal").html("<b>Eliminar</b>");
+            //$("#text-header-body").html("¿Desea eliminar el registro ?");
+            $("#btn-eliminar-archivo").attr("archivo", archivo);
+            $("#btn-eliminar").css("display", "inline-block");
+            $("#btn-cancelar").text("Cancelar");
+            $('#myModal').modal('show');
+            return false;
         }
         var readonly = $(".container").attr("read");
         if (readonly == 1){
@@ -342,6 +373,30 @@ thead th{
             }
         });
         event.preventDefault();
+    });
+
+    $("#btn-eliminar-archivo").click(function () {
+        var archivo = $(this).attr("archivo");        
+        var nuevo_estado = -1;
+        var parametros = {
+            funcion: "cambiar_estadoArchivo",         
+            codigo: archivo,
+            estado: nuevo_estado,
+        }   
+        $.ajax({
+            type: "POST",
+            url: 'controller/archivo_destinos.controller.php',
+            data: parametros,
+            success: function (datos) {
+                location.reload();
+            },
+            error: function () {
+                alert("Error");
+            },
+            complete: function () {
+                requestSent = false;
+            }
+        });
     });
 </script>
 

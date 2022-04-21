@@ -173,7 +173,7 @@ thead th{
                                 <?php foreach($destinos as $destino) { ?>
                                     <td class="text-center" style="vertical-align: middle; "></td>                
                                 <?php } ?>     
-                                <th class="text-center observaciones" style="vertical-align: middle;"><?php echo $reg["observaciones"]; ?></th>  
+                                <th class="text-center observaciones" style="vertical-align: middle;text-align: justify !important;"><?php echo $reg["observaciones"]; ?></th>  
                             </tr>   
                             
                             <?php 
@@ -285,7 +285,7 @@ thead th{
                                         class="text-center" atributo="produccion" style="vertical-align: middle; "><?php echo $estado_html; ?></td>
                                     <?php } ?>
                                     
-                                    <th class="text-center observaciones" style="vertical-align: middle;"><?php echo $prod["observaciones"]; ?></th>  
+                                    <th class="text-center observaciones" style="vertical-align: middle; text-align: justify !important;"><?php echo $prod["observaciones"]; ?></th>  
                                 </tr>
                             <?php } ?>
 
