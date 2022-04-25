@@ -29,7 +29,7 @@
             $existia_antes = 0;            
             if (file_exists($uploadPath . $fileName)){
                 //$existia_antes = 1;
-                $fileName = $fileName . "_" . date("YmdHis");
+                $fileName = "_" . date("YmdHis") . $fileName;
             }
             $move_upload = move_uploaded_file($_fileNameTmp, $uploadPath . $fileName);
             $observaciones = $uploadPath;
