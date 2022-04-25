@@ -782,6 +782,28 @@ class ProductosModel {
             $query->execute();
             if ($query->rowCount() > 0) {
                 $result = $query->fetchAll();
+                foreach($result as $k => $aux){
+                    $prefijo = "";
+                    if ($aux["cod_archivo"] < 10000){
+                        $prefijo .= "0";
+                    }
+                    if ($aux["cod_archivo"] < 1000){
+                        $prefijo .= "0";
+                    }
+                    if ($aux["cod_archivo"] < 100){
+                        $prefijo .= "0";
+                    }
+                    if ($aux["cod_archivo"] < 10){
+                        $prefijo .= "0";
+                    }
+                    $prefijo .= $aux["cod_archivo"] . " - ";
+                    $result[$k]["prefijo"] = $prefijo;
+                }
+
+                return $result;
+            }
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll();
                 return $result;
             }
         } catch (PDOException $e) {
@@ -804,6 +826,28 @@ class ProductosModel {
             $query->execute();
             if ($query->rowCount() > 0) {
                 $result = $query->fetchAll();
+                foreach($result as $k => $aux){
+                    $prefijo = "";
+                    if ($aux["cod_archivo"] < 10000){
+                        $prefijo .= "0";
+                    }
+                    if ($aux["cod_archivo"] < 1000){
+                        $prefijo .= "0";
+                    }
+                    if ($aux["cod_archivo"] < 100){
+                        $prefijo .= "0";
+                    }
+                    if ($aux["cod_archivo"] < 10){
+                        $prefijo .= "0";
+                    }
+                    $prefijo .= $aux["cod_archivo"] . " - ";
+                    $result[$k]["prefijo"] = $prefijo;
+                }
+
+                return $result;
+            }
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll();
                 return $result;
             }
         } catch (PDOException $e) {
@@ -823,7 +867,29 @@ class ProductosModel {
                 (select a.descripcion from archivos a where a.codigo = ota.archivo_id) as archivo
              FROM orden_trabajos_archivos ota, orden_trabajos otd where ota.ot_id = otd.codigo and ota.ot_id = " . intval($ot) . " ;";
             $query = $this->conn->prepare($sql);
-            $query->execute();
+            $query->execute();            
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll();
+                foreach($result as $k => $aux){
+                    $prefijo = "";
+                    if ($aux["cod_archivo"] < 10000){
+                        $prefijo .= "0";
+                    }
+                    if ($aux["cod_archivo"] < 1000){
+                        $prefijo .= "0";
+                    }
+                    if ($aux["cod_archivo"] < 100){
+                        $prefijo .= "0";
+                    }
+                    if ($aux["cod_archivo"] < 10){
+                        $prefijo .= "0";
+                    }
+                    $prefijo .= $aux["cod_archivo"] . " - ";
+                    $result[$k]["prefijo"] = $prefijo;
+                }
+
+                return $result;
+            }
             if ($query->rowCount() > 0) {
                 $result = $query->fetchAll();
                 return $result;
