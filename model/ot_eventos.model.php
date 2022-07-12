@@ -206,7 +206,7 @@ class Ot_eventosModel {
     
     public function getEstados(){
         try {
-            $sql = "SELECT * FROM estados ORDER BY descripcion;";
+            $sql = "SELECT * FROM estados ORDER BY codigo;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {

@@ -20,7 +20,8 @@ function addEstado() {
     $controlador = EstadosController::singleton_estados();
     
     echo $controlador->addEstado  (    
-                                        $_POST['descripcion']
+                                        $_POST['descripcion'],
+                                        $_POST['abrev']
             );
 }
 
@@ -28,7 +29,8 @@ function updateEstado() {
     $controlador = EstadosController::singleton_estados();
     
     echo $controlador->updateEstado(    $_POST['codigo'], 
-                                        $_POST['descripcion']
+                                        $_POST['descripcion'],
+                                        $_POST['abrev']
             );
 }
 
@@ -95,15 +97,15 @@ class EstadosController {
         
     }
     
-    public function addEstado($descripcion) {
-        $devuelve = $this->conn->addEstado($descripcion);
+    public function addEstado($descripcion, $abrev) {
+        $devuelve = $this->conn->addEstado($descripcion, $abrev);
         
         return $devuelve;
         
     }
     
-    public function updateEstado($codigo, $descripcion) {
-        $devuelve = $this->conn->updateEstado($codigo, $descripcion);
+    public function updateEstado($codigo, $descripcion, $abrev) {
+        $devuelve = $this->conn->updateEstado($codigo, $descripcion, $abrev);
         
         return $devuelve;
         

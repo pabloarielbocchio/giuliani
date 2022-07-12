@@ -128,7 +128,8 @@ $("#actualidarDatosEstado").submit(function (event) {
         var parametros = {
             funcion: "updateEstado",
             codigo: codigo,
-            descripcion: $("#descripcionUpdate").val()
+            descripcion: $("#descripcionUpdate").val(),
+            abrev: $("#abreviaturaUpdate").val()
         }
         $.ajax({
             type: "POST",
@@ -154,7 +155,8 @@ $("#guardarDatosEstado").submit(function (event) {
         requestSent = true;
         var parametros = {
             funcion: "addEstado",
-            descripcion: $("#descripcionAdd").val()
+            descripcion: $("#descripcionAdd").val(),
+            abrev: $("#abreviaturaAdd").val()
         }
         $.ajax({
             type: "POST",

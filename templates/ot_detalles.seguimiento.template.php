@@ -274,6 +274,9 @@ thead th{
                                                     case 3:
                                                         $estado_html = '<span modificable="' . $modificable . '"  style="background-color: #3a3d5c;" codigo="'.$estado["codigo"].'" userrol="4" destino="'.$estado["destino_id"].'" class="estado_editable label label-success m-t-lg">'.$estado["estado"].'</span>';
                                                         break;
+                                                    case 5:
+                                                        $estado_html = '<span modificable="' . $modificable . '"  style="background-color: #3a3d5c;" codigo="'.$estado["codigo"].'" userrol="4" destino="'.$estado["destino_id"].'" class="estado_editable label label-success m-t-lg">'.$estado["estado"].'</span>';
+                                                        break;
                                                     case 4:
                                                         $estado_html = '<span modificable="' . $modificable . '"  style="background-color: #7583a0;" codigo="'.$estado["codigo"].'" userrol="4" destino="'.$estado["destino_id"].'" class="estado_editable label label-danger m-t-lg">'.$estado["estado"].'</span>';
                                                         break;

@@ -2,10 +2,6 @@
 
 session_start();
 
-if ($_SESSION["cargo"] != "Administrador") {
-    header("Location: login.php");
-}
-
 include $_SERVER['DOCUMENT_ROOT'] . "/Giuliani/controller/estados.controller.php";
 $controlador = EstadosController::singleton_estados();
 
@@ -136,6 +132,10 @@ include 'inc/html/breadcrumb.php';
                             <label for="nombre0" class="control-label">Nombre:</label>
                             <input type="text" class="form-control" id="descripcionAdd" name="descripcionAdd" required maxlength="100">
                         </div>
+                        <div class="form-group">
+                            <label for="nombre0" class="control-label">Abrev:</label>
+                            <input type="text" class="form-control" id="abreviaturaAdd" name="abreviaturaAdd" required maxlength="100">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-danger boton_marron_carni" >Guardar datos</button>
@@ -160,6 +160,10 @@ include 'inc/html/breadcrumb.php';
                             <label for="nombre0" class="control-label">Nombre:</label>
                             <input type="text" class="form-control" id="descripcionUpdate" name="descripcionUpdate" required maxlength="100">
                         </div>
+                        <div class="form-group">
+                            <label for="nombre0" class="control-label">Abrev:</label>
+                            <input type="text" class="form-control" id="abreviaturaUpdate" name="abreviaturaUpdate" required maxlength="100">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-danger boton_marron_carni" >Actualizar datos</button>
@@ -179,11 +183,11 @@ include 'inc/html/breadcrumb.php';
     </div>
     
 </div>
-
+<!--
 <div style="bottom: 50px; right: 40px; position: fixed;">
     <button id="add" name="add" type="button" class="btn btn-danger btn-lg boton_marron_carni" style="width: 50px;border-radius: 50%; text-align: center; background-color: transparent;"><i style="margin-bottom: 5px;" class="glyphicon glyphicon-plus"></i></button>
 </div>
-
+-->
 <?php
 
 include 'inc/html/footer.php';

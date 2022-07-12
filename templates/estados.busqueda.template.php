@@ -1,17 +1,41 @@
 <table id="tabla" namefile="Estados" totales="<?php echo $_SESSION["totales"]; ?>" registros="<?php echo $_SESSION['cant_reg']; ?>" pagina="<?php $_SESSION['pagina']; ?>" class="table table-striped table-hover" mes="<?php echo $mes; ?>" anio="<?php echo $anio; ?>" dia="<?php echo $dia; ?>" opcion="<?php echo $opcion; ?>"> 
     <thead>
         <tr class="row " style="background-color: transparent;">
-            <th class="col-lg-11 col-md-11 col-sm-11 col-xs-11 text-left ordena" orderby="descripcion" sentido="asc">Descripción</th>
+            <th class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-left ordena" orderby="descripcion" sentido="asc">Descripción</th>
+            <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center ordena" orderby="abrev" sentido="asc">Abrev.</th>
+            <th class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center ordena" orderby="abrev" sentido="asc">Observaciones</th>
             <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center noExl">Acciones</th>
         </tr>
     </thead>
     <tbody id="body">
         <?php foreach ($registros as $usu) { ?>
             <tr class="row" codigo="<?php echo $usu["codigo"]; ?>">
-                <td class="col-lg-11 col-md-11 col-sm-11 col-xs-11 text-left" style="vertical-align: middle;"><?php echo $usu["descripcion"]; ?></td>
+                <td class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-left" style="vertical-align: middle;"><?php echo $usu["descripcion"]; ?></td>
+                <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center" style="vertical-align: middle;"><?php echo $usu["abrev"]; ?></td>
+                <td class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center" style="vertical-align: middle;">
+                    <?php 
+                        switch($usu["codigo"]){
+                            case 1:
+                                echo "Estado inicial del proceso";
+                                break;
+                            case 2:
+                                echo "Se comienza con la produccion";
+                                break;
+                            case 3:
+                                echo "Produccion terminada";
+                                break;
+                            case 4:
+                                echo "Produccion cancelada/anulada";
+                                break;
+                            case 5:
+                                echo "El producto se encuentra en fábrica";
+                                break;
+                        }
+                    ?>
+                </td>
                 <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center noExl" style="vertical-align: middle;">
-                    <div class="editEstado" style="float: left; margin-left: 10px;"><a href="#"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></div>
-                    <div class="deleteEstado" style="float: right;margin-right: 10px;"><a href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></div>
+                    <div class="editEstado" style="text-align: center;"><a href="#"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></div>
+                    <!-- <div class="deleteEstado" style="float: right;margin-right: 10px;"><a href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></div> -->
                 </td>
             </tr>
 <?php } ?>
@@ -81,7 +105,7 @@
             success: function (data) {
                 var datos = JSON.parse(data);
                 $('#descripcionUpdate').val(datos.descripcion);
-                $('#abreviaturaUpdate').val(datos.descrip_abrev);
+                $('#abreviaturaUpdate').val(datos.abrev);
             },
             error: function () {
                 alert("Error");
