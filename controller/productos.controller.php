@@ -517,6 +517,91 @@ class ProductosController {
         $destinos = $this->getDestinos();
         $archivos_destinos = $this->getArchivosDestinos();
 
+        // buscar las ot'detalles donde el/los archivos impacten
+        $detalles = $this->getDetalles();
+        $prod_a = $this->getProductosA();
+        $prod_b = $this->getProductosB();
+        $prod_c = $this->getProductosC();
+        $prod_d = $this->getProductosD();
+        $prod_e = $this->getProductosE();
+        $prod_f = $this->getProductosF();
+        $prod_p = $this->getProductosP();
+        $prod_s = $this->getProductosS();
+        //$prod_config = $this->conn->getProductosX($prod_estandar_id);
+
+        $reg2 = [];
+        
+        foreach($detalles as $dev){
+            $ot_detalle_id = $dev["ot_detalle_id"];
+            $prod_estandar_id = $dev["prod_estandar_id"];
+            $prod_personalizado_id = $dev["prod_personalizado_id"];
+
+            $cod_prod_nf = -1;
+            $cod_prod_ne = -1;
+            $cod_prod_nd = -1;
+            $cod_prod_nc = -1;
+            $cod_prod_nb = -1;
+            $cod_prod_na = -1;
+
+            /*foreach($prod_x as $aux){
+                if ($aux["prod_standar_id"] == $prod_estandar_id){
+                    $cod_prod_nf[] = $aux["prod_f_id"];
+                    break;
+                }
+            }*/
+
+            foreach($prod_s as $aux){
+                if ($aux["codigo"] == $prod_estandar_id){
+                    $cod_prod_nd = $aux["cod_prod_nd"];
+                    break;
+                }
+            }
+
+            foreach($prod_d as $aux){
+                if ($aux["codigo"] == $cod_prod_nd){
+                    $cod_prod_nc = $aux["cod_prod_nc"];
+                    break;
+                }
+            }
+
+            foreach($prod_c as $aux){
+                if ($aux["codigo"] == $cod_prod_nc){
+                    $cod_prod_nb = $aux["cod_prod_nb"];
+                    break;
+                }
+            }
+
+            foreach($prod_b as $aux){
+                if ($aux["codigo"] == $cod_prod_nb){
+                    $cod_prod_na = $aux["cod_prod_na"];
+                    break;
+                }
+            }
+        }
+
+        foreach($archivos as $aux){
+            if ($aux["cod_prod_na"] == $cod_prod_na and $n1 == $cod_prod_na){
+                $reg2[$ot_detalle_id] = $dev;
+            }
+            if ($aux["cod_prod_nb"] == $cod_prod_nb and $n2 == $cod_prod_nb){
+                $reg2[$ot_detalle_id] = $dev;
+            }
+            if ($aux["cod_prod_nc"] == $cod_prod_nc and $n3 == $cod_prod_nc){
+                $reg2[$ot_detalle_id] = $dev;
+            }
+            if ($aux["cod_prod_nd"] == $cod_prod_nd and $n4 == $cod_prod_nd){
+                $reg2[$ot_detalle_id] = $dev;
+            }
+            if ($aux["cod_prod_ne"] == $cod_prod_ne and $n5 == $cod_prod_ne){
+                $reg2[$ot_detalle_id] = $dev;
+            }
+            /*foreach($cod_prod_nf as $f){
+                if ($aux["cod_prod_nf"] == $f){
+                    $registros[$aux["codigo"]] = $aux;
+                }
+            }*/
+        }
+
         include $_SERVER['DOCUMENT_ROOT']."/Giuliani/templates/files.archivos.tabla.php";
         
     }
@@ -1578,6 +1663,13 @@ class ProductosController {
     
     public function getUnidades() {
         $devuelve = $this->conn->getUnidades();
+        
+        return $devuelve;
+        
+    }
+    
+    public function getDetalles() {
+        $devuelve = $this->conn->getDetalles();
         
         return $devuelve;
         

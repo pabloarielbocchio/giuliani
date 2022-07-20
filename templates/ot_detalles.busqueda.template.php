@@ -44,6 +44,7 @@
                                     <div class="opciones" style="margin-top: -6px">Opciones <span class="caret"></span></div>
                                 </button>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="menu">
+                                    <li role="presentation" class="prodestandar_pdf"><a role="menuitem" tabindex="-1" href="PDF/ot.php?codigo=<?php echo $usu["codigo"]; ?>" target="_blank">PDF</a></li>
                                     <?php if (in_array($_SESSION["rol"], [1,2,5]) and intval($ot_header["finalizada"]) == 0) { ?>
                                         <li role="presentation" class="editOt_detalle"><a role="menuitem" tabindex="-1" href="#">Editar</a></li>
                                         <li role="presentation" class="prodestandar_detalle"><a role="menuitem" tabindex="-1" href="#">Prod. Estandar</a></li>

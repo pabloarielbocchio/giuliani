@@ -158,6 +158,23 @@ class ProductosModel {
         
     }
     
+    public function getDetalles(){
+        try {
+            $sql = "SELECT otp.*, otd.seccion, otd.sector, otd.item_vendido, otd.observaciones, otd.orden_trabajo_id, (select cliente from orden_trabajos where codigo = otd.orden_trabajo_id) as cliente FROM orden_trabajos_detalles otd, orden_trabajos_produccion otp WHERE otp.ot_detalle_id = otd.codigo ";            
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll();
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+        
+    }
+    
     public function getRegistrosFiltro($orderby, $sentido, $registros, $pagina, $busqueda, $n1, $n2, $n3, $n4){
         try {
             $desde = ($pagina - 1) * $registros;

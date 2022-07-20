@@ -144,11 +144,11 @@ thead th{
                                                     
                                         <?php 
                                             if ($reg["finalizada"] == 1){
-                                                if ($_SESSION["rol"] == 1 or $_SESSION["rol"] == 2){
+                                                if ($_SESSION["rol"] == 1 or $_SESSION["rol"] == 2 or $_SESSION["rol"] == 3){
                                                     echo '<li role="presentation" class="abrirOtDetalle_listado"><a role="menuitem" tabindex="-1" href="#">Reabrir</a></li>';
                                                 }
                                             } elseif ($reg["finalizada"] != null and $reg["finalizada"] == 0){                                            
-                                                if ($_SESSION["rol"] == 1 or $_SESSION["rol"] == 2){
+                                                if ($_SESSION["rol"] == 1 or $_SESSION["rol"] == 2 or $_SESSION["rol"] == 3){
                                                     echo '<li role="presentation" class="finalizarOtDetalle_listado"><a role="menuitem" tabindex="-1" href="#">Finalizar</a></li>';
                                                 }
                                             } else {

@@ -87,6 +87,32 @@ thead th{
     </div>
 </div>
 
+<div class="row divespecial m-t-lg">
+    <legend>OT's donde impactan</legend>
+    <table id="tabla2" class="table table-striped table-hover" > 
+        <thead>
+            <tr class="row " style="background-color: transparent;">
+                <th  class="text-center " orderby="seccion" sentido="asc">OT</th>
+                <th  class="text-center " orderby="seccion" sentido="asc">Cliente</th>
+                <th  class="text-center " orderby="seccion" sentido="asc">Seccion</th>
+                <th  class="text-center " orderby="seccion" sentido="asc">Sector</th>
+                <th  class="text-center " orderby="seccion" sentido="asc">ITem Vendido</th>
+            </tr>
+        </thead>
+        <tbody id="body">
+            <?php foreach ($reg2 as $usu) { ?>
+                <tr class="row" codigo="<?php echo $usu["codigo"]; ?>">
+                    <th class="text-left " style="vertical-align: middle;"><?php echo $usu["orden_trabajo_id"]; ?></th>
+                    <th class="text-left " style="vertical-align: middle;"><?php echo $usu["cliente"]; ?></th>
+                    <th class="text-left " style="vertical-align: middle;"><?php echo $usu["seccion"]; ?></th>
+                    <th class="text-left " style="vertical-align: middle;"><?php echo $usu["sector"]; ?></th>
+                    <th class="text-left " style="vertical-align: middle;"><?php echo $usu["item_vendido"]; ?></th>
+                </tr>
+            <?php } ?>
+        </tbody>
+    </table>
+</div>
+
 <div class="divespecial m-t-lg">
     <table id="tabla" totales="<?php echo $_SESSION["totales"]; ?>" registros="<?php echo $_SESSION['cant_reg']; ?>" pagina="<?php $_SESSION['pagina']; ?>" class="table table-striped table-hover" mes="<?php echo $mes; ?>" anio="<?php echo $anio; ?>" dia="<?php echo $dia; ?>" opcion="<?php echo $opcion; ?>"> 
         <thead>

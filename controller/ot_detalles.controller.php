@@ -490,6 +490,20 @@ class Ot_detallesController {
         
     }
     
+    public function getProductosP() {
+        $devuelve = $this->conn->getProductosP();
+        
+        return $devuelve;
+        
+    }
+    
+    public function getProductosS() {
+        $devuelve = $this->conn->getProductosS();
+        
+        return $devuelve;
+        
+    }
+    
     public function getRoles() {
         $devuelve = $this->conn->getRoles();
         
@@ -509,5 +523,19 @@ class Ot_detallesController {
             $prod["numero"] = "0" . $prod["numero"];
         }
         return $prod;
+    }
+    
+    public function getOtArchivos($codigo) {
+        $devuelve = $this->conn->getOtArchivos($codigo);
+        
+        return $devuelve;
+        
+    }
+    
+    public function getOt($codigo) {
+        $devuelve = $this->conn->getOt($codigo);
+        
+        return $devuelve;
+        
     }
 }

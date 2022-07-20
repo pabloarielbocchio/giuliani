@@ -464,6 +464,38 @@ class Ot_detallesModel {
         }
     }
     
+    public function getProductosP(){
+        try {
+            $sql = "SELECT * FROM productos_personalizados order by descripcion;";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll();
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+    }
+    
+    public function getProductosS(){
+        try {
+            $sql = "SELECT * FROM productos_estandar order by descripcion;";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll();
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+    }
+    
     public function getRoles(){
         try {
             $sql = "SELECT * FROM roles order by descripcion;";
@@ -642,6 +674,80 @@ class Ot_detallesModel {
     
     public function ejecutarSql($sql){
         try {
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+            return $error;
+        }
+        
+    }    
+    
+    public function getOtArchivos($cod_ot){
+        try {
+            $sql = "select 
+                        a.*,
+                        ota.ot_produccion_id,
+                        ota.ot_detalle_id,
+                        ota.ot_id
+                    from 
+                        archivos a,
+                        orden_trabajos_archivos ota
+                    where 
+                        ota.archivo_id = a.codigo
+                        and (
+                            ota.ot_produccion_id in (select codigo from orden_trabajos_produccion where ot_detalle_id in 
+                                (select codigo from orden_trabajos_detalles where orden_trabajo_id = " . intval($cod_ot) . ")
+                            ) or
+                            (
+                            ota.ot_detalle_id in (select codigo from orden_trabajos_detalles where orden_trabajo_id = " . intval($cod_ot) . ")
+                            ) or
+                            (
+                            ota.ot_id in (" . intval($cod_ot) . ")
+                            )
+                        )
+                    ;";
+            $sql = "select 
+                        a.*,
+                        ota.ot_produccion_id,
+                        ota.ot_detalle_id,
+                        ota.ot_id
+                    from 
+                        archivos a,
+                        orden_trabajos_archivos ota
+                    where 
+                        ota.archivo_id = a.codigo
+                        and (
+                            ota.ot_produccion_id in (select codigo from orden_trabajos_produccion where ot_detalle_id in 
+                                (select codigo from orden_trabajos_detalles where id = " . intval($cod_ot) . ")
+                            ) or
+                            (
+                            ota.ot_detalle_id in (select codigo from orden_trabajos_detalles where id = " . intval($cod_ot) . ")
+                            ) 
+                        )
+                    ;";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+            return $error;
+        }
+        
+    }    
+    
+    public function getOt($cod_ot){
+        try {
+            $sql = "select 
+                        *
+                    from 
+                        orden_trabajos_detalles
+                    where 
+                        codigo = " . intval($cod_ot) . "
+                    ;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
