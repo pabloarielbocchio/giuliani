@@ -160,6 +160,55 @@ include 'inc/html/breadcrumb.php';
                             <label for="nombre0" class="control-label">Nombre:</label>
                             <input type="text" class="form-control" id="descripcionUpdate" name="descripcionUpdate" required maxlength="100">
                         </div>
+                        <div class="form-group"> 
+                            <label for="nombre0" class="control-label">Administrador:</label>
+                            <select id="administrador" style="width: 100%;" class="form-control" name="administrador"  required>
+                                <option value="0" >NO</option>
+                                <option value="1" >SI</option>
+                            </select>
+                        </div>
+                        <div class="form-group"> 
+                            <label for="nombre0" class="control-label">Cambiar Estado OT:</label>
+                            <select id="estado_ot" style="width: 100%;" class="form-control" name="estado_ot"  required>
+                                <option value="0" >NO</option>
+                                <option value="1" >SI</option>
+                            </select>
+                        </div>
+                        <div class="form-group"> 
+                            <label for="nombre0" class="control-label">Finalizar/Reabrir OT:</label>
+                            <select id="finalizar_ot" style="width: 100%;" class="form-control" name="finalizar_ot"  required>
+                                <option value="0" >NO</option>
+                                <option value="1" >SI</option>
+                            </select>
+                        </div>
+                        <div class="form-group"> 
+                            <label for="nombre0" class="control-label">Editar OT:</label>
+                            <select id="editar_ot" style="width: 100%;" class="form-control" name="editar_ot"  required>
+                                <option value="0" >NO</option>
+                                <option value="1" >SI</option>
+                            </select>
+                        </div>
+                        <div class="form-group"> 
+                            <label for="nombre0" class="control-label">Archivos OT Prod.:</label>
+                            <select id="editar_files_otp" style="width: 100%;" class="form-control" name="editar_files_otp"  required>
+                                <option value="0" >NO</option>
+                                <option value="1" >SI</option>
+                            </select>
+                        </div>
+                        <div class="form-group"> 
+                            <label for="nombre0" class="control-label">Eliminar OT Prod.:</label>
+                            <select id="delete_otp" style="width: 100%;" class="form-control" name="delete_otp"  required>
+                                <option value="0" >NO</option>
+                                <option value="1" >SI</option>
+                            </select>
+                        </div>
+                        <div class="form-group"> 
+                            <label for="nombre0" class="control-label">Ver Todos Los Archivos:</label>
+                            <select id="view_all_files" style="width: 100%;" class="form-control" name="view_all_files"  required>
+                                <option value="0" >NO</option>
+                                <option value="1" >SI</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-danger boton_marron_carni" >Actualizar datos</button>

@@ -128,7 +128,14 @@ $("#actualidarDatosRol").submit(function (event) {
         var parametros = {
             funcion: "updateRol",
             codigo: codigo,
-            descripcion: $("#descripcionUpdate").val()
+            descripcion: $("#descripcionUpdate").val(),
+            administrador: $("#administrador").val(),
+            estado_ot: $("#estado_ot").val(),
+            finalizar_ot: $("#finalizar_ot").val(),
+            editar_ot: $("#editar_ot").val(),
+            editar_files_otp: $("#editar_files_otp").val(),
+            delete_otp: $("#delete_otp").val(),
+            view_all_files: $("#view_all_files").val()
         }
         $.ajax({
             type: "POST",

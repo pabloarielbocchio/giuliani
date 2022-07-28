@@ -28,7 +28,15 @@ function updateRol() {
     $controlador = RolesController::singleton_roles();
     
     echo $controlador->updateRol(    $_POST['codigo'], 
-                                        $_POST['descripcion']
+                                        $_POST['descripcion'],
+                                        $_POST['administrador'],
+                                        $_POST['estado_ot'],
+                                        $_POST['finalizar_ot'],
+                                        $_POST['editar_ot'],
+                                        $_POST['editar_files_otp'],
+                                        $_POST['delete_otp'],
+                                        $_POST['view_all_files']
+
             );
 }
 
@@ -102,8 +110,8 @@ class RolesController {
         
     }
     
-    public function updateRol($codigo, $descripcion) {
-        $devuelve = $this->conn->updateRol($codigo, $descripcion);
+    public function updateRol($codigo, $descripcion, $administrador, $estado_ot, $finalizar_ot, $editar_ot, $editar_files_otp, $delete_otp, $view_all_files) {
+        $devuelve = $this->conn->updateRol($codigo, $descripcion, $administrador, $estado_ot, $finalizar_ot, $editar_ot, $editar_files_otp, $delete_otp, $view_all_files);
         
         return $devuelve;
         

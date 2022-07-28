@@ -105,7 +105,8 @@ thead th{
             <tbody id="body">
                 <?php 
                     foreach ($archivos as $usu) { 
-                        if (!($_SESSION["rol"] == 1 or $_SESSION["rol"] == 5)){
+                        //if (!($_SESSION["rol"] == 1 or $_SESSION["rol"] == 5)){
+                        if (!($_SESSION["rol_editar_files_otp"])){
                             if ($usu["activo"] != 1){
                                 continue;
                             }

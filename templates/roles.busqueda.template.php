@@ -1,17 +1,89 @@
 <table id="tabla" namefile="Roles" totales="<?php echo $_SESSION["totales"]; ?>" registros="<?php echo $_SESSION['cant_reg']; ?>" pagina="<?php $_SESSION['pagina']; ?>" class="table table-striped table-hover" mes="<?php echo $mes; ?>" anio="<?php echo $anio; ?>" dia="<?php echo $dia; ?>" opcion="<?php echo $opcion; ?>"> 
     <thead>
         <tr class="row " style="background-color: transparent;">
-            <th class="col-lg-11 col-md-11 col-sm-11 col-xs-11 text-left ordena" orderby="descripcion" sentido="asc">Descripción</th>
+            <th class=" text-left ordena" orderby="descripcion" sentido="asc">Descripción</th>
+            <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center " orderby="descripcion" sentido="asc">Administrador</th>
+            <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center " orderby="descripcion" sentido="asc">Cambiar Estado OT</th>
+            <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center " orderby="descripcion" sentido="asc">Finalizar OT</th>
+            <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center " orderby="descripcion" sentido="asc">Editar OT</th>
+            <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center " orderby="descripcion" sentido="asc">Archivos OT Prod.</th>
+            <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center " orderby="descripcion" sentido="asc">Eliminar OT Prod.</th>
+            <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center " orderby="descripcion" sentido="asc">Ver todos los archivos</th>
             <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center noExl">Acciones</th>
         </tr>
     </thead>
     <tbody id="body">
         <?php foreach ($registros as $usu) { ?>
             <tr class="row" codigo="<?php echo $usu["codigo"]; ?>">
-                <td class="col-lg-11 col-md-11 col-sm-11 col-xs-11 text-left" style="vertical-align: middle;"><?php echo $usu["descripcion"]; ?></td>
+                <td class=" text-left" style="vertical-align: middle;"><?php echo $usu["descripcion"]; ?></td>
+                <td class=" text-center" style="vertical-align: middle;">
+                    <?php
+                        if ($usu["administrador"] > 0) {
+                            echo '<span class="glyphicon glyphicon-ok" style="color: #0A0; cursor: pointer;" aria-hidden="true"></span>';
+                        } else {
+                            echo '<span class="glyphicon glyphicon-remove" style="color: #A00; cursor: pointer;" aria-hidden="true"></span>';
+                        }
+                    ?>
+                </td>
+                <td class=" text-center" style="vertical-align: middle;">
+                    <?php
+                        if ($usu["estado_ot"] > 0) {
+                            echo '<span class="glyphicon glyphicon-ok" style="color: #0A0; cursor: pointer;" aria-hidden="true"></span>';
+                        } else {
+                            echo '<span class="glyphicon glyphicon-remove" style="color: #A00; cursor: pointer;" aria-hidden="true"></span>';
+                        }
+                    ?>
+                </td>
+                <td class=" text-center" style="vertical-align: middle;">
+                    <?php
+                        if ($usu["finalizar_ot"] > 0) {
+                            echo '<span class="glyphicon glyphicon-ok" style="color: #0A0; cursor: pointer;" aria-hidden="true"></span>';
+                        } else {
+                            echo '<span class="glyphicon glyphicon-remove" style="color: #A00; cursor: pointer;" aria-hidden="true"></span>';
+                        }
+                    ?>
+                </td>
+                <td class=" text-center" style="vertical-align: middle;">
+                    <?php
+                        if ($usu["editar_ot"] > 0) {
+                            echo '<span class="glyphicon glyphicon-ok" style="color: #0A0; cursor: pointer;" aria-hidden="true"></span>';
+                        } else {
+                            echo '<span class="glyphicon glyphicon-remove" style="color: #A00; cursor: pointer;" aria-hidden="true"></span>';
+                        }
+                    ?>
+                </td>
+                <td class=" text-center" style="vertical-align: middle;">
+                    <?php
+                        if ($usu["editar_files_otp"] > 0) {
+                            echo '<span class="glyphicon glyphicon-ok" style="color: #0A0; cursor: pointer;" aria-hidden="true"></span>';
+                        } else {
+                            echo '<span class="glyphicon glyphicon-remove" style="color: #A00; cursor: pointer;" aria-hidden="true"></span>';
+                        }
+                    ?>
+                </td>
+                <td class=" text-center" style="vertical-align: middle;">
+                    <?php
+                        if ($usu["delete_otp"] > 0) {
+                            echo '<span class="glyphicon glyphicon-ok" style="color: #0A0; cursor: pointer;" aria-hidden="true"></span>';
+                        } else {
+                            echo '<span class="glyphicon glyphicon-remove" style="color: #A00; cursor: pointer;" aria-hidden="true"></span>';
+                        }
+                    ?>
+                </td>
+                <td class=" text-center" style="vertical-align: middle;">
+                    <?php
+                        if ($usu["view_all_files"] > 0) {
+                            echo '<span class="glyphicon glyphicon-ok" style="color: #0A0; cursor: pointer;" aria-hidden="true"></span>';
+                        } else {
+                            echo '<span class="glyphicon glyphicon-remove" style="color: #A00; cursor: pointer;" aria-hidden="true"></span>';
+                        }
+                    ?>
+                </td>
                 <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center noExl" style="vertical-align: middle;">
-                    <div class="editRol" style="float: left; margin-left: 10px;"><a href="#"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></div>
-                    <div class="deleteRol" style="float: right;margin-right: 10px;"><a href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></div>
+                    <?php if ($usu["codigo"] > 1) { ?>
+                        <div class="editRol" style="float: left; margin-left: 10px;"><a href="#"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></div>
+                        <div class="deleteRol" style="float: right;margin-right: 10px;"><a href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></div>
+                    <?php } ?>
                 </td>
             </tr>
 <?php } ?>
@@ -81,6 +153,13 @@
             success: function (data) {
                 var datos = JSON.parse(data);
                 $('#descripcionUpdate').val(datos.descripcion);
+                $('#administrador').val(datos.administrador);
+                $('#estado_ot').val(datos.estado_ot);
+                $('#finalizar_ot').val(datos.finalizar_ot);
+                $('#editar_ot').val(datos.editar_ot);
+                $('#editar_files_otp').val(datos.editar_files_otp);
+                $('#delete_otp').val(datos.delete_otp);
+                $('#view_all_files').val(datos.view_all_files);
                 $('#abreviaturaUpdate').val(datos.descrip_abrev);
             },
             error: function () {

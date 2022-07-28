@@ -48,12 +48,12 @@
                             <li role="presentation" class="detallesOt_listado"><a role="menuitem" tabindex="-1" href="#">Items</a></li>
                             <?php 
                                 if ($usu["finalizada"] == 1 or $usu["finalizada"] == -1){
-                                    if ($_SESSION["rol"] == 1 or $_SESSION["rol"] == 2 or $_SESSION["rol"] == 3){
+                                    if ($_SESSION["rol_estado_ot"] == 1){
                                         echo '<li role="presentation" class="estadoOt_listado"><a role="menuitem" tabindex="-1" href="#">Cambiar estado</a></li>';
                                         //echo '<li role="presentation" class="abrirOt_listado"><a role="menuitem" tabindex="-1" href="#">Reabrir</a></li>';
                                     }
                                 } else {
-                                    if ($_SESSION["rol"] == 1 or $_SESSION["rol"] == 2 or $_SESSION["rol"] == 3){
+                                    if ($_SESSION["rol_estado_ot"] == 1){
                                         echo '<li role="presentation" class="estadoOt_listado"><a role="menuitem" tabindex="-1" href="#">Cambiar estado</a></li>';
                                         //echo '<li role="presentation" class="finalizarOt_listado"><a role="menuitem" tabindex="-1" href="#">Finalizar</a></li>';
                                     }

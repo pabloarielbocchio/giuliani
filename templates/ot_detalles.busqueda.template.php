@@ -45,12 +45,12 @@
                                 </button>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="menu">
                                     <li role="presentation" class="prodestandar_pdf"><a role="menuitem" tabindex="-1" href="PDF/ot.php?codigo=<?php echo $usu["codigo"]; ?>" target="_blank">PDF</a></li>
-                                    <?php if (in_array($_SESSION["rol"], [1,2,5]) and intval($ot_header["finalizada"]) == 0) { ?>
+                                    <?php if ($_SESSION["rol_editar_ot"] == 1 and intval($ot_header["finalizada"]) == 0) { ?>
                                         <li role="presentation" class="editOt_detalle"><a role="menuitem" tabindex="-1" href="#">Editar</a></li>
                                         <li role="presentation" class="prodestandar_detalle"><a role="menuitem" tabindex="-1" href="#">Prod. Estandar</a></li>
                                         <li role="presentation" class="prodperso_detalle"><a role="menuitem" tabindex="-1" href="#">Prod. Personalizado</a></li>
                                         <!--
-                                        <?php if (in_array($_SESSION["rol"], [1,2,5]) and intval($ot_header["finalizada"]) == 0) { ?>
+                                        <?php if ($_SESSION["rol_editar_ot"] == 1 and intval($ot_header["finalizada"]) == 0) { ?>
                                             <li role="presentation" class="editprodot_archivo"><a role="menuitem" tabindex="-1" href="#">Archivos</a></li>   
                                         <?php } else { ?>
                                             <li role="presentation" class="viewprodot_archivo"><a role="menuitem" tabindex="-1" href="#">Archivos</a></li>
@@ -104,13 +104,13 @@
                                                 <li role="presentation" class="configprod_archivo"><a role="menuitem" tabindex="-1" href="#">Configuracion</a></li>
                                             
                                             <?php } ?>
-                                            <?php if (in_array($_SESSION["rol"], [1,2,5]) and in_array(intval($ot_header["finalizada"]), [0,2])) { ?>
+                                            <?php if ($_SESSION["rol_editar_files_otp"] == 1 and in_array(intval($ot_header["finalizada"]), [0,2])) { ?>
                                                 <li role="presentation" class="editprod_archivo"><a role="menuitem" tabindex="-1" href="#">Archivos</a></li>   
                                             <?php } else { ?>
                                                 <li role="presentation" class="viewprod_archivo"><a role="menuitem" tabindex="-1" href="#">Archivos</a></li>
                                             <?php }  ?>
                                             
-                                            <?php if (in_array($_SESSION["rol"], [1,2,5]) and intval($ot_header["finalizada"]) == 0) { ?>
+                                            <?php if ($_SESSION["rol_delete_otp"] == 1 and intval($ot_header["finalizada"]) == 0) { ?>
                                                 <li role="presentation" class="deleteprod_detalle"><a role="menuitem" tabindex="-1" href="#">Eliminar</a></li>
                                             <?php } ?>
                                         </ul>

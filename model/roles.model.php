@@ -114,19 +114,33 @@ class RolesModel {
         }
     }
     
-    public function updateRol($codigo, $descripcion){
+    public function updateRol($codigo, $descripcion, $administrador, $estado_ot, $finalizar_ot, $editar_ot, $editar_files_otp, $delete_otp, $view_all_files){
         $hoy = date("Y-m-d H:i:s");
         try {
             $this->conn->beginTransaction();
             $stmt = $this->conn->prepare('UPDATE roles set '
                                             . 'descripcion = ? , '
+                                            . 'administrador = ? , '
+                                            . 'estado_ot = ? , '
+                                            . 'finalizar_ot = ? , '
+                                            . 'editar_ot = ? , '
+                                            . 'editar_files_otp = ? , '
+                                            . 'delete_otp = ? , '
+                                            . 'view_all_files = ? , '
                                             . 'usuario_m = ?, '
                                             . 'fecha_m = ? '
                                             . ' where codigo = ?');            
             $stmt->bindValue(1, $descripcion, PDO::PARAM_STR);
-            $stmt->bindValue(2, $_SESSION["usuario"], PDO::PARAM_STR);
-            $stmt->bindValue(3, $hoy, PDO::PARAM_STR);
-            $stmt->bindValue(4, $codigo, PDO::PARAM_INT);
+            $stmt->bindValue(2, $administrador, PDO::PARAM_INT);
+            $stmt->bindValue(3, $estado_ot, PDO::PARAM_INT);
+            $stmt->bindValue(4, $finalizar_ot, PDO::PARAM_INT);
+            $stmt->bindValue(5, $editar_ot, PDO::PARAM_INT);
+            $stmt->bindValue(6, $editar_files_otp, PDO::PARAM_INT);
+            $stmt->bindValue(7, $delete_otp, PDO::PARAM_INT);
+            $stmt->bindValue(8, $view_all_files, PDO::PARAM_INT);
+            $stmt->bindValue(9, $_SESSION["usuario"], PDO::PARAM_STR);
+            $stmt->bindValue(10, $hoy, PDO::PARAM_STR);
+            $stmt->bindValue(11, $codigo, PDO::PARAM_INT);
             if($stmt->execute()){
                 $this->conn->commit();
                 return 0;
