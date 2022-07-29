@@ -64,17 +64,20 @@ thead th{
   background: #f1f1f1;
   font-family: 'montserrat';
   font-weight: normal;
-  border-right: 1px solid #CCC;
+  border: 1px solid #CCC;
 }
 
 .unidad {
   position: -webkit-sticky; /* for Safari */
   position: sticky;
+  right: 0;
+  left: 45em;
   min-width: 8em;
+  z-index: 2;
   background: #f1f1f1;
   font-family: 'montserrat';
   font-weight: normal;
-  border-right: 1px solid #CCC;
+  border: 1px solid #CCC;
 }
 
 .observaciones {
@@ -92,8 +95,8 @@ thead th{
   <table id="tabla" namefile="Ot_detalles" class="table table-striped table-hover" >
     <thead>
         <tr class="row ">
-            <th class="text-left " orderby="item_vendido" sentido="asc"> </th>
-            <th class="text-center " orderby="cantidad" sentido="asc">Cantidad</th>
+            <th class="text-left nombre" orderby="item_vendido" sentido="asc"> </th>
+            <th class="text-center unidad" orderby="cantidad" sentido="asc">Cantidad</th>
             <th class="text-center " orderby="estado" sentido="asc"></th>
             <th class="text-center " orderby="seccion" sentido="asc"></th>
             <?php foreach($destinos as $destino) { ?>
@@ -132,7 +135,7 @@ thead th{
                                 <th class="text-left nombre " 
                                 data-toggle="tooltip" title="<?php echo "PU: " . $reg["pu"] . " | PU_CANT: " . $reg["pu_cant"] . " | PU_NETO: " . $reg["pu_neto"] . " | CLASIFICACION: " . $reg["clasificacion"]; ?> "
                                 style="vertical-align: middle; padding-left: 20px;"><?php echo $reg["item_vendido"]; ?></th>
-                                <th class="text-center unidad" style="vertical-align: middle; "><?php echo $reg["pu_cant"]; ?></th>   
+                                <th class="text-center unidad" style="vertical-align: middle; "><?php echo $reg["cantidad"]; ?></th>   
                                 <th class="text-center _opciones noExl" style="vertical-align: middle;  z-index: 100;">
                                 <?php //if ($_SESSION["rol"] == 1 or $_SESSION["rol"] == 2) { ?>
                                     <div class="dropdown">
