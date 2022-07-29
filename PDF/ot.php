@@ -298,8 +298,15 @@
     </style>
     <body id="page-top">
         <page backtop="15mm" backbottom="15mm" backleft="15mm" backright="15mm" style="font-size: 12pt; font-family: arial" >
+        
+                <div style="text-align: center;">
+                    <h1 class="logo-name">
+                        <?php $imagen = "../imagenes/logo.png"; ?>
+                        <img width="300px" src="<?php echo $imagen; ?>" >
+                    </h1>
+                </div>
 
-            <legend>Planimetría</legend>
+            <legend style="text-align: center;">Planimetría</legend>
             
             <br />
         
@@ -352,7 +359,7 @@
             
             <br />
 
-            <legend>USO EXCLUSIVO POR GIULIANI HERMANOS SA - PROHIBIDA SU REPRODUCCION SIN AUTORIZACION</legend>
+            <legend style="text-align: center; font-size: 12px;">USO EXCLUSIVO POR GIULIANI HERMANOS SA - PROHIBIDA SU REPRODUCCION SIN AUTORIZACION</legend>
             
         </page>
 
