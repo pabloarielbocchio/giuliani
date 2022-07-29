@@ -3,6 +3,7 @@
 <legend>
     <h4>
     <?php 
+        echo $otd["codigo"] ? "#" . $otd["codigo"] . " - " : "";
         echo $otd["nro_serie"] . " - " . $otd["observaciones"] . " (" . $otd["cliente"] . ")";
     ?>
     </h4>

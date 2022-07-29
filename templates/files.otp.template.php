@@ -3,8 +3,10 @@
 <legend>
     <?php 
         if ($otp["standar"] == 1) {
+            echo $otp["codigo"] ? "#" . $otp["codigo"] . " - " : "";
             echo $otp["prod_standar"] ;
         } else {
+            echo $otp["codigo"] ? "#" . $otp["codigo"] . " - " : "";
             echo $otp["prod_personalizado"] ;
         }
     ?>
