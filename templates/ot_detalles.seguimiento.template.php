@@ -234,7 +234,24 @@ thead th{
                                             }
                                         ?>
                                     </td>   
-                                    <?php foreach($destinos as $destino) {
+                                    <?php 
+                                    
+                                    $aprob_calidad = 0;
+                                    foreach($destinos as $destino) {      
+                                        foreach($estados as $estado) {  
+                                            if ($estado["ot_prod_id"] != $prod["codigo"]){
+                                                continue;
+                                            }
+                                            if ($estado["destino_id"] != $destino["codigo"]){
+                                                continue;
+                                            }  
+                                            if ($destino["calidad"] == 1 and $estado["estado_id"] == 3) {
+                                                $aprob_calidad = 1;
+                                            }  
+                                        }
+                                    }
+
+                                    foreach($destinos as $destino) {
                                         if ($_SESSION["rol"] == 1){
                                             $modificable = 1;
                                         } else {
@@ -245,14 +262,20 @@ thead th{
                                                 }
                                             }
                                         }
+
+                                        $estado_editable = "estado_editable";
+                                        if ($aprob_calidad == 1 and $destino["calidad"] != 1){
+                                            $modificable = 0;
+                                            $estado_editable = "";
+                                        }
                                     ?>
                                         <?php 
                                             // Aca hay que aplicar la logica que si es siempre visible, entonces lo muestre siempre, sino hay que ver si los destinos tienen archivos.
                                             if($destino["siempre_visible"] == 1){
-                                                $estado_html = '<span modificable="' . $modificable . '" style="background-color: #CECECE;" codigo="0" userrol="4" destino="'.$destino["codigo"].'" class="estado_editable label label-danger m-t-lg">EN COLA</span>';            
+                                                $estado_html = '<span modificable="' . $modificable . '" style="background-color: #CECECE;" codigo="0" userrol="4" destino="'.$destino["codigo"].'" class="'.$estado_editable.' label label-danger m-t-lg">EN COLA</span>';            
                                             } else {
                                                 if ($_prod["destinos_cuenta"][$destino["codigo"]] > 0){
-                                                    $estado_html = '<span modificable="' . $modificable . '" style="background-color: #CECECE;" codigo="0" userrol="4" destino="'.$destino["codigo"].'" class="estado_editable label label-danger m-t-lg">EN COLA</span>';            
+                                                    $estado_html = '<span modificable="' . $modificable . '" style="background-color: #CECECE;" codigo="0" userrol="4" destino="'.$destino["codigo"].'" class="'.$estado_editable.' label label-danger m-t-lg">EN COLA</span>';            
                                                 } else {
                                                     $estado_html = '';
                                                 }
@@ -269,19 +292,19 @@ thead th{
                                                 $obs = $estado["observaciones"];
                                                 switch($estado["estado_id"]){
                                                     case 1:
-                                                        $estado_html = '<span modificable="' . $modificable . '"  style="background-color: #ea4d3b;" codigo="'.$estado["codigo"].'" userrol="4" destino="'.$estado["destino_id"].'" estado="'.$estado["estado_id"].'" class="estado_editable label label-warning m-t-lg">'.$estado["estado"].'</span>';
+                                                        $estado_html = '<span modificable="' . $modificable . '"  style="background-color: #ea4d3b;" codigo="'.$estado["codigo"].'" userrol="4" destino="'.$estado["destino_id"].'" estado="'.$estado["estado_id"].'" class="'.$estado_editable.' label label-warning m-t-lg">'.$estado["estado"].'</span>';
                                                         break;
                                                     case 2:
-                                                        $estado_html = '<span modificable="' . $modificable . '"  style="background-color: #ff899f;" codigo="'.$estado["codigo"].'" userrol="4" destino="'.$estado["destino_id"].'" class="estado_editable label label-info m-t-lg">'.$estado["estado"].' '.number_format($estado["avance"],0).'%</span>';
+                                                        $estado_html = '<span modificable="' . $modificable . '"  style="background-color: #ff899f;" codigo="'.$estado["codigo"].'" userrol="4" destino="'.$estado["destino_id"].'" class="'.$estado_editable.' label label-info m-t-lg">'.$estado["estado"].' '.number_format($estado["avance"],0).'%</span>';
                                                         break;
                                                     case 3:
-                                                        $estado_html = '<span modificable="' . $modificable . '"  style="background-color: #3a3d5c;" codigo="'.$estado["codigo"].'" userrol="4" destino="'.$estado["destino_id"].'" class="estado_editable label label-success m-t-lg">'.$estado["estado"].'</span>';
+                                                        $estado_html = '<span modificable="' . $modificable . '"  style="background-color: #3a3d5c;" codigo="'.$estado["codigo"].'" userrol="4" destino="'.$estado["destino_id"].'" class="'.$estado_editable.' label label-success m-t-lg">'.$estado["estado"].'</span>';
                                                         break;
                                                     case 5:
-                                                        $estado_html = '<span modificable="' . $modificable . '"  style="background-color: #3a3d5c;" codigo="'.$estado["codigo"].'" userrol="4" destino="'.$estado["destino_id"].'" class="estado_editable label label-success m-t-lg">'.$estado["estado"].'</span>';
+                                                        $estado_html = '<span modificable="' . $modificable . '"  style="background-color: #3a3d5c;" codigo="'.$estado["codigo"].'" userrol="4" destino="'.$estado["destino_id"].'" class="'.$estado_editable.' label label-success m-t-lg">'.$estado["estado"].'</span>';
                                                         break;
                                                     case 4:
-                                                        $estado_html = '<span modificable="' . $modificable . '"  style="background-color: #7583a0;" codigo="'.$estado["codigo"].'" userrol="4" destino="'.$estado["destino_id"].'" class="estado_editable label label-danger m-t-lg">'.$estado["estado"].'</span>';
+                                                        $estado_html = '<span modificable="' . $modificable . '"  style="background-color: #7583a0;" codigo="'.$estado["codigo"].'" userrol="4" destino="'.$estado["destino_id"].'" class="'.$estado_editable.' label label-danger m-t-lg">'.$estado["estado"].'</span>';
                                                         break;
                                                 } 
                                             } 
