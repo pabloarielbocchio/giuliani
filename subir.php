@@ -27,32 +27,32 @@
             if ($n1 > 0){
                 $uploadPath .= $n1 . '/';
                 (!file_exists($uploadPath)) && mkdir($uploadPath, 0755, true);
-                $fileName = $n1 . "_" . $fileName;
+                //$fileName = $n1 . "_" . $fileName;
             }
             if ($n2 > 0){
                 $uploadPath .= $n2 . '/';
                 (!file_exists($uploadPath)) && mkdir($uploadPath, 0755, true);
-                $fileName = $n2 . "_" . $fileName;
+                //$fileName = $n2 . "_" . $fileName;
             }
             if ($n3 > 0){
                 $uploadPath .= $n3 . '/';
                 (!file_exists($uploadPath)) && mkdir($uploadPath, 0755, true);
-                $fileName = $n3 . "_" . $fileName;
+                //$fileName = $n3 . "_" . $fileName;
             }
             if ($n4 > 0){
                 $uploadPath .= $n4 . '/';
                 (!file_exists($uploadPath)) && mkdir($uploadPath, 0755, true);
-                $fileName = $n4 . "_" . $fileName;
+                //$fileName = $n4 . "_" . $fileName;
             }
             if ($n5 > 0){
                 $uploadPath .= $n5 . '/';
                 (!file_exists($uploadPath)) && mkdir($uploadPath, 0755, true);
-                $fileName = $n5 . "_" . $fileName;
+                //$fileName = $n5 . "_" . $fileName;
             }
             if ($n6 > 0){
                 $uploadPath .= $n6 . '/';
                 (!file_exists($uploadPath)) && mkdir($uploadPath, 0755, true);
-                $fileName = $n6 . "_" . $fileName;
+                //$fileName = $n6 . "_" . $fileName;
             }
 
             $_fileNameTmp = $file['file']['tmp_name'];

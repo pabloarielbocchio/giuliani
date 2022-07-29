@@ -22,7 +22,7 @@
             if ($opc > 0){
                 $uploadPath .= "prod_perso_" . $opc . '/';
                 (!file_exists($uploadPath)) && mkdir($uploadPath, 0755, true);
-                $fileName = $opc . "_" . $fileName;
+                //$fileName = $opc . "_" . $fileName;
             }
 
             $_fileNameTmp = $file['file']['tmp_name'];

@@ -277,12 +277,21 @@ class UtilsModel {
                         mu.edit as edit, 
                         mu.eliminar as eliminar, 
                         mu.new as new, 
-                        mu.access as access 
+                        mu.access as access,
+                        r.administrador as rol_administrador,
+                        r.estado_ot as rol_estado_ot,
+                        r.finalizar_ot as rol_finalizar_ot,
+                        r.editar_ot as rol_editar_ot,
+                        r.editar_files_otp as rol_editar_files_otp,
+                        r.delete_otp as rol_delete_otp,
+                        r.view_all_files as rol_view_all_files
                     from 
                         usuarios u, 
+                        roles r,
                         menus m, 
                         menus_usuarios mu 
                     where 
+                        u.id_rol = r.codigo and
                         mu.cod_usuario = u.codigo and 
                         mu.cod_menu = m.codigo and 
                         u.usuario = '" . $user . "' and 
@@ -299,7 +308,16 @@ class UtilsModel {
                 $_SESSION["nombre"]             = $result[0]["nombre"];
                 $_SESSION["apellido"]           = $result[0]["apellido"];
                 //$_SESSION["id_cliente"]         = $result[0]["id_cliente"];
-                $_SESSION["sistemas"]           = $result[0]["sistemas"];
+                $_SESSION["sistemas"]           = $result[0]["sistemas"];  
+
+                $_SESSION["rol_administrador"]      = $result[0]["rol_administrador"];
+                $_SESSION["rol_estado_ot"]          = $result[0]["rol_estado_ot"];
+                $_SESSION["rol_finalizar_ot"]       = $result[0]["rol_finalizar_ot"];
+                $_SESSION["rol_editar_ot"]          = $result[0]["rol_editar_ot"];
+                $_SESSION["rol_editar_files_otp"]   = $result[0]["rol_editar_files_otp"];
+                $_SESSION["rol_delete_otp"]         = $result[0]["rol_delete_otp"];
+                $_SESSION["rol_view_all_files"]     = $result[0]["rol_view_all_files"];
+
                 $_SESSION["cliente"]            = "Giuliani";
                 //$_SESSION["last_cliente"]       = $result[0]["id_cliente"];
                 $_SESSION["ultimo_cliente"]     = "Giuliani";
