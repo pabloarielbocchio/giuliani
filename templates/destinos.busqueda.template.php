@@ -22,8 +22,10 @@
                     ?>
                 </td>
                 <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center noExl" style="vertical-align: middle;">
-                    <div class="editDestino" style="float: left; margin-left: 10px;"><a href="#"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></div>
-                    <div class="deleteDestino" style="float: right;margin-right: 10px;"><a href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></div>
+                    <?php if ($usu["calidad"] != 1) { ?>
+                        <div class="editDestino" style="float: left; margin-left: 10px;"><a href="#"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></div>
+                        <div class="deleteDestino" style="float: right;margin-right: 10px;"><a href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></div>
+                    <?php } ?>
                 </td>
             </tr>
 <?php } ?>
