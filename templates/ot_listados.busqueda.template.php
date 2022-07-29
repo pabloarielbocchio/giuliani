@@ -46,6 +46,7 @@
                         <ul class="dropdown-menu" role="menu" aria-labelledby="menu">
                             <li role="presentation" class="archivosOt_listado"><a role="menuitem" tabindex="-1" href="#">Archivo OT</a></li>
                             <li role="presentation" class="detallesOt_listado"><a role="menuitem" tabindex="-1" href="#">Items</a></li>
+                            <li role="presentation" class="detallesarchivosOt_listado"><a role="menuitem" tabindex="-1" href="#">Items Archivos</a></li>
                             <?php 
                                 if ($usu["finalizada"] == 1 or $usu["finalizada"] == -1){
                                     if ($_SESSION["rol_estado_ot"] == 1){
@@ -235,6 +236,11 @@
     $(".detallesOt_listado").click(function () {
         codigo = $(this).closest('tr').attr("codigo");
         window.location.href = "detalles.php?cod_ot=" + codigo;
+    });
+    
+    $(".detallesarchivosOt_listado").click(function () {
+        codigo = $(this).closest('tr').attr("codigo");
+        window.location.href = "busquedas.php?cod_ot=" + codigo;
     });
     
     $(".filesOt_listado").click(function () {
