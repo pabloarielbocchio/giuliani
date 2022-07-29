@@ -15,8 +15,8 @@ session_start();
         <select id="sectores" class="form-control asistencia" style="width: 65%;display: inline-block;vertical-align: middle; font-size: 11px; height: auto; margin-top: -15px;">
             <?php 
                 echo '<option class="" value=""></option>';
-                foreach ($sectores as $aux){
-                    echo '<option class="" value="' . $aux["sector"] . '">' . $aux["sector"] . '</option>';
+                foreach ($destinos as $aux){
+                    echo '<option class="" value="' . $aux["codigo"] . '">' . $aux["descripcion"] . '</option>';
                 }
             ?>
         </select>

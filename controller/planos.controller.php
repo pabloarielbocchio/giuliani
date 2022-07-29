@@ -59,7 +59,13 @@ class PlanosController {
         
         $_SESSION['sector'] = $sector;
         
+        $destinos = $this->getDestinos();
+        
         $devuelve = $this->conn->getRegistrosFiltro($orderby, $sentido, $registros, $pagina, $busqueda);
+
+        $registros = $devuelve;  
+
+        /*
                 
         $prod_a = $this->getProductosA();
         $prod_b = $this->getProductosB();
@@ -154,7 +160,7 @@ class PlanosController {
                 }
             }
         }
-
+        */
         
         $_SESSION['registros'] = $registros;
 
@@ -209,6 +215,11 @@ class PlanosController {
     
     public function getSectores() {
         $devuelve = $this->conn->getSectores();        
+        return $devuelve;
+    }
+    
+    public function getDestinos() {
+        $devuelve = $this->conn->getDestinos();        
         return $devuelve;
     }
     

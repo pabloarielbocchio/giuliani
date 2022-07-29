@@ -8,7 +8,8 @@ session_start();
 
 include $_SERVER['DOCUMENT_ROOT'] . "/Giuliani/controller/planos.controller.php";
 $controlador = PlanosController::singleton_planos();
-$sectores = $controlador->getSectores();
+//$sectores = $controlador->getSectores();
+$destinos = $controlador->getDestinos();
 
 $_SESSION["totales"] = $controlador->getCountPlanos();
 
