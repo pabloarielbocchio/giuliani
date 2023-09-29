@@ -526,6 +526,22 @@ class IndexModel {
         }
     }
     
+    public function getArchivo($archivo_id){
+        try {
+            $sql = "SELECT * FROM archivos where codigo = " . $archivo_id . ";";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll(PDO::FETCH_ASSOC);
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+    }
+    
     public function getTextoInicio(){
         try {
             $sql = "SELECT * FROM utils where descripcion = 'texto_inicio';";

@@ -137,4 +137,8 @@ class IndexController {
     public function getTextoInicio(){
         return $this->conn->getTextoInicio()[0]["valor"];
     }
+
+    public function getArchivo($archivo_id){
+        return $this->conn->getArchivo($archivo_id)[0];
+    }
 }

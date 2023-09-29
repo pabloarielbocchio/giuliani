@@ -136,6 +136,7 @@ $codigo1 = intval($_SESSION['ot']);
                                 <div class="opciones" style="margin-top: -6px">Opciones <span class="caret"></span></div>
                             </button>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="menu">
+                                <li role="presentation" class="ver"><a role="menuitem" tabindex="-1" href="#">Ver</a></li>
                                 <li role="presentation" class="descargar"><a role="menuitem" tabindex="-1" href="#">Descargar</a></li>
                                 <?php if ($usu["nuevo"] == 1) {  ?>
                                     <li role="presentation" class="eliminar opc_eliminar"><a role="menuitem" tabindex="-1" href="#">Eliminar</a></li>
@@ -242,6 +243,17 @@ $codigo1 = intval($_SESSION['ot']);
     //         alert(element["descripcion"]);
     //     });
     // })
+    
+    $(".ver").click(function () {
+        codigo = $(this).closest('tr').attr("codigo");                        
+        console.log(codigo);
+        var win = window.open('pdf.php?archivo='+codigo, '_blank');
+        if (win) {
+            win.focus();
+        } else {
+            alert('Please allow popups for this website');
+        }
+    });
 
     $(".descargar").click(function() {
         codigo = $(this).closest('tr').attr("codigo");

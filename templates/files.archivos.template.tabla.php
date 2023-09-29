@@ -122,6 +122,7 @@ thead th{
                                         <div class="opciones" style="margin-top: -6px">Opciones <span class="caret"></span></div>
                                     </button>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="menu">
+                                        <li role="presentation" class="ver"><a role="menuitem" tabindex="-1" href="#">Ver</a></li>
                                         <li role="presentation" class="descargar"><a role="menuitem" tabindex="-1" href="#">Descargar</a></li>
                                     </ul>
                                 </div>
@@ -178,6 +179,17 @@ thead th{
 </div>
 
 <script>
+    $(".ver").click(function () {
+        codigo = $(this).closest('tr').attr("codigo");                        
+        console.log(codigo);
+        var win = window.open('pdf.php?archivo='+codigo, '_blank');
+        if (win) {
+            win.focus();
+        } else {
+            alert('Please allow popups for this website');
+        }
+    });
+
     $(".descargar").click(function () {
         codigo = $(this).closest('tr').attr("codigo");
         ruta = $(this).closest('tr').attr("ruta");
