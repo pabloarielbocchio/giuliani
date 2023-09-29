@@ -19,6 +19,7 @@ $(document).on({
 });
 
 $('#select_ot').change(function () {
+    
     window.location.href = "ot_archivos.php?cod_ot=" + $("#select_ot").val();
 });
 

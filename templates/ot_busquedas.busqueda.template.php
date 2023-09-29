@@ -1,3 +1,4 @@
+
 <table id="tabla" cantidad_total="<?php echo count($registros); ?>" finalizada="<?php echo intval($ot_header["finalizada"]); ?>" namefile="Ot_detalles" totales="<?php echo $_SESSION["totales"]; ?>" registros="<?php echo $_SESSION['cant_reg']; ?>" pagina="<?php $_SESSION['pagina']; ?>" class="table table-striped table-hover" mes="<?php echo $mes; ?>" anio="<?php echo $anio; ?>" dia="<?php echo $dia; ?>" opcion="<?php echo $opcion; ?>"> 
     <thead>
         <tr class="row " style="background-color: transparent;">
@@ -6,6 +7,7 @@
             <th class="text-center ordena" orderby="cantidad" sentido="asc">Cantidad</th>
             <th class="text-left ordena" orderby="observaciones" sentido="asc">Observaciones</th>
             <th class="text-center noExl">Acciones</th>
+            
         </tr>
     </thead>
     <tbody id="body">       
@@ -63,7 +65,7 @@
                             </div>
                         </td>
                         <?php 
-                            /*foreach ($prods as $prod) { 
+                            foreach ($prods as $prod) { 
                                 if ($prod["ot_detalle_id"] != $usu["codigo"]){
                                     continue;
                                 }
@@ -97,8 +99,8 @@
                                             <div class="opciones" style="margin-top: -6px">Opciones <span class="caret"></span></div>
                                         </button>
                                         <ul class="dropdown-menu" role="menu" aria-labelledby="menu">
-                                            <!--<li role="presentation" class="editprod_detalle"><a role="menuitem" tabindex="-1" href="#">Editar</a></li>
-                                            <li class="divider"></li>-->
+                                            <li role="presentation" class="editprod_detalle"><a role="menuitem" tabindex="-1" href="#">Editar</a></li>
+                                            <li class="divider"></li>
                                             <?php if ($prod["standar"] == 1){?>
                                                 <li role="presentation" class="configprod_archivo"><a role="menuitem" tabindex="-1" href="#">Configuracion</a></li>
                                             
@@ -116,7 +118,7 @@
                                     </div>
                                 </td>
                             </tr>
-                        <?php } */ ?>
+                        <?php }  ?>
                     </tr>
                     <?php foreach ($sect["archivos"][$usu["codigo"]] as $aux) { ?>
                         <tr class="row">
@@ -354,7 +356,7 @@
     
     $(".configprod_archivo").click(function () {
         codigo = $(this).closest('tr').attr("codigo");
-        window.location.href = "ot_detalle_standar_view.php?opc="+codigo;
+        window.location.href = "ot_detalle_standar_view.php?";
     });
 
     var finalizada = $("#tabla").attr("finalizada");

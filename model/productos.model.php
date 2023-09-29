@@ -1163,5 +1163,23 @@ class ProductosModel {
             return $error;
         }
     }
+    public function getOtsportada(){
+        try {
+            $sql = "SELECT *,
+                        CAST(nro_serie AS UNSIGNED) serie,
+                        concat('#', nro_serie, ': ', cliente, ' - ', fecha) as descripcion
+                    FROM orden_trabajos ORDER BY serie desc;";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll();
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+    }
 }	
 ?>

@@ -122,7 +122,7 @@ class Ot_detallesModel {
                         (select abrev from estados s where s.codigo = ote.estado_id) as estado,
                         (select descripcion from destinos s where s.codigo = ote.destino_id) as destino
                     FROM orden_trabajos_estados ote, orden_trabajos_produccion otp, orden_trabajos_detalles otd WHERE ote.ot_prod_id = otp.codigo and otd.orden_trabajo_id = " . intval($ot) . " and otp.ot_detalle_id = otd.codigo  ";
-        
+     
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {

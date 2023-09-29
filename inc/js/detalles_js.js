@@ -32,7 +32,11 @@ $('#dataRegister').on('shown.bs.modal', function () {
 });
 
 $('#select_ot').change(function () {
+
     window.location.href = "detalles.php?cod_ot=" + $("#select_ot").val();
+        var valor=('select_ot').val();
+  
+    
 });
 
 function getRegistros(orderby, sentido, registros, pagina, busqueda, objeto) {

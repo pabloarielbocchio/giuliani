@@ -184,7 +184,7 @@ class Ot_produccionsController {
             $ot_prod_estado_antes = $this->conn->getOt_produccionEstadoCode($code)[0];
             $devuelve = $this->conn->updateOt_produccionEstado($codigo, $atributo, $avance, $estado, $code, intval($ing_alcance), intval($ing_planos), $observaciones);    
         }
-        $destinos = $this->conn->getDestinos();
+     $destinos = $this->conn->getDestinos();
         $_estado = $this->conn->getEstado($estado)[0];
         if ($devuelve === 0){
             $otp = $this->conn->getOt_produccion($codigo)[0];

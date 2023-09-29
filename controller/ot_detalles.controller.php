@@ -229,7 +229,7 @@ class Ot_detallesController {
                         a.cod_prod_personalizado_id=pnp.codigo
                     )
         WHERE otp.ot_detalle_id = otd.codigo and otd.orden_trabajo_id = ot.codigo and ot.codigo = " . intval($ot);
-        $archivos = $this->conn->ejecutarSql($parte_sql);
+         $archivos = $this->conn->ejecutarSql($parte_sql);
         
         $registros = $devuelve;
 
@@ -519,9 +519,12 @@ class Ot_detallesController {
     }
     public function formatNumber($prod){
         $prod["numero"] = $prod["codigo"];
+
+        
         while (strlen($prod["numero"]) < 5 ){
             $prod["numero"] = "0" . $prod["numero"];
         }
+   //echo $prod["codigo"];
         return $prod;
     }
     

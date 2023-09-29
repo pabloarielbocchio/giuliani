@@ -70,6 +70,6 @@
     $(".download").click(function () {
         archivo = $(this).attr("descarga");
         nombre = $(this).attr("nombre");
-        descargarArchivo(archivo, nombre);
+       descargarArchivo (archivo, nombre);
     });
 </script>

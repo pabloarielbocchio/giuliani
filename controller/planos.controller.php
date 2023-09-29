@@ -47,7 +47,7 @@ class PlanosController {
     
     public function getRegistrosFiltro($orderby, $sentido, $registros, $pagina, $busqueda, $sector){
         
-        $_SESSION["pagina"] = $pagina;
+       /* $_SESSION["pagina"] = $pagina;
         
         $_SESSION["cant_reg"] = $registros;
         
@@ -64,10 +64,12 @@ class PlanosController {
         $devuelve = $this->conn->getRegistrosFiltro($orderby, $sentido, $registros, $pagina, $busqueda);
 
         $registros = $devuelve;  
-
-        /*
+        if($registros == null){
+            echo "esta vacio";
+        }*/
+        
                 
-        $prod_a = $this->getProductosA();
+       /* $prod_a = $this->getProductosA();
         $prod_b = $this->getProductosB();
         $prod_c = $this->getProductosC();
         $prod_d = $this->getProductosD();
@@ -159,12 +161,12 @@ class PlanosController {
                     $registros[$aux["codigo"]] = $aux;
                 }
             }
-        }
-        */
+        }*/
         
-        $_SESSION['registros'] = $registros;
-
-        include $_SERVER['DOCUMENT_ROOT']."/Giuliani/templates/planos.busqueda.template.php";
+        
+        /*$_SESSION['registros'] = $registros;
+      
+        include $_SERVER['DOCUMENT_ROOT']."/Giuliani/templates/planos.busqueda.template.php";*/
         
     }
     

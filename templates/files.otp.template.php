@@ -1,17 +1,40 @@
+<?php
+    if (isset($_GET["codigo"])) {
+        $codigo = $_GET["codigo"];
 
+     //   $codigoDetalle = $_GET["codigoDetalle"];
+    }
+    $codigo1=intval($_SESSION['ot']);
+
+?>
 <link href="inspinia/css/plugins/dropzone/dropzone.css" rel="stylesheet">	
 <legend>
-    <?php 
+    <?php
+        $_SESSION["valorSeleccion"]=$otp["standar"]; 
         if ($otp["standar"] == 1) {
+           
+            $_SESSION["valorCodigoPP"]=$otp["codigo"];
+            
             echo $otp["codigo"] ? "#" . $otp["codigo"] . " - " : "";
             echo $otp["prod_standar"] ;
         } else {
+             
+            $_SESSION["valorCodigoPP"]=$otp["codigo"];
             echo $otp["codigo"] ? "#" . $otp["codigo"] . " - " : "";
             echo $otp["prod_personalizado"] ;
         }
     ?>
 </legend>
+  
+<!-- Aqui agregue un boton de portada --> 
+<div style="margin-left: 80%;">
+    <button style="background-color: orangered ; color: white;font-weight: bold; width: 100px; border: transparent; border-radius: 5px; vertical-align: middle;" type="submit" name="btnPortada" id="btnPortada">PORTADA</button>
 
+<button style="background-color: orangered ; color: white;font-weight: bold; width: 100px; border: transparent; border-radius: 5px; vertical-align: middle;" type="submit" name="btnDescargar" id="btnDescargar">DESCARGAR</button> 
+</div>
+
+
+  
 <div class="row" >  
     <?php if ($readonly == 1) { ?>
         <div class="row" >
@@ -21,12 +44,13 @@
         </div> 
     <?php } ?>
     <fieldset>
+
         <div class="row" style="display: none;">
             <div id="cont_archivos" class="col-md-12">          
 
             </div>
         </div>              
-        <div class="row" style="margin-top: 10px; <?php if ($readonly == 1 or $otp["standar"] == 1) { echo 'display: none; '; } ?>">
+        <div class="row" style="margin-top: 10px; <?php if ($readonly == 1 or $otp["standar"] == 1 ) { echo 'display: none; '; } ?>">
             <div class="col-md-12">
                 <form action="subir_otp.php" class="dropzone" id="formdropZone">
                     <input type="text" class="form-control hidden" id="otp" name="otp" value="<?php echo $opc; ?>" />
@@ -49,6 +73,7 @@
 <script src="inspinia/js/plugins/dropzone/dropzone.js"></script>
 
 <script>
+    
     Dropzone.autoDiscover = false;
     var myDropzone = new Dropzone("#formdropZone", { url: "subir_otp.php"});        
     myDropzone.on("addedfile", function(file) {

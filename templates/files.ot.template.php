@@ -19,6 +19,7 @@
         </div>         
     <?php } ?>      
     <fieldset>
+   
         <div class="row" style="display: none;">
             <div id="cont_archivos" class="col-md-12">          
 

@@ -33,6 +33,7 @@ $('#dataRegister').on('shown.bs.modal', function () {
 
 $('#select_ot').change(function () {
     window.location.href = "busquedas.php?cod_ot=" + $("#select_ot").val();
+    
 });
 
 function getRegistros(orderby, sentido, registros, pagina, busqueda, objeto) {

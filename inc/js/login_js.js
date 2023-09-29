@@ -22,7 +22,7 @@ $("#ingresar").click(function () {
                 window.location.href = "index.php";
             } else {
                 if (parseInt(datos) == datos) { 
-                    alert("Verifique usuario y contraseña!!!");
+                    alert("Verifique usuario y contraseña.");
                 } else {
                     alert("ERROR index: " + datos);
                 }

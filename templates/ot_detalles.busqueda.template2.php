@@ -1,3 +1,4 @@
+
 <table id="tabla" namefile="Ot_detalles" totales="<?php echo $_SESSION["totales"]; ?>" registros="<?php echo $_SESSION['cant_reg']; ?>" pagina="<?php $_SESSION['pagina']; ?>" class="table table-striped table-hover" mes="<?php echo $mes; ?>" anio="<?php echo $anio; ?>" dia="<?php echo $dia; ?>" opcion="<?php echo $opcion; ?>"> 
     <thead>
         <tr class="row " style="background-color: transparent;">
@@ -65,8 +66,8 @@
                                     <div class="opciones" style="margin-top: -6px">Opciones <span class="caret"></span></div>
                                 </button>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="menu">
-                                    <!--<li role="presentation" class="editprod_detalle"><a role="menuitem" tabindex="-1" href="#">Editar</a></li>
-                                    <li class="divider"></li>-->
+                                    <li role="presentation" class="editprod_detalle"><a role="menuitem" tabindex="-1" href="#">Editar</a></li>
+                                    <li class="divider"></li>
                                     <li role="presentation" class="deleteprod_detalle"><a role="menuitem" tabindex="-1" href="#">Eliminar</a></li>
                                 </ul>
                             </div>

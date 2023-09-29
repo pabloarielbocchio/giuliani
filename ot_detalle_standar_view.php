@@ -111,7 +111,7 @@ $cod_nivel_4 = intval($_SESSION['n4']);
     <div id="modulo_paginacion" style="display: none;">
         <?php include 'inc/html/paginacion_archivos.php'; ?>
     </div>
-
+  
     <div    id="div_tabla" 
             class="row col-lg-12" 
             style="float: none"
@@ -121,8 +121,9 @@ $cod_nivel_4 = intval($_SESSION['n4']);
             sentido="<?php echo $_SESSION['sentido']; ?>"
     >
         <!-- Devolución Ajax -->
+       
     </div>
-    
+ 
 </div>
 
 

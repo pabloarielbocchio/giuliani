@@ -91,6 +91,8 @@
             }
             if ($aux["cod_prod_personalizado_id"] == $prod_personalizado_id){
                 $registros[$aux["codigo"]] = $aux;
+
+                
             }
             if ($aux["cod_prod_estandar_id"] == $prod_estandar_id){
                 $registros[$aux["codigo"]] = $aux;
@@ -188,7 +190,7 @@
     }
 
     table.page_footer {width: 100%; border: none; background-color: white; padding: 2mm;border-collapse:collapse; border: none;}
-    }
+    
 
     #tabla3{
     border: 1px solid #80A93E;

@@ -491,7 +491,7 @@ class ProductosController {
                 $n4 = $opc;
             }
         }
-
+    
         $archivos = $this->conn->buscarArchivos($n1, $n2, $n3, $n4, $opc);
 
         foreach($archivos as $archivo){
@@ -509,7 +509,7 @@ class ProductosController {
                 $archivos[$k]["imagen"] = false;
             }
         }
-                                
+        $portada = $this->getOtsportada();               
         $registros = $devuelve;
         
         $_SESSION['registros'] = $registros;
@@ -609,7 +609,7 @@ class ProductosController {
     
     public function buscarArchivosTablaOtp($n1, $n2, $n3, $n4, $opc){        
         
-        $archivos = $this->conn->getArchivosOtp($opc);
+       $archivos = $this->conn->getArchivosOtp($opc);
         
         $prod_a = $this->getProductosA();
         $prod_b = $this->getProductosB();
@@ -619,10 +619,11 @@ class ProductosController {
         $prod_f = $this->getProductosF();
         $prod_p = $this->getProductosP();
         $prod_s = $this->getProductosS();
-
+      
         foreach($archivos as $pos => $archiv){
             if($archiv["cod_prod_nd"] > 0){
                 $desc_aux = "";
+                
                 if($archiv["cod_prod_nf"] > 0){                
                     foreach($prod_e as $au){
                         if ($au["codigo"] == $archiv["cod_prod_ne"]){
@@ -643,6 +644,7 @@ class ProductosController {
                     }
                 }
                 $archivos[$pos]["dependencia"] = "N4 - " . $desc;
+            
             }elseif ($archiv["cod_prod_nc"] > 0){
                 foreach($prod_c as $aux){
                     if ($aux["codigo"] == $archiv["cod_prod_nc"]){
@@ -651,6 +653,7 @@ class ProductosController {
                     }
                 }
                 $archivos[$pos]["dependencia"] = "N3 - " . $desc;
+
             }elseif ($archiv["cod_prod_nb"] > 0){
                 foreach($prod_b as $aux){
                     if ($aux["codigo"] == $archiv["cod_prod_nb"]){
@@ -659,6 +662,7 @@ class ProductosController {
                     }
                 }
                 $archivos[$pos]["dependencia"] = "N2 - " . $desc;
+           
             }elseif ($archiv["cod_prod_na"] > 0){
                 foreach($prod_a as $aux){
                     if ($aux["codigo"] == $archiv["cod_prod_na"]){
@@ -667,6 +671,7 @@ class ProductosController {
                     }
                 }
                 $archivos[$pos]["dependencia"] = "N1 - " . $desc;
+       
             }elseif ($archiv["cod_prod_estandar_id"] > 0){
                 foreach($prod_s as $aux){
                     if ($aux["codigo"] == $archiv["cod_prod_estandar_id"]){
@@ -676,6 +681,7 @@ class ProductosController {
                 }
                 $archivos[$pos]["nuevo"] = 1;
                 $archivos[$pos]["dependencia"] = "STD NEW - " . $desc;
+      
             }elseif ($archiv["cod_prod_personalizado_id"] > 0){
                 foreach($prod_p as $aux){
                     if ($aux["codigo"] == $archiv["cod_prod_personalizado_id"]){
@@ -685,13 +691,14 @@ class ProductosController {
                 }
                 $archivos[$pos]["nuevo"] = 1;
                 $archivos[$pos]["dependencia"] = "CUSTOM - " . $desc;
+        
             }
         }
         $destinos = $this->getDestinos();
         $archivos_destinos = $this->getArchivosDestinos();
-
+        $_SESSION["archivos_datos"]=$archivos;
         include $_SERVER['DOCUMENT_ROOT']."/Giuliani/templates/files.archivos.tablaotp.php";
-        
+       // include $_SERVER['DOCUMENT_ROOT']."/Giuliani/PDF/portadapdf.php";
     }
         
     
@@ -1247,7 +1254,7 @@ class ProductosController {
         $_SESSION["busqueda"] = $busqueda;                
         $_SESSION['orderby'] = $orderby;        
         $_SESSION['sentido'] = $sentido;
-        
+
         $archivos = $this->conn->getArchivosOt($opc);
 
         $otd = $this->conn->getOt($opc)[0];
@@ -1673,5 +1680,10 @@ class ProductosController {
         
         return $devuelve;
         
+    }
+    public function getOtsportada()
+    {
+        $devuelve=$this->conn->getOtsportada();
+        return $devuelve;
     }
 }

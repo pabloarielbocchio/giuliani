@@ -25,9 +25,9 @@
                         <button class="btn btn-sm btn-primary dropdown-toggle nuevo" id="menu" type="button" data-toggle="dropdown"  style="font-size: 10px;height: 15px; width: 100%;">
                             <div class="opciones" style="margin-top: -6px">Opciones <span class="caret"></span></div>
                         </button>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="menu">
+                        <!-- <ul class="dropdown-menu" role="menu" aria-labelledby="menu">
                             <li role="presentation" class="descargar"><a role="menuitem" tabindex="-1" href="#">Descargar</a></li>
-                        </ul>
+                        </ul> -->
                     </div>
                 </td>        
             </tr>

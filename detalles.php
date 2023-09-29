@@ -90,6 +90,7 @@ include 'inc/html/breadcrumb.php';
 
 if ($_GET["cod_ot"] > 0){
     $_SESSION['ot'] = $_GET["cod_ot"];
+
 }
 
 $cod_ot = intval($_SESSION['ot']);

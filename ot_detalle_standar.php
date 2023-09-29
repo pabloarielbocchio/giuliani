@@ -121,8 +121,9 @@ $cod_nivel_4 = intval($_SESSION['n4']);
             sentido="<?php echo $_SESSION['sentido']; ?>"
     >
         <!-- Devolución Ajax -->
+   
     </div>
-    
+
 </div>
 
 

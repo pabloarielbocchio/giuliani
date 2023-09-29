@@ -296,7 +296,7 @@ class UtilsModel {
                         mu.cod_menu = m.codigo and 
                         u.usuario = '" . $user . "' and 
                         u.password = '" . md5($pass) . "';";
-            $query = $this->conn->prepare($sql);
+			$query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
                 $result = $query->fetchAll(PDO::FETCH_ASSOC);

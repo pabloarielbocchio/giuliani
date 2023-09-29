@@ -48,8 +48,8 @@ class PlanosModel {
     public function getRegistrosFiltro($orderby, $sentido, $registros, $pagina, $busqueda){
         try {
             $desde = ($pagina - 1) * $registros;
-            //$sql = "SELECT otp.* FROM orden_trabajos_detalles otd, orden_trabajos_produccion otp WHERE otp.ot_detalle_id = otd.codigo and otd.sector = '" . $_SESSION["sector"] . "' ORDER BY otp." . $orderby . " " . $sentido;
-            $sql = "SELECT ad.*, a.descripcion, a.ruta, a.fecha_hora, a.activo FROM archivo_destinos ad, archivos a WHERE ad.archivo_id = a.codigo and ad.destino_id = " . intval($_SESSION["sector"]) . " ORDER BY a.descripcion";
+            /*$sql = "SELECT otp.* FROM orden_trabajos_detalles otd, orden_trabajos_produccion otp WHERE otp.ot_detalle_id = otd.codigo and otd.sector = '" . $_SESSION["sector"] . "' ORDER BY otp." . $orderby . " " . $sentido;*/
+            $sql = "SELECT ad.*, a.descripcion, a.ruta, a.fecha_hora, a.activo FROM archivo_destinos ad, archivos a WHERE ad.archivo_id = a.codigo  ORDER BY a.descripcion";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {

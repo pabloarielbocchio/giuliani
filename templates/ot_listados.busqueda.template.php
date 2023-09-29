@@ -70,6 +70,7 @@
             </tr>
 <?php } ?>
     </tbody>
+ ;
 </table>
 
 <div class="col-lg-2" style="float: left;text-align: left;margin-top: 8px; display: none;" id='leyenda_paginacion_aux'>
