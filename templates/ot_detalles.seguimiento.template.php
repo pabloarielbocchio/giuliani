@@ -1,5 +1,3 @@
-
-
 <style>
 
 .divespecial {
@@ -91,9 +89,8 @@ thead th{
 
 </style>
 
-
 <div class="divespecial m-t-lg">
-  <table id="tabla" namefile="Ot_detalles" class="table table-striped table-hover" >
+  <table id="tabla" namefile="Ot_detalles" class="table table-striped table-hover" rol_administrador="<?php echo intval($_SESSION["rol_administrador"]); ?>" >
     <thead>
         <tr class="row ">
             <th class="text-left nombre" orderby="item_vendido" sentido="asc"> </th>
@@ -237,6 +234,7 @@ thead th{
                                     </td>   
                                     <?php 
                                     
+                                    // Aca comienzan los cartelitos APRO
                                     $aprob_calidad = 0;
                                     foreach($destinos as $destino) {      
                                         foreach($estados as $estado) {  
@@ -291,27 +289,27 @@ thead th{
                                                     continue;
                                                 }                                                
                                                 $obs = $estado["observaciones"];
-                                                switch($estado["estado_id"]){
+                                                switch($estado["estado_id"]){ 
                                                     case 1:
                                                         $estado_html = '<span modificable="' . $modificable . '"  style="background-color: #ea4d3b;" codigo="'.$estado["codigo"].'" userrol="4" destino="'.$estado["destino_id"].'" estado="'.$estado["estado_id"].'" class="'.$estado_editable.' label label-warning m-t-lg">'.$estado["estado"].'</span>';
                                                         break;
                                                     case 2:
-                                                        $estado_html = '<span modificable="' . $modificable . '"  style="background-color: #ff899f;" codigo="'.$estado["codigo"].'" userrol="4" destino="'.$estado["destino_id"].'" class="'.$estado_editable.' label label-info m-t-lg">'.$estado["estado"].' '.number_format($estado["avance"],0).'%</span>';
+                                                        $estado_html = '<span modificable="' . $modificable . '"  style="background-color: #ff899f;" codigo="'.$estado["codigo"].'" userrol="4" destino="'.$estado["destino_id"].'" estado="'.$estado["estado_id"].'" class="'.$estado_editable.' label label-info m-t-lg">'.$estado["estado"].' '.number_format($estado["avance"],0).'%</span>';
                                                         break;
                                                     case 3:
-                                                        $estado_html = '<span modificable="' . $modificable . '"  style="background-color: #3a3d5c;" codigo="'.$estado["codigo"].'" userrol="4" destino="'.$estado["destino_id"].'" class="'.$estado_editable.' label label-success m-t-lg">'.$estado["estado"].'</span>';
+                                                        $estado_html = '<span modificable="' . $modificable . '"  style="background-color: #3a3d5c;" codigo="'.$estado["codigo"].'" userrol="4" destino="'.$estado["destino_id"].'" estado="'.$estado["estado_id"].'" class="'.$estado_editable.' label label-success m-t-lg">'.$estado["estado"].'</span>';
                                                         break;
                                                     case 5:
-                                                        $estado_html = '<span modificable="' . $modificable . '"  style="background-color: #3a3d5c;" codigo="'.$estado["codigo"].'" userrol="4" destino="'.$estado["destino_id"].'" class="'.$estado_editable.' label label-success m-t-lg">'.$estado["estado"].'</span>';
+                                                        $estado_html = '<span modificable="' . $modificable . '"  style="background-color: #3a3d5c;" codigo="'.$estado["codigo"].'" userrol="4" destino="'.$estado["destino_id"].'" estado="'.$estado["estado_id"].'" class="'.$estado_editable.' label label-success m-t-lg">'.$estado["estado"].'</span>';
                                                         break;
                                                     case 4:
-                                                        $estado_html = '<span modificable="' . $modificable . '"  style="background-color: #7583a0;" codigo="'.$estado["codigo"].'" userrol="4" destino="'.$estado["destino_id"].'" class="'.$estado_editable.' label label-danger m-t-lg">'.$estado["estado"].'</span>';
+                                                        $estado_html = '<span modificable="' . $modificable . '"  style="background-color: #7583a0;" codigo="'.$estado["codigo"].'" userrol="4" destino="'.$estado["destino_id"].'" estado="'.$estado["estado_id"].'" class="'.$estado_editable.' label label-danger m-t-lg">'.$estado["estado"].'</span>';
                                                         break;
                                                 } 
                                             } 
                                         ?>
                                         <td 
-                                        data-toggle="tooltip" title="<?php echo $obs; ?> "
+                                        data-toggle="tooltip" title="<?php echo $obs; ?> "  estado="<?php echo $estado["estado_id"]; ?>"
                                         class="text-center" atributo="produccion" style="vertical-align: middle; "><?php echo $estado_html; ?></td>
                                     <?php } ?>
                                     
@@ -472,6 +470,7 @@ thead th{
             return false;
         }
 
+        var estado_id = $(this).attr("estado");   
         var estado = $(this).attr("estado");
         destino = $(this).attr("destino");
         var userrol = $(this).attr("userrol");
@@ -501,9 +500,18 @@ thead th{
             atributo: atributo,
             codigo: codigo,
             destino: destino,
+            estado_id: estado_id,
             code: code
         }
+        var rol_administrador = $("#tabla").attr("rol_administrador");
+
+        console.log(rol_administrador);
+        console.log(estado_id);
         console.log(parametros);
+        if (estado_id == 3 && rol_administrador != 1) {
+            console.log("entra");
+            return false;
+        }
         $.ajax({
             type: "POST",
             url: 'controller/ot_produccions.controller.php',
