@@ -214,7 +214,7 @@ thead th{
                                                     <?php if ($prod["standar"] == 1){?>
                                                         <li role="presentation" class="configprod_archivo"><a role="menuitem" tabindex="-1" href="#">Configuracion</a></li>
                                                     <?php } ?>
-                                                    <li role="presentation" class="editprod_archivo"><a role="menuitem" tabindex="-1" href="#"></a></li>
+                                                    <li role="presentation" class="editprod_archivo"><a role="menuitem" tabindex="-1" href="#">Archivos</a></li>
                                                     <li role="presentation" class="editprod_detalle"><a role="menuitem" tabindex="-1" href="#">LOG Eventos</a></li>
                                                     <?php if ($_SESSION["rol"] == 1) { ?>
                                                         <li role="presentation" class="restablecerprod_detalle"><a role="menuitem" tabindex="-1" href="#">Restablecer</a></li>

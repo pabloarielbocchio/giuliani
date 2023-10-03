@@ -323,7 +323,7 @@ if (isset($_GET["codigo"])) {
                     </tr>
                     <tr>
                         <th style="width:80%;font-size: 0.85rem;font-weight: 700; color: black;text-align: right;">FECHA IMPRESIÓN:</th>
-                        <th style="width:20%;font-size: 0.85rem;color: black;text-align: left;"><?php echo $fecha_ot_entrega = date("d/m/Y", strtotime($otFecha_entrega)); ?></th>
+                        <th style="width:20%;font-size: 0.85rem;color: black;text-align: left;"><?php echo date("d/m/Y"); ?></th>
                     </tr>
 
                 </table>
@@ -339,7 +339,7 @@ if (isset($_GET["codigo"])) {
                             IMPRIMIÓ:
                         </th>
                         <th style="width: 80%;font-size: 0.85rem;color: black;">
-                            <?php echo $otUsuario; ?>
+                            <?php echo $_SESSION["usuario"]; ?>
                         </th>
                     </tr>
                 </table>

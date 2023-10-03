@@ -120,14 +120,13 @@ $codigo1 = intval($_SESSION['ot']);
             <?php
              
             foreach ($archivos as $usu) {
-             
                 if (!($_SESSION["rol_editar_files_otp"])) {
                     if ($usu["activo"] != 1) {
                         continue;
                     }
                 }
             ?>
-                <tr class="row" otp="<?php echo $usu["ot_produccion_id"]; ?>" otd="<?php echo $usu["ot_detalle_id"]; ?>" codigo="<?php echo $usu["codigo"]; ?>" ruta="<?php echo $usu["ruta"]; ?>" archivo="<?php echo $usu["archivo"]; ?>" nuevo="<?php echo $usu["nuevo"]; ?>">
+                <tr class="row" otp="<?php echo $usu["ot_produccion_id"]; ?>" otd="<?php echo $usu["ot_detalle_id"]; ?>" codigo="<?php echo $usu["codigo"]; ?>" ruta="<?php echo $usu["ruta"]; ?>" archivo="<?php echo $usu["archivo"]; ?>" archivo_id="<?php echo $usu["archivo_id"]; ?>" nuevo="<?php echo $usu["nuevo"]; ?>">
                     <th class="text-left nombre" style="vertical-align: middle;"><?php echo $usu["prefijo"] .$usu["archivo"]; ?></th>
 
                     <td class="text-left" style="vertical-align: middle;">
@@ -245,7 +244,7 @@ $codigo1 = intval($_SESSION['ot']);
     // })
     
     $(".ver").click(function () {
-        codigo = $(this).closest('tr').attr("codigo");                        
+        codigo = $(this).closest('tr').attr("archivo_id");                        
         console.log(codigo);
         var win = window.open('pdf.php?archivo='+codigo, '_blank');
         if (win) {
