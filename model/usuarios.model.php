@@ -48,7 +48,7 @@ class UsuariosModel {
     public function getRegistrosFiltro($orderby, $sentido, $registros, $pagina, $busqueda){
         try {
             $desde = ($pagina - 1) * $registros;
-            $sql = "SELECT * FROM usuarios WHERE usuario like '%" . $busqueda . "%' ORDER BY " . $orderby . " " . $sentido;
+            $sql = "SELECT * FROM usuarios WHERE fecha_baja is null and usuario like '%" . $busqueda . "%' ORDER BY " . $orderby . " " . $sentido;
             if (intval($registros) > 0){
                 $sql_limit = $sql . " limit " . $desde . "," . $registros . ";";
             } else {
@@ -77,7 +77,7 @@ class UsuariosModel {
     public function deleteUsuario($codigo){
         try {
             $this->conn->beginTransaction();
-            $stmt = $this->conn->prepare('DELETE from usuarios where codigo = ?');
+            $stmt = $this->conn->prepare('update usuarios set fecha_baja = now() where codigo = ?');
             $stmt->bindValue(1, $codigo, PDO::PARAM_INT);
             if($stmt->execute()){
                 $this->conn->commit();

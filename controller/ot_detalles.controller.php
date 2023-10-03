@@ -518,6 +518,13 @@ class Ot_detallesController {
         
     }
     
+    public function getUsuarios() {
+        $devuelve = $this->conn->getUsuarios();
+        
+        return $devuelve;
+        
+    }
+    
     public function getDestinos() {
         $devuelve = $this->conn->getDestinos();
         

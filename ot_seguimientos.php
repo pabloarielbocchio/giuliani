@@ -11,6 +11,7 @@ $controlador = Ot_detallesController::singleton_ot_detalles();
 $ots = $controlador->getOts();
 $prioridades = $controlador->getPrioridades();
 $motivos = $controlador->getMotivos();
+$usuarios = $controlador->getUsuarios();
 $estados = $controlador->getEstados();
 $sectores = $controlador->getSectores();
 $secciones = $controlador->getSecciones();
@@ -149,11 +150,19 @@ $cod_ot = intval($_SESSION['cod_ot']);
                         </div>
                         <div class="form-group div_avance">
                             <label for="nombre0" class="control-label ">Observaciones:</label>
-                            <input type="text" class="form-control" id="observacionesUpdate" name="observacionesUpdate" required maxlength="100">
+                            <input type="text" class="form-control" id="observacionesUpdate" name="observacionesUpdate" maxlength="100">
                         </div>
                         <div class="form-group div_quien div_cambio_apro">
-                            <label for="nombre0" class="control-label ">Quien Pide?:</label>
-                            <input type="text" class="form-control" id="quienUpdate" name="quienUpdate"  maxlength="100">
+                            <label for="nombre0" class="control-label ">Solicita:</label>
+                            <select id="quienUpdate" style="width: 100%;" class="form-control" name="quienUpdate" >
+                                <?php 
+                                    foreach ($usuarios as $aux) { 
+                                ?>
+                                        <option class="opcion_estado" estado="<?php echo $aux["codigo"]; ?>" value="<?php echo $aux["codigo"]; ?>" ><?php echo $aux["usuario"]; ?></option>
+                                <?php 
+                                    }
+                                ?>
+                            </select>
                         </div>
                         <div class="form-group div_motivo div_cambio_apro"> 
                             <label for="nombre0" class="control-label">Motivo:</label>
