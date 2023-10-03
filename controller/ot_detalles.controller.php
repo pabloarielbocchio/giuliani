@@ -511,6 +511,13 @@ class Ot_detallesController {
         
     }
     
+    public function getMotivos() {
+        $devuelve = $this->conn->getMotivos();
+        
+        return $devuelve;
+        
+    }
+    
     public function getDestinos() {
         $devuelve = $this->conn->getDestinos();
         

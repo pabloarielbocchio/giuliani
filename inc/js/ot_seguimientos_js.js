@@ -3,6 +3,7 @@ var codigo;
 var code;
 var atributo;
 var destino;
+var estado_id;
 
 $(document).ready(function () {
     $("#busqueda-icono").click();
@@ -127,7 +128,7 @@ function getRegistros(orderby, sentido, registros, pagina, busqueda, objeto) {
 $("#actualidarDatosOt_produccion").submit(function (event) {
     if (!requestSent) {
         requestSent = true;
-        var parametros = {
+        parametros = {
             funcion: "updateOt_produccionEstado",
             codigo: codigo,
             code: code,
@@ -137,7 +138,27 @@ $("#actualidarDatosOt_produccion").submit(function (event) {
             observaciones: $("#observacionesUpdate").val(),
             estado: $("#estadoUpdate").val(),
             ing_alcance: $("#alcanceUpdate").val(),
-            ing_planos: $("#planoUpdate").val()
+            ing_planos: $("#planoUpdate").val(),
+            quien: '',
+            motivo: 0,
+            descripcion: ''
+        }
+        if (estado_id == 3) {
+            parametros = {
+                funcion: "updateOt_produccionEstado",
+                codigo: codigo,
+                code: code,
+                atributo: atributo,
+                destino: destino,
+                avance: $("#avanceUpdate").val(),
+                observaciones: $("#observacionesUpdate").val(),
+                estado: $("#estadoUpdate").val(),
+                ing_alcance: $("#alcanceUpdate").val(),
+                ing_planos: $("#planoUpdate").val(),
+                quien: $("#quienUpdate").val(),
+                motivo: $("#motivoUpdate").val(),
+                descripcion: $("#descripcionUpdate").val()
+            }
         }
         $.ajax({
             type: "POST",

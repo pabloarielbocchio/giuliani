@@ -470,7 +470,7 @@ thead th{
             return false;
         }
 
-        var estado_id = $(this).attr("estado");   
+        estado_id = $(this).attr("estado");   
         var estado = $(this).attr("estado");
         destino = $(this).attr("destino");
         var userrol = $(this).attr("userrol");
@@ -508,6 +508,11 @@ thead th{
         console.log(rol_administrador);
         console.log(estado_id);
         console.log(parametros);
+        $(".div_cambio_apro").css("display","none");
+        //Cambio de estado de aprobado
+        if (estado_id == 3){
+            $(".div_cambio_apro").css("display","block");
+        }
         if (estado_id == 3 && rol_administrador != 1) {
             console.log("entra");
             return false;

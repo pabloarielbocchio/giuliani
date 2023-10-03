@@ -648,6 +648,26 @@ class Ot_detallesModel {
         
     }    
     
+    public function getMotivos(){
+        try {
+            $sql = "select 
+                        *
+                    from 
+                        motivos
+                    order by
+                        descripcion
+                    ;";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+            return $error;
+        }
+        
+    }    
+    
     public function getArchivos(){
         try {
             $sql = "select 

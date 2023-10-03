@@ -61,7 +61,10 @@ function updateOt_produccionEstado() {
                                                 $_POST['ing_alcance'],
                                                 $_POST['ing_planos'],
                                                 $_POST['destino'],
-                                                $_POST['observaciones']
+                                                $_POST['observaciones'],
+                                                $_POST['quien'],
+                                                $_POST['motivo'],
+                                                $_POST['descripcion']
             );
 }
 
@@ -174,15 +177,15 @@ class Ot_produccionsController {
         return $devuelve;        
     }
     
-    public function updateOt_produccionEstado($codigo, $atributo, $avance, $estado, $code, $ing_alcance, $ing_planos, $destino, $observaciones) { //aca quede
+    public function updateOt_produccionEstado($codigo, $atributo, $avance, $estado, $code, $ing_alcance, $ing_planos, $destino, $observaciones, $quien, $motivo, $descripcion) { //aca quede
         if ($code == 0){ 
-            $devuelve = $this->conn->insertOt_produccionEstado($codigo, $atributo, $avance, $estado, $code, intval($ing_alcance), intval($ing_planos), $destino, $observaciones); 
+            $devuelve = $this->conn->insertOt_produccionEstado($codigo, $atributo, $avance, $estado, $code, intval($ing_alcance), intval($ing_planos), $destino, $observaciones, $quien, $motivo, $descripcion); 
             if ($devuelve === 0){
                 //$codigo = $this->conn->getLastOtProduccion()[0]["codigo"];
             }
         } else {
             $ot_prod_estado_antes = $this->conn->getOt_produccionEstadoCode($code)[0];
-            $devuelve = $this->conn->updateOt_produccionEstado($codigo, $atributo, $avance, $estado, $code, intval($ing_alcance), intval($ing_planos), $observaciones);    
+            $devuelve = $this->conn->updateOt_produccionEstado($codigo, $atributo, $avance, $estado, $code, intval($ing_alcance), intval($ing_planos), $observaciones, $quien, $motivo, $descripcion);    
         }
      $destinos = $this->conn->getDestinos();
         $_estado = $this->conn->getEstado($estado)[0];
@@ -195,7 +198,7 @@ class Ot_produccionsController {
                 if ($estado == 2){ // en proceso
                     $observaciones = "Actualizacion Estado OT Produccion (" . $_estado["descripcion"] . " - " . $avance . "%) " . $otp["prod_standar"] . $otp["prod_personalizado"];
                 }
-                $this->conn->addOt_evento($ult_detalle, $codigo, $evento, 0, $observaciones);
+                $this->conn->addOt_evento($ult_detalle, $codigo, $evento, 0, $observaciones, $quien, $motivo, $descripcion);
                 /* 
                     Aca hay que agregar que cuando se hace el cambio, se verifica todas las OTP del OTD, 
                     y si hay al menos uno que no es EN COLA => ENCURSO; 
