@@ -75,4 +75,9 @@ class PortadaController{
         $archivos = $this->conn1->getarchivosOtp($opc);
         return $archivos;
     }
+    public function getOtp($opc)
+    {
+        $archivos = $this->conn1->getOtp($opc);
+        return $archivos;
+    }
 }   

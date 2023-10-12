@@ -7,8 +7,9 @@ if (isset($_GET["codigo"])) {
     $codigo = $_GET["codigo"];
     $arregloarchivos;
     $controlador2 = PortadaController::singleton_portada();
-    $devolverDetalle =  $controlador2->obtenerCampossectoressecciones($_SESSION["valorCodigoPP"], $_SESSION["valorSeleccion"]);
-    $devolverDetalleproducto = $controlador2->productoDetalle($_SESSION["valorCodigoPP"], $_SESSION["valorSeleccion"]);
+    $otp =  $controlador2->getOtp($_SESSION["valorCodigoPP"])[0];
+    $devolverDetalle =  $controlador2->obtenerCampossectoressecciones($otp["prod_personalizado_id"], $_SESSION["valorSeleccion"]);
+    $devolverDetalleproducto = $controlador2->productoDetalle($otp["prod_personalizado_id"], $_SESSION["valorSeleccion"]);
     $devuelve = $controlador2->obtenerCamposprimerosdetalles($codigo);
     foreach ($devolverDetalle as $devDetalle) {
         $seccion = $devDetalle["seccion"];
@@ -27,11 +28,10 @@ if (isset($_GET["codigo"])) {
         $cliente = $dev["cliente"];
         $otUsuario = $dev["usuario_m"];
         $otFecha_entrega = $dev["fecha_entrega"];
-
-        echo $client;
     }
     foreach ($devolverDetalleproducto as $devProd) {
         $id_prod = $devProd["codigo"];
+        $id_prod = $_SESSION["valorCodigoPP"];
         $descripcion = $devProd["descripcion"];
         $cantidad = $devProd["cantidad"];
     }

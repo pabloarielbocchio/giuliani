@@ -32,7 +32,8 @@ class Portada_Model
     public function obtenerCamposprimerosdetalles($ot)
     {
         try {
-            $sql = "SELECT usuario_m ,nro_serie,cliente, codigo , fecha_entrega FROM orden_trabajos  WHERE codigo='" . $ot . "';";
+            //$sql = " SELECT usuario_m ,nro_serie,cliente, codigo , fecha_entrega FROM orden_trabajos  WHERE codigo='" . $ot . "';";
+            $sql = " SELECT ot.usuario_m ,ot.nro_serie,ot.cliente, ot.codigo , ot.fecha_entrega FROM orden_trabajos ot  WHERE ot.codigo='" . $ot . "';";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -212,6 +213,26 @@ class Portada_Model
                         (select descripcion from prioridades s where s.codigo = otp.prioridad_id) as prioridad
                     FROM orden_trabajos_produccion otp, orden_trabajos_detalles otd WHERE otd.orden_trabajo_id = " . intval($ot) . " and otp.ot_detalle_id = otd.codigo  ";
 
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll();
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+    }
+
+    public function getOtp($otp)
+    {
+        try {
+            // $desde = ($pagina - 1) * $registros;
+            $sql = "SELECT 
+                        otp.*
+                    FROM orden_trabajos_produccion otp WHERE otp.codigo = " . intval($otp) . "  ";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
