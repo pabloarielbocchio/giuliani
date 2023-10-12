@@ -88,7 +88,7 @@ thead th{
                     <tr class="row" 
                             otp="<?php echo $usu["ot_produccion_id"]; ?>" 
                             otd="<?php echo $usu["ot_detalle_id"]; ?>" 
-                            codigo="<?php echo $usu["codigo"]; ?>" 
+                            codigo="<?php echo $usu["cod_archivo"] ? $usu["cod_archivo"] : $usu["codigo"]; ?>" 
                             ruta="<?php echo $usu["ruta"]; ?>"
                             archivo="<?php echo $usu["archivo"]; ?>"
                             nuevo="<?php echo $usu["nuevo"]; ?>"
