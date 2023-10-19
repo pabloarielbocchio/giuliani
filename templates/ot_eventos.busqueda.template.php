@@ -1,18 +1,21 @@
 <table id="tabla" namefile="Ot_eventos" totales="<?php echo $_SESSION["totales"]; ?>" registros="<?php echo $_SESSION['cant_reg']; ?>" pagina="<?php $_SESSION['pagina']; ?>" class="table table-striped table-hover" mes="<?php echo $mes; ?>" anio="<?php echo $anio; ?>" dia="<?php echo $dia; ?>" opcion="<?php echo $opcion; ?>"> 
     <thead>
         <tr class="row " style="background-color: transparent;">
-            <th class="text-center ordena" orderby="orden_trabajo_id" sentido="asc">#OT Detail</th>
-            <th class="text-center ordena" orderby="orden_trabajo_id" sentido="asc">#OT Produccion</th>
-            <th class="text-center ordena" orderby="seccion" sentido="asc">Destino</th>
+            <!--<th class="text-center ordena" orderby="ot_id" sentido="asc">#OT Detail</th>
+            <th class="text-center ordena" orderby="ot_produccion_id" sentido="asc">#OT Produccion</th>
+            <th class="text-center ordena" orderby="seccion" sentido="asc">Destino</th>-->
+            <th class="text-center ordena" orderby="codigo" sentido="asc">ID</th>
             <th class="text-center ordena" orderby="sector" sentido="asc">Evento</th>
             <th class="text-left ordena" orderby="observaciones" sentido="asc">Observaciones</th>
-            <th class="text-center noExl">Acciones</th>
+            <th class="text-left ordena" orderby="usuario_m" sentido="asc">Usuario</th>
+            <th class="text-left ordena" orderby="fecha_m" sentido="asc">Fecha y Hora</th>
+            <!-- <th class="text-center noExl">Acciones</th> -->
         </tr>
     </thead>
     <tbody id="body">
         <?php foreach ($registros as $usu) { ?>
             <tr class="row" codigo="<?php echo $usu["codigo"]; ?>">
-                <td class="text-center" style="vertical-align: middle;">
+                <!--<td class="text-center" style="vertical-align: middle;">
                     <?php 
                         foreach ($ots_detalles as $r){
                             if ($r["codigo"] == $usu["ot_detalle_id"]){
@@ -30,13 +33,16 @@
                         }
                     ?>
                 </td>
-                <td class="text-center" style="vertical-align: middle;"><?php echo $usu["destino"]; ?></td>
+                <td class="text-center" style="vertical-align: middle;"><?php echo $usu["destino"]; ?></td>-->
+                <td class="text-center" style="vertical-align: middle;"><?php echo $usu["codigo"]; ?></td>
                 <td class="text-center" style="vertical-align: middle;"><?php echo $usu["evento"]; ?></td>
                 <td class="text-left" style="vertical-align: middle;"><?php echo $usu["observaciones"]; ?></td>
-                <td class="text-center noExl" style="vertical-align: middle;">
+                <td class="text-left" style="vertical-align: middle;"><?php echo $usu["usuario_m"]; ?></td>
+                <td class="text-left" style="vertical-align: middle;"><?php echo $usu["fecha_m"]; ?></td>
+                <!-- <td class="text-center noExl" style="vertical-align: middle;">
                     <div class="editOt_evento" style="float: left; margin-left: 10px;"><a href="#"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></div>
                     <div class="deleteOt_evento" style="float: right;margin-right: 10px;"><a href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></div>
-                </td>
+                </td> -->
             </tr>
 <?php } ?>
     </tbody>

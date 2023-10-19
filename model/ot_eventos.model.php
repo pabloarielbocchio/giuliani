@@ -52,7 +52,7 @@ class Ot_eventosModel {
                         otd.*,
                         (select descripcion from destinos s where s.codigo = otd.destino_id) as destino,
                         (select descripcion from eventos s where s.codigo = otd.evento_id) as evento
-                    FROM orden_trabajos_eventos otd WHERE (otd.observaciones like '%" . $busqueda . "%') ORDER BY " . $orderby . " " . $sentido;
+                    FROM orden_trabajos_eventos otd WHERE (otd.observaciones like '%" . $busqueda . "%')  ORDER BY " . $orderby . " " . $sentido;
             if (intval($registros) > 0){
                 $sql_limit = $sql . " limit " . $desde . "," . $registros . ";";
             } else {

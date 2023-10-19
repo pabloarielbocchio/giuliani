@@ -102,7 +102,7 @@ class Ot_eventosController {
                                 
         $registros = $devuelve;
         
-        $_SESSION['registros'] = $registros;
+        $_SESSION['registros'] = $registros; 
 
         include $_SERVER['DOCUMENT_ROOT']."/Giuliani/templates/ot_eventos.busqueda.template.php";
         

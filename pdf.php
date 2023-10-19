@@ -23,6 +23,11 @@ $archivo = $controlador->getArchivo($archivo_id);
 ?>
 
 <div class="text-center pdf-toolbar">
+    <div id="info" codigo="<?php echo $archivo["codigo"]; ?>" ruta="<?php echo $archivo["ruta"]; ?>" archivo="<?php echo $archivo["descripcion"]; ?>"></div>
+
+    <div style="margin-left: 80%;">
+        <button style="background-color: orangered ; color: white;font-weight: bold; width: 100px; border: transparent; border-radius: 5px; vertical-align: middle;" type="submit" name="btnDescargar" id="btnDescargar">DESCARGAR</button> 
+    </div>
 
     <div class="btn-group">
         <button id="prev" class="btn btn-white"><i class="fa fa-long-arrow-left"></i> <span class="hidden-xs">Previous</span></button>
@@ -209,5 +214,41 @@ PDFJS.getDocument(url).then(function (pdfDoc_) {
 
     // Initial/first page rendering
     renderPage(pageNum, scale);
+});
+
+$("#btnDescargar").click(function () {
+    codigo = $('#info').attr("codigo");
+    otp = $('#info').attr("otp");
+    otd = $('#info').attr("otd");
+    ruta = $('#info').attr("ruta");
+    archivo = $('#info').attr("archivo");
+    var parametros = {
+        funcion: "addOt_evento",
+        detalle: 0,
+        produccion: 0,
+        evento: 5,
+        destino: 0,
+        observaciones: "Descarga archivo " + archivo + " (" + ruta + ")"
+    }
+    $.ajax({
+        type: "POST",
+        url: 'controller/ot_eventos.controller.php',
+        data: parametros,
+        success: function (datos) {
+            if (parseInt(datos) == 0) {                            
+                var link=document.createElement('a');
+                document.body.appendChild(link);
+                link.download=archivo;
+                link.href=ruta;
+                link.click();
+                //location.reload();
+            } else {
+                alert("Error");
+            }
+        },
+        error: function () {
+            alert("Error");
+        }
+    });
 });
 </script>

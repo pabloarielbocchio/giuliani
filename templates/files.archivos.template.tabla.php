@@ -190,6 +190,8 @@ thead th{
         }
     });
 
+    $(".descargar").css("display","none");
+
     $(".descargar").click(function () {
         codigo = $(this).closest('tr').attr("codigo");
         ruta = $(this).closest('tr').attr("ruta");

@@ -183,6 +183,8 @@
 </div>
 
 <script>
+
+    $(".descargar").css("display","none");
     
     $(".descargar").click(function () {
         codigo = $(this).closest('tr').attr("codigo");

@@ -2,9 +2,9 @@
 
 session_start();
 
-if (!($_SESSION["permisos"][basename(__FILE__, '.php') . ".php"]["access"])) {
+/*if (!($_SESSION["permisos"][basename(__FILE__, '.php') . ".php"]["access"])) {
     header("Location: login.php");
-}
+}*/
 
 include $_SERVER['DOCUMENT_ROOT'] . "/Giuliani/controller/ot_eventos.controller.php";
 $controlador = Ot_eventosController::singleton_ot_eventos();

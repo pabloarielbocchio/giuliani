@@ -178,6 +178,8 @@ thead th{
         }
     });
 
+    $(".descargar").css("display","none");
+
     $(".descargar").click(function () {
         codigo = $(this).closest('tr').attr("codigo");
         otp = $(this).closest('tr').attr("otp");
