@@ -1,8 +1,10 @@
 <?php
 session_start();
 
-include $_SERVER['DOCUMENT_ROOT'] . "/Giuliani/controller/portada.controller.php";
-include $_SERVER['DOCUMENT_ROOT'] . "/Giuliani/controller/planos.controller.php";
+//include $_SERVER['DOCUMENT_ROOT'] . "/Giuliani/controller/portada.controller.php";
+//include $_SERVER['DOCUMENT_ROOT'] . "/Giuliani/controller/planos.controller.php";
+include $_SERVER['DOCUMENT_ROOT'] . "/Giuliani/controller/ot_eventos.controller.php";
+
 function ZipStatusString($status)
 {
         switch ((int) $status) {
@@ -120,6 +122,10 @@ if ($_SESSION["archivos_datos"] != null) {
                 $valore = unlink($files1); //elimino el fichero
 
         }
+
+        $controlador = Ot_eventosController::singleton_ot_eventos();
+        $observaciones = "Descarga Archivo comprimido IDPROD #". $_SESSION["zip_otp"];
+        $controlador->addOt_evento($_SESSION["zip_otd"], $_SESSION["zip_otp"], 13, 0, $observaciones);
 }
 ?>
 <html>

@@ -200,18 +200,15 @@ $codigo1 = intval($_SESSION['ot']);
 <script>
     $("#btnDescargar").click(function() {
         let valor = <?php echo $codigo1 ?>;
-       let arr=<?php echo count($archivos)?>;
+        let arr=<?php echo count($archivos)?>;
         
-       if(arr!=0){
-         window.location.href = "PDF/descargas.php?codigo="+valor;
-
-       }else{
-        alert("El archivo a descargar esta vacio");
-       }
-       
+        if(arr!=0){
+            window.location.href = "PDF/descargas.php?codigo="+valor;
+        } else{
+            alert("El archivo a descargar esta vacio");
+        }
+    });
     
-       
-    })
     $("#btnPortada").click(function() {
         let combo1 = <?php echo $codigo1 ?>;
         // let comboItemvendido = $("#subcategory").val();

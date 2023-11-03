@@ -23,6 +23,8 @@
             echo $otp["codigo"] ? "#" . $otp["codigo"] . " - " : "";
             echo $otp["prod_personalizado"] ;
         }
+        $_SESSION["zip_otp"] = $otp["codigo"];
+        $_SESSION["zip_otd"] = $otp["ot_detalle_id"];
     ?>
 </legend>
   
