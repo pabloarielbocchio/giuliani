@@ -13,7 +13,7 @@ if (isset($_POST['funcion'])) {
 function getRegistrosFiltro(){
     $controlador = Ot_eventosController::singleton_ot_eventos();
     
-    echo $controlador->getRegistrosFiltro($_POST['orderby'], $_POST['sentido'], $_POST['registros'], $_POST['pagina'], $_POST['busqueda']);
+    echo $controlador->getRegistrosFiltro($_POST['orderby'], $_POST['sentido'], $_POST['registros'], $_POST['pagina'], $_POST['busqueda'], $_POST["evento"], $_POST["usuario"], $_POST["ot"]);
 }
 
 function addOt_evento() {
@@ -81,17 +81,17 @@ class Ot_eventosController {
     }
 
     
-    public function getRegistrosFiltro($orderby, $sentido, $registros, $pagina, $busqueda){
+    public function getRegistrosFiltro($orderby, $sentido, $registros, $pagina, $busqueda, $evento, $usuario, $ot){
         
         $_SESSION["pagina"] = $pagina;
-        
         $_SESSION["cant_reg"] = $registros;
-        
         $_SESSION["busqueda"] = $busqueda;
-                
         $_SESSION['orderby'] = $orderby;
-        
         $_SESSION['sentido'] = $sentido;
+        
+        $_SESSION['evento_selected'] = $evento;
+        $_SESSION['usuario_selected'] = $usuario;
+        $_SESSION['ot_selected'] = $ot;
         
         $devuelve = $this->conn->getRegistrosFiltro($orderby, $sentido, $registros, $pagina, $busqueda);
                 
@@ -187,6 +187,13 @@ class Ot_eventosController {
     
     public function getEventos() {
         $devuelve = $this->conn->getEventos();
+        
+        return $devuelve;
+        
+    }
+    
+    public function getUsuarios() {
+        $devuelve = $this->conn->getUsuarios();
         
         return $devuelve;
         

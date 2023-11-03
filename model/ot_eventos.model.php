@@ -52,12 +52,23 @@ class Ot_eventosModel {
                         otd.*,
                         (select descripcion from destinos s where s.codigo = otd.destino_id) as destino,
                         (select descripcion from eventos s where s.codigo = otd.evento_id) as evento
-                    FROM orden_trabajos_eventos otd WHERE (otd.observaciones like '%" . $busqueda . "%')  ORDER BY " . $orderby . " " . $sentido;
+                    FROM orden_trabajos_eventos otd WHERE (otd.observaciones like '%" . $busqueda . "%')  ";
+            if ($_SESSION['evento_selected'] > 0){
+                $sql .= " and otd.evento_id = '" . $_SESSION['evento_selected'] . "' ";
+            }
+            if ($_SESSION['usuario_selected'] != '0'){
+                $sql .= " and otd.usuario_m = '" . $_SESSION['usuario_selected'] . "' ";
+            }
+            if ($_SESSION['ot_selected'] > 0){
+                $sql .= " and otd.ot_detalle_id in (select codigo from orden_trabajos_detalles where orden_trabajo_id = '" . $_SESSION['ot_selected'] . "') ";
+            }
+            $sql .= " ORDER BY " . $orderby . " " . $sentido;
             if (intval($registros) > 0){
                 $sql_limit = $sql . " limit " . $desde . "," . $registros . ";";
             } else {
                 $sql_limit = $sql ;
             }
+            //echo $sql_limit;
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -240,7 +251,7 @@ class Ot_eventosModel {
         try {
             $sql = "SELECT *,
                         concat('#', nro_serie, ': ', cliente, ' - ', fecha) as descripcion
-                    FROM orden_trabajos ORDER BY codigo;";
+                    FROM orden_trabajos ORDER BY CAST(nro_serie AS INTEGER), codigo;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {
@@ -313,6 +324,22 @@ class Ot_eventosModel {
     public function getEventos(){
         try {
             $sql = "SELECT * FROM eventos ORDER BY descripcion;";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll();
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+    }
+    
+    public function getUsuarios(){
+        try {
+            $sql = "SELECT * FROM usuarios ORDER BY usuario;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {

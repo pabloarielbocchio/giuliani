@@ -11,7 +11,9 @@ $controlador = Ot_eventosController::singleton_ot_eventos();
 $ots_detalles = $controlador->getOtsDetalles();
 $ots_produccions = $controlador->getOtsProduccions();
 $eventos = $controlador->getEventos();
+$usuarios = $controlador->getUsuarios();
 $destinos = $controlador->getDestinos();
+$ots = $controlador->getOts();
 
 $_SESSION["totales"] = $controlador->getCountOt_eventos();
 
@@ -94,7 +96,7 @@ include 'inc/html/breadcrumb.php';
     <div id="loading" class="loading"></div>
     
     <div id="modulo_paginacion">
-        <?php include 'inc/html/paginacion_header.php'; ?>
+        <?php include 'inc/html/paginacion_header_eventos.php'; ?>
     </div>
 
     <div    id="div_tabla" 

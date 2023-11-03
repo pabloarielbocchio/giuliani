@@ -34,13 +34,19 @@ $('#dataRegister').on('shown.bs.modal', function () {
 function getRegistros(orderby, sentido, registros, pagina, busqueda, objeto) {
     if (!requestSent) {
         requestSent = true;
+        var evento = $("#select_evento").val();
+        var usuario = $("#select_usuario").val();
+        var ot = $("#select_ot").val();
         var parametros = {
             funcion: "getRegistrosFiltro",
             orderby: orderby,
             sentido: sentido,
             registros: registros,
             pagina: pagina,
-            busqueda: busqueda
+            busqueda: busqueda,
+            evento: evento,
+            usuario: usuario,
+            ot: ot
         }
         $.ajax({
             type: "POST",
@@ -183,3 +189,14 @@ $("#guardarDatosOt_evento").submit(function (event) {
     }
 });
 
+$("#select_evento").change(function () {
+    $("#busqueda-icono").click();
+});
+
+$("#select_usuario").change(function () {
+    $("#busqueda-icono").click();
+});
+
+$("#select_ot").change(function () {
+    $("#busqueda-icono").click();
+});
