@@ -88,6 +88,11 @@ include 'inc/html/menu.php';
 
 include 'inc/html/breadcrumb.php';
 
+if ($_SESSION["permisos_globales"][$_SESSION["menu"]] == 0){
+    header("Location: login.php");
+    exit();
+}
+
 ?>
 
 

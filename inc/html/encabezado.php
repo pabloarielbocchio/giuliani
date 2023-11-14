@@ -12,7 +12,8 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/Giuliani/controller/index.controller.
 $controlador_       = IndexController::singleton_index();
 $menu_              = $controlador_->getMenu();
 $menu_user_login    = $controlador_->getMenuUser($_SESSION["user_id"]);                                
-$menu_user_roles    = $controlador_->getMenuRoles($_SESSION["rol"]);                                
+$menu_user_roles    = $controlador_->getMenuRoles($_SESSION["rol"]);                                   
+$menu_user_roles_id = $controlador_->getMenuRolesId($_SESSION["user_id"]);                                
 $menu_user_destinos = $controlador_->getMenuDestinos($_SESSION["rol"]);                                
 
 $favicon            = "imagenes/favicon.ico";
@@ -21,6 +22,18 @@ $estilos            = "inc/css/asistencias_css.css";
 $imagen             = "imagenes/logo alargado-05.png";
 $chartist           = "inc/chartist/chartist.css";
 $menu               = array();
+
+$_SESSION["permisos_globales"][$_SESSION["menu"]] = 0;
+//if ($_SESSION["sistemas"] != 1 or $_SESSION["rol"] != 1){
+if ($_SESSION["rol"] != 1){
+    foreach($menu_user_roles_id as $rm){
+        if ($rm["menu_desc"] == $_SESSION["menu"]){
+            $_SESSION["permisos_globales"][$_SESSION["menu"]] = $rm["permiso"];
+        }
+    }
+} else {
+    $_SESSION["permisos_globales"][$_SESSION["menu"]] = 2;
+}
 
 foreach ($menu_ as $me){
     $prohibido = 1;
@@ -63,6 +76,68 @@ foreach ($menu_ as $me){
             break;
     }
     $aux    = [$me["nombre"], $me["destino"],$me["nivel"],$me["icono"],$me["subnivel"]];
+
+    /**
+     * Menus
+     * 1 - Inicio
+     * 2 - Usuarios
+     * 3 - Cerrar
+     * 4 - Configuraciones
+     * 34 - Productos
+     * 35 - Planos
+     * 36 - OT
+     * 37 - Monitoreo
+     * 43 - Eventos
+     */
+    /*
+    switch ($_SESSION["rol"]) {
+        case 8: //Planificacion
+            if (in_array($me["codigo"], [2,4,43])){
+                $prohibido = 1;
+            }
+            break;
+        case 7: //Logistica
+            if (in_array($me["codigo"], [2,4,43])){
+                $prohibido = 1;
+            }
+            break;
+        case 6: //Compras
+            if (in_array($me["codigo"], [2,4,43])){
+                $prohibido = 1;
+            }
+            break;
+        case 5: //Ingenieria
+            if (in_array($me["codigo"], [2,4,43])){
+                $prohibido = 1;
+            }
+            break;
+        case 4: //Produccion
+            if (in_array($me["codigo"], [2,4,43])){
+                $prohibido = 1;
+            }
+            break;
+        case 3: //Calidad
+            if (in_array($me["codigo"], [2,4,43])){
+                $prohibido = 1;
+            }
+            break;
+        case 2: //Gerencial
+            if (in_array($me["codigo"], [-1])){
+                $prohibido = 1;
+            }
+            break;
+        case 1: //Administrador
+            if (in_array($me["codigo"], [-1])){
+                $prohibido = 1;
+            }
+            break;
+        default:
+            break;
+    }
+    if ($prohibido == 1){
+        continue;
+    }   
+    */
     $menu[] = $aux;
 }
 /*
@@ -75,6 +150,7 @@ if ($_SESSION["cargo"] == "Administrador") {
 }
 $menu[] = $_salir;
 */
+
 ?>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />

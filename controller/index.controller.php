@@ -80,6 +80,10 @@ class IndexController {
         return $this->conn->getMenuRoles($rol);
     }
     
+    public function getMenuRolesId($rol){
+        return $this->conn->getMenuRolesId($rol);
+    }
+    
     public function getMenuDestinos($rol){
         return $this->conn->getMenuDestinos($rol);
     }

@@ -91,6 +91,11 @@ include 'inc/html/menu.php';
 
 include 'inc/html/breadcrumb.php';
 
+if ($_SESSION["permisos_globales"][$_SESSION["menu"]] == 0){
+    header("Location: login.php");
+    exit();
+}
+
 ?>
 
 
@@ -244,7 +249,7 @@ include 'inc/html/breadcrumb.php';
     </div>
     
 </div>
-<?php if ($_SESSION["permisos"][$_SESSION['menu']]["new"]) { ?>
+<?php if ($_SESSION["permisos_globales"][$_SESSION["menu"]] > 1) { ?>
     <div style="bottom: 50px; right: 40px; position: fixed;">
         <button id="add" name="add" type="button" class="btn btn-danger btn-lg boton_marron_carni" style="width: 50px;border-radius: 50%; text-align: center; background-color: transparent;"><i style="margin-bottom: 5px; color: #FF6700;" class="glyphicon glyphicon-plus"></i></button>
     </div>

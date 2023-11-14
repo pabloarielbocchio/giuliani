@@ -34,13 +34,17 @@
                             <div class="opciones" style="margin-top: -6px">Opciones <span class="caret"></span></div>
                         </button>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="menu">
-                            <li role="presentation" class="editProducto"><a role="menuitem" tabindex="-1" href="#">Editar</a></li>
-                            <?php if ($_SESSION['n3'] > 0) { ?>
-                                <li role="presentation" class="opcionesProducto"><a role="menuitem" tabindex="-1" href="#">Opciones</a></li>
+                            <?php if ($_SESSION["permisos_globales"][$_SESSION["menu"]] > 1){ ?>
+                                <li role="presentation" class="editProducto"><a role="menuitem" tabindex="-1" href="#">Editar</a></li>
+                                <?php if ($_SESSION['n3'] > 0) { ?>
+                                    <li role="presentation" class="opcionesProducto"><a role="menuitem" tabindex="-1" href="#">Opciones</a></li>
+                                <?php } ?>
+                                <li role="presentation" class="archivosProducto"><a role="menuitem" tabindex="-1" href="#">Archivos</a></li>
+                                <li class="divider"></li>
+                                <?php if ($_SESSION["permisos_globales"][$_SESSION["menu"]] == 3){ ?>
+                                    <li role="presentation" class="deleteProducto"><a role="menuitem" tabindex="-1" href="#">Eliminar</a></li>    
+                                <?php } ?>
                             <?php } ?>
-                            <li role="presentation" class="archivosProducto"><a role="menuitem" tabindex="-1" href="#">Archivos</a></li>
-                            <li class="divider"></li>
-                            <li role="presentation" class="deleteProducto"><a role="menuitem" tabindex="-1" href="#">Eliminar</a></li>
                         </ul>
                     </div>
                 </td>

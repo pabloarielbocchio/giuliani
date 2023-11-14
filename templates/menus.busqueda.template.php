@@ -24,6 +24,9 @@
                                 case 2:
                                     echo '<span style="cursor: pointer;" estado="2" codigo="'.$m[5].'" class="estado_editable label label-success m-t-lg">Modificacion</span>';
                                     break;
+                                case 3:
+                                    echo '<span style="cursor: pointer;" estado="3" codigo="'.$m[5].'" class="estado_editable label label-primary m-t-lg">Total</span>';
+                                    break;
                             }
                             ?>
                         </td>
@@ -43,6 +46,9 @@
                                         break;
                                     case 2:
                                         echo '<span style="cursor: pointer;" estado="2" codigo="'.$m[5].'" class="estado_editable label label-success m-t-lg">Modificacion</span>';
+                                        break;
+                                    case 2:
+                                        echo '<span style="cursor: pointer;" estado="3" codigo="'.$m[5].'" class="estado_editable label label-primary m-t-lg">Total</span>';
                                         break;
                                 }
                                 ?> 
@@ -65,6 +71,9 @@
                                     case 2:
                                         echo '<span style="cursor: pointer;" estado="2" codigo="'.$men[5].'" class="estado_editable label label-success m-t-lg">Modificacion</span>';
                                         break;
+                                    case 3:
+                                        echo '<span style="cursor: pointer;" estado="3" codigo="'.$men[5].'" class="estado_editable label label-primary m-t-lg">Total</span>';
+                                        break;
                                 }
                                 ?>   
                         </td>
@@ -84,6 +93,9 @@
                                             break;
                                         case 2:
                                             echo '<span style="cursor: pointer;" estado="2" codigo="'.$_m[5].'" class="estado_editable label label-success m-t-lg">Modificacion</span>';
+                                            break;
+                                        case 3:
+                                            echo '<span style="cursor: pointer;" estado="3" codigo="'.$_m[5].'" class="estado_editable label label-primary m-t-lg">Total</span>';
                                             break;
                                     }
                                     ?>   
@@ -107,6 +119,9 @@
                                         break;
                                     case 2:
                                         echo '<span style="cursor: pointer;" estado="2" codigo="'.$men[5].'" class="estado_editable label label-success m-t-lg">Modificacion</span>';
+                                        break;
+                                    case 3:
+                                        echo '<span style="cursor: pointer;" estado="3" codigo="'.$men[5].'" class="estado_editable label label-primary m-t-lg">Total</span>';
                                         break;
                                 }
                                 ?>    
@@ -244,14 +259,17 @@
         var codigo = $(this).attr("codigo");
         var estado = $(this).attr("estado");
         var nuevo_estado = 0;
-        if (estado == 2){
-            nuevo_estado = 0;
-        }
         if (estado == 0){
             nuevo_estado = 1;
         }
         if (estado == 1){
             nuevo_estado = 2;
+        }
+        if (estado == 2){
+            nuevo_estado = 3;
+        }
+        if (estado == 3){
+            nuevo_estado = 0;
         }
         var parametros = {
             funcion: "cambiar_estadoRolMenu",         

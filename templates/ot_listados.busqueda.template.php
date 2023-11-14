@@ -44,26 +44,30 @@
                             <div class="opciones" style="margin-top: -5px">Opciones <span class="caret"></span></div>
                         </button>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="menu">
-                            <li role="presentation" class="archivosOt_listado"><a role="menuitem" tabindex="-1" href="#">Archivo OT</a></li>
-                            <li role="presentation" class="detallesOt_listado"><a role="menuitem" tabindex="-1" href="#">Items</a></li>
-                            <li role="presentation" class="detallesarchivosOt_listado"><a role="menuitem" tabindex="-1" href="#">Items Archivos</a></li>
-                            <?php 
-                                if ($usu["finalizada"] == 1 or $usu["finalizada"] == -1){
-                                    if ($_SESSION["rol_estado_ot"] == 1){
-                                        echo '<li role="presentation" class="estadoOt_listado"><a role="menuitem" tabindex="-1" href="#">Cambiar estado</a></li>';
-                                        //echo '<li role="presentation" class="abrirOt_listado"><a role="menuitem" tabindex="-1" href="#">Reabrir</a></li>';
+                            <?php if ($_SESSION["permisos_globales"][$_SESSION["menu"]] > 1){ ?>
+                                <li role="presentation" class="archivosOt_listado"><a role="menuitem" tabindex="-1" href="#">Archivo OT</a></li>
+                                <li role="presentation" class="detallesOt_listado"><a role="menuitem" tabindex="-1" href="#">Items</a></li>
+                                <li role="presentation" class="detallesarchivosOt_listado"><a role="menuitem" tabindex="-1" href="#">Items Archivos</a></li>
+                                <?php 
+                                    if ($usu["finalizada"] == 1 or $usu["finalizada"] == -1){
+                                        if ($_SESSION["rol_estado_ot"] == 1){
+                                            echo '<li role="presentation" class="estadoOt_listado"><a role="menuitem" tabindex="-1" href="#">Cambiar estado</a></li>';
+                                            //echo '<li role="presentation" class="abrirOt_listado"><a role="menuitem" tabindex="-1" href="#">Reabrir</a></li>';
+                                        }
+                                    } else {
+                                        if ($_SESSION["rol_estado_ot"] == 1){
+                                            echo '<li role="presentation" class="estadoOt_listado"><a role="menuitem" tabindex="-1" href="#">Cambiar estado</a></li>';
+                                            //echo '<li role="presentation" class="finalizarOt_listado"><a role="menuitem" tabindex="-1" href="#">Finalizar</a></li>';
+                                        }
+                                        echo '<li role="presentation" class="editOt_listado"><a role="menuitem" tabindex="-1" href="#">Editar</a></li>';
+                                        echo '<li class="divider"></li>';
+                                        if ($_SESSION["permisos_globales"][$_SESSION["menu"]] == 3){ 
+                                            echo '<li role="presentation" class="deleteOt_listado"><a role="menuitem" tabindex="-1" href="#">Eliminar</a></li>';
+                                        }
                                     }
-                                } else {
-                                    if ($_SESSION["rol_estado_ot"] == 1){
-                                        echo '<li role="presentation" class="estadoOt_listado"><a role="menuitem" tabindex="-1" href="#">Cambiar estado</a></li>';
-                                        //echo '<li role="presentation" class="finalizarOt_listado"><a role="menuitem" tabindex="-1" href="#">Finalizar</a></li>';
-                                    }
-                                    echo '<li role="presentation" class="editOt_listado"><a role="menuitem" tabindex="-1" href="#">Editar</a></li>';
-                                    echo '<li class="divider"></li>';
-                                    echo '<li role="presentation" class="deleteOt_listado"><a role="menuitem" tabindex="-1" href="#">Eliminar</a></li>';
-                                }
-                            ?>
-                            <!-- <li role="presentation" class="filesOt_listado"><a role="menuitem" tabindex="-1" href="#">Archivos</a></li> -->
+                                ?>
+                                <!-- <li role="presentation" class="filesOt_listado"><a role="menuitem" tabindex="-1" href="#">Archivos</a></li> -->
+                            <?php } ?>
                         </ul>
                     </div>
                 </td>

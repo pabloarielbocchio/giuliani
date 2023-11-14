@@ -98,6 +98,10 @@ if ($_GET["cod_ot"] > 0){
 
 $cod_ot = intval($_SESSION['cod_ot']);
 
+if ($_SESSION["permisos_globales"][$_SESSION["menu"]] == 0){
+    header("Location: login.php");
+    exit();
+}
 
 ?>
 

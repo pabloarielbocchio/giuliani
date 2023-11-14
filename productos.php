@@ -87,6 +87,11 @@ $cod_nivel_2 = intval($_SESSION['n2']);
 $cod_nivel_3 = intval($_SESSION['n3']);
 $cod_nivel_4 = 0;
 
+if ($_SESSION["permisos_globales"][$_SESSION["menu"]] == 0){
+    header("Location: login.php");
+    exit();
+}
+
 ?>
 
 
@@ -190,9 +195,11 @@ $cod_nivel_4 = 0;
     
 </div>
 
-<div style="bottom: 50px; right: 40px; position: fixed;">
-    <button id="add" name="add" type="button" class="btn btn-danger btn-lg boton_marron_carni" style="width: 50px;border-radius: 50%; text-align: center; background-color: transparent;"><i style="margin-bottom: 5px;" class="glyphicon glyphicon-plus"></i></button>
-</div>
+<?php if ($_SESSION["permisos_globales"][$_SESSION["menu"]] > 1) { ?>
+    <div style="bottom: 50px; right: 40px; position: fixed;">
+        <button id="add" name="add" type="button" class="btn btn-danger btn-lg boton_marron_carni" style="width: 50px;border-radius: 50%; text-align: center; background-color: transparent;"><i style="margin-bottom: 5px;" class="glyphicon glyphicon-plus"></i></button>
+    </div>
+<?php } ?>
 
 <?php
 

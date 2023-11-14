@@ -203,6 +203,30 @@ class IndexModel {
         
     }    
 
+    public function getMenuRolesId($user_id){
+        try {
+            $sql = "select 
+                        m.*,
+                        me.descripcion as menu_desc
+                    from 
+                        roles_menus m,
+                        menus me
+                    where
+                        m.menu_id = me.codigo and
+                        m.rol_id = (select id_rol from usuarios where codigo = " . intval($user_id) . ") 
+                    order by
+                        m.menu_id asc;";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+            return $error;
+        }
+        
+    }    
+
     public function getMenuRoles($rol){
         try {
             $sql = "select 
