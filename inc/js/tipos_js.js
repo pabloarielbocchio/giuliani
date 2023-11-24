@@ -20,7 +20,7 @@ $('#myModal').on('shown.bs.modal', function () {
 })
 
 $('#dataUpdate').on('shown.bs.modal', function () {
-    $('#ot_listadoUpdate').focus();
+    $('#tipoUpdate').focus();
 });
 
 $("#add").click(function () {
@@ -28,11 +28,7 @@ $("#add").click(function () {
 });
 
 $('#dataRegister').on('shown.bs.modal', function () {
-    $('#ot_listadoAdd').focus();
-});
-
-$('#select_tipo').change(function () {
-    $("#busqueda-icono").click();
+    $('#tipoAdd').focus();
 });
 
 function getRegistros(orderby, sentido, registros, pagina, busqueda, objeto) {
@@ -44,12 +40,11 @@ function getRegistros(orderby, sentido, registros, pagina, busqueda, objeto) {
             sentido: sentido,
             registros: registros,
             pagina: pagina,
-            busqueda: busqueda,
-            estado: $("#select_tipo").val()
+            busqueda: busqueda
         }
         $.ajax({
             type: "POST",
-            url: 'controller/ot_listados.controller.php',
+            url: 'controller/tipos.controller.php',
             data: parametros,
             success: function (datos) {
                 $("#paginacion_paginas").html($("#paginas_aux").html());
@@ -127,23 +122,17 @@ function getRegistros(orderby, sentido, registros, pagina, busqueda, objeto) {
     }
 }
 
-$("#actualidarDatosOt_listado").submit(function (event) {
+$("#actualidarDatosTipo").submit(function (event) {
     if (!requestSent) {
         requestSent = true;
         var parametros = {
-            funcion: "updateOt_listado",
+            funcion: "updateTipo",
             codigo: codigo,
-            nroserie: $("#nroserieUpdate").val(),
-            cliente: $("#clienteUpdate").val(),
-            tipo: $("#tipoUpdate").val(),
-            prioridad: $("#prioridadUpdate").val(),
-            fecha: $("#fechaUpdate").val(),
-            entrega: $("#fechaEntregaUpdate").val(),
-            observaciones: $("#observacionesUpdate").val()
+            descripcion: $("#descripcionUpdate").val()
         }
         $.ajax({
             type: "POST",
-            url: 'controller/ot_listados.controller.php',
+            url: 'controller/tipos.controller.php',
             data: parametros,
             success: function (datos) {
                 if (parseInt(datos) == 0) {
@@ -160,22 +149,16 @@ $("#actualidarDatosOt_listado").submit(function (event) {
     }
 });
 
-$("#guardarDatosOt_listado").submit(function (event) {
+$("#guardarDatosTipo").submit(function (event) {
     if (!requestSent) {
         requestSent = true;
         var parametros = {
-            funcion: "addOt_listado",
-            nroserie: $("#nroserieAdd").val(),
-            cliente: $("#clienteAdd").val(),
-            prioridad: $("#prioridadAdd").val(),
-            tipo: $("#tipoAdd").val(),
-            fecha: $("#fechaAdd").val(),
-            entrega: $("#fechaEntregaAdd").val(),
-            observaciones: $("#observacionesAdd").val()
+            funcion: "addTipo",
+            descripcion: $("#descripcionAdd").val()
         }
         $.ajax({
             type: "POST",
-            url: 'controller/ot_listados.controller.php',
+            url: 'controller/tipos.controller.php',
             data: parametros,
             success: function (datos) {
                 if (parseInt(datos) == 0) {
@@ -192,63 +175,3 @@ $("#guardarDatosOt_listado").submit(function (event) {
     }
 });
 
-$("#seguimientos").click(function () {
-    window.location.href = "ot_seguimientos.php";
-});
-
-$("#btn-estado-ot_listado").click(function (event) {
-    if (!requestSent) {
-        requestSent = true;
-        var parametros = {
-            funcion: "estadoOt_listado",
-            codigo: codigo,
-            estado: $("#estadoAdd").val(),
-            avance: $("#avanceAdd").val()
-        }
-        $.ajax({
-            type: "POST",
-            url: 'controller/ot_listados.controller.php',
-            data: parametros,
-            success: function (datos) {
-                if (parseInt(datos) == 0) {
-                    location.reload();
-                } else {
-                    alert("Error");
-                }
-            },
-            error: function () {
-                alert("Error");
-            }
-        });
-        event.preventDefault();
-    }
-});
-
-$("#btn-estado-ot_listado_all").click(function (event) {
-    if (!requestSent) {
-        requestSent = true;
-        var parametros = {
-            funcion: "estadoOt_listado_all",
-            codigo: codigo,
-            estadoing: $("#estadoIngAdd").val(),
-            estadodespacho: $("#estadoDespachoAdd").val(),
-            estadoprod: $("#estadoProdAdd").val()
-        }
-        $.ajax({
-            type: "POST",
-            url: 'controller/ot_listados.controller.php',
-            data: parametros,
-            success: function (datos) {
-                if (parseInt(datos) == 0) {
-                    location.reload();
-                } else {
-                    alert("Error");
-                }
-            },
-            error: function () {
-                alert("Error");
-            }
-        });
-        event.preventDefault();
-    }
-});

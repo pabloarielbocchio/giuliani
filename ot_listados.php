@@ -11,6 +11,7 @@ $controlador = Ot_listadosController::singleton_ot_listados();
 
 $_SESSION["totales"] = $controlador->getCountOt_listados();
 $prioridades = $controlador->getPrioridades();
+$tipos = $controlador->getTipos();
 
 // Recepcion parametros PAGINACION /*******************************************/
 
@@ -88,6 +89,8 @@ if ($_SESSION["permisos_globales"][$_SESSION["menu"]] == 0){
     exit();
 }
 
+
+
 ?>
 
 
@@ -96,7 +99,7 @@ if ($_SESSION["permisos_globales"][$_SESSION["menu"]] == 0){
     <div id="loading" class="loading"></div>
     
     <div id="modulo_paginacion">
-        <?php include 'inc/html/paginacion_header_ot.php'; ?>
+        <?php include 'inc/html/paginacion_header_ot_tipo.php'; ?>
     </div>
 
     <div    id="div_tabla" 
@@ -112,6 +115,50 @@ if ($_SESSION["permisos_globales"][$_SESSION["menu"]] == 0){
 
     <div id="modulo_paginacion">
         <?php include 'inc/html/paginacion_footer.php'; ?>
+    </div>
+
+    <div class="modal fade" id="myModalEstadoAll" role="dialog">
+        <div class="modal-dialog modal-sm" id="dataRegisterEstadoAll">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 id="my-name-header-modal" class="modal-title">Cambiar Estado</h4>
+                </div>
+                <div class="modal-body text-center"  id="my-text-header-body">
+                    <div class="form-group"> 
+                        <label for="nombre0" class="control-label">Estado Ingeniería:</label>
+                        <select id="estadoIngAdd" style="width: 100%;" class="form-control" name="estadoIngAdd"  required>
+                            <option value="0" ><?php echo "En Cola"; ?></option>
+                            <option value="2" ><?php echo "En Curso"; ?></option>
+                            <option value="1" ><?php echo "Finalizado"; ?></option>
+                            <option value="-1" ><?php echo "Cancelado"; ?></option>
+                        </select>
+                    </div>                    
+                    <div class="form-group"> 
+                        <label for="nombre0" class="control-label">Estado Producción:</label>
+                        <select id="estadoProdAdd" style="width: 100%;" class="form-control" name="estadoProdAdd"  required>
+                            <option value="0" ><?php echo "En Cola"; ?></option>
+                            <option value="2" ><?php echo "En Curso"; ?></option>
+                            <option value="1" ><?php echo "Finalizado"; ?></option>
+                            <option value="-1" ><?php echo "Cancelado"; ?></option>
+                        </select>
+                    </div>                    
+                    <div class="form-group"> 
+                        <label for="nombre0" class="control-label">Estado Despacho:</label>
+                        <select id="estadoDespachoAdd" style="width: 100%;" class="form-control" name="estadoDespachoAdd"  required>
+                            <option value="0" ><?php echo "En Cola"; ?></option>
+                            <option value="2" ><?php echo "En Curso"; ?></option>
+                            <option value="1" ><?php echo "Finalizado"; ?></option>
+                            <option value="-1" ><?php echo "Cancelado"; ?></option>
+                        </select>
+                    </div>                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btn-estado-ot_listado_all" name="btn-estado-ot_listado" class="btn btn-danger boton_marron_carni" data-dismiss="modal" >Aceptar</button>
+                    <button type="button" id="btn-cancelar" name="btn-cancelar" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="modal fade" id="myModalEstado" role="dialog">
@@ -181,6 +228,22 @@ if ($_SESSION["permisos_globales"][$_SESSION["menu"]] == 0){
                             <input type="text" class="form-control" id="clienteAdd" name="clienteAdd" required maxlength="100">
                         </div>
                         <div class="form-group"> 
+                            <label for="nombre0" class="control-label">Tipo:</label>
+                            <select id="tipoAdd" style="width: 100%;" class="form-control" name="tipoAdd"  required>
+                                <?php 
+                                    foreach ($tipos as $aux) { 
+                                        $selected = "";
+                                        if ($aux["codigo"] == 0){
+                                            $selected = "selected";
+                                        }
+                                ?>
+                                        <option value="<?php echo $aux["codigo"]; ?>" <?php echo $selected; ?>><?php echo $aux["nombre"]; ?></option>
+                                <?php 
+                                    }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="form-group hidden"> 
                             <label for="nombre0" class="control-label">Prioridad:</label>
                             <select id="prioridadAdd" style="width: 100%;" class="form-control" name="prioridadAdd"  required>
                                 <?php 
@@ -237,6 +300,18 @@ if ($_SESSION["permisos_globales"][$_SESSION["menu"]] == 0){
                             <input type="text" class="form-control" id="clienteUpdate" name="clienteUpdate" required maxlength="100">
                         </div>
                         <div class="form-group"> 
+                            <label for="nombre0" class="control-label">Tipo:</label>
+                            <select id="tipoUpdate" style="width: 100%;" class="form-control" name="tipoUpdate"  required>
+                                <?php 
+                                    foreach ($tipos as $aux) { 
+                                ?>
+                                        <option value="<?php echo $aux["codigo"]; ?>" ><?php echo $aux["nombre"]; ?></option>
+                                <?php 
+                                    }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="form-group hidden"> 
                             <label for="nombre0" class="control-label">Prioridad:</label>
                             <select id="prioridadUpdate" style="width: 100%;" class="form-control" name="prioridadUpdate"  required>
                                 <?php 

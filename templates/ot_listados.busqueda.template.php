@@ -1,31 +1,75 @@
 <table id="tabla" namefile="Ot_listados" totales="<?php echo $_SESSION["totales"]; ?>" registros="<?php echo $_SESSION['cant_reg']; ?>" pagina="<?php $_SESSION['pagina']; ?>" class="table table-striped table-hover" mes="<?php echo $mes; ?>" anio="<?php echo $anio; ?>" dia="<?php echo $dia; ?>" opcion="<?php echo $opcion; ?>"> 
     <thead>
         <tr class="row " style="background-color: transparent;">
-            <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center ordena" orderby="nro_serie" sentido="asc">OT</th>
-            <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center ordena" orderby="fecha" sentido="asc">Fecha Ingreso</th>
-            <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center ordena" orderby="fecha_entrega" sentido="asc">Fecha Entrega</th>
-            <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-center ordena" orderby="cliente" sentido="asc">Cliente</th>
-            <th class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center ordena" orderby="observaciones" sentido="asc">Nombre OT</th>
-            <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center ordena" orderby="prioridad" sentido="asc">Avance</th>
-            <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center ordena" orderby="prioridad" sentido="asc">Prioridad</th>
-            <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center ordena" orderby="finalizada" sentido="asc"></th>
-            <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center noExl">Acciones</th>
+            <th class="text-center ordena" orderby="nro_serie" sentido="asc">OT</th>
+            <th class="text-center ordena" orderby="fecha" sentido="asc">Fecha Ingreso</th>
+            <th class="text-center ordena" orderby="fecha_entrega" sentido="asc">Fecha Entrega</th>
+            <th class="text-center ordena" orderby="cliente" sentido="asc">Cliente</th>
+            <th class="text-center ordena" orderby="observaciones" sentido="asc">Nombre OT</th>
+            <!--<th class="text-center ordena" orderby="prioridad" sentido="asc">Avance</th>
+            <th class="text-center ordena" orderby="prioridad" sentido="asc">Prioridad</th>-->
+            <th class="text-center ordena" orderby="orden_trabajos_tipo_id" sentido="asc">Tipo</th>
+            <th class="text-center ordena" orderby="estado_ing" sentido="asc">Ingeniería</th>
+            <th class="text-center ordena" orderby="estado_prod" sentido="asc">Producción</th>
+            <th class="text-center ordena" orderby="estado_despacho" sentido="asc">Despacho</th>
+            <!--<th class="text-center ordena" orderby="finalizada" sentido="asc">FIN</th>-->
+            <th class="text-center noExl">Acciones</th>
         </tr>
     </thead>
     <tbody id="body">
         <?php foreach ($registros as $usu) { ?>
             <tr class="row single_registro" codigo="<?php echo $usu["codigo"]; ?>"
                 estado="<?php echo intval($usu["finalizada"]); ?>" avance="<?php echo floatval($usu["avance"]); ?>" >
-                <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center" style="vertical-align: middle;"><?php echo $usu["nro_serie"]; ?></td>
-                <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center" style="vertical-align: middle;"><?php echo $usu["fecha"]; ?></td>
-                <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center" style="vertical-align: middle;"><?php echo date("Y", strtotime($usu["fecha_entrega"])) > 2000 ? $usu["fecha_entrega"] : ""; ?></td>
-                <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-left" style="vertical-align: middle;"><?php echo $usu["cliente"]; ?></td>
-                <td class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-left" style="vertical-align: middle;"><?php echo $usu["observaciones"]; ?></td>
-                <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center" style="vertical-align: middle;">
+                <td class="text-center" style="vertical-align: middle;"><?php echo $usu["nro_serie"]; ?></td>
+                <td class="text-center" style="vertical-align: middle;"><?php echo $usu["fecha"]; ?></td>
+                <td class="text-center" style="vertical-align: middle;"><?php echo date("Y", strtotime($usu["fecha_entrega"])) > 2000 ? $usu["fecha_entrega"] : ""; ?></td>
+                <td class="text-left" style="vertical-align: middle;"><?php echo $usu["cliente"]; ?></td>
+                <td class="text-left" style="vertical-align: middle;"><?php echo $usu["observaciones"]; ?></td>
+                <td class="text-left" style="vertical-align: middle;"><b><?php echo $usu["tipo"]; ?></b></td>
+                <!-- <td class="text-center" style="vertical-align: middle;">
                     <?php echo "<b>" . number_format($usu["avance"],2) . "% </b>" ; ?>
                 </td>
-                <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center" style="vertical-align: middle;"><?php echo $usu["desc_prioridad"]; ?></td>
-                <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center" style="vertical-align: middle;">
+                <td class="text-center" style="vertical-align: middle;"><?php echo $usu["desc_prioridad"]; ?></td> -->
+                <td class="text-center" style="vertical-align: middle;">
+                <?php 
+                    if ($usu["estado_ing"] == 1){
+                        echo '<span" class="label label-danger m-t-lg" style="background-color: #65b399; color: #EEE;">FINALIZADA</span>';
+                    } elseif ($usu["estado_ing"] == 0 or $usu["estado_ing"] == null){
+                        echo '<span" class="label label-danger m-t-lg" style="background-color: #9ec569; color: #eee;">EN COLA</span>';
+                    } elseif ($usu["estado_ing"] == -1){
+                        echo '<span" class="label label-danger m-t-lg" style="background-color: #9e0000; color: #eee;">CANCELADA</span>';
+                    } elseif ($usu["estado_ing"] == 2){
+                        echo '<span" class="label label-danger m-t-lg" style="background-color: #9e9e69; color: #eee;">EN CURSO</span>';
+                    } 
+                ?>
+                </td>
+                <td class="text-center" style="vertical-align: middle;">
+                <?php 
+                    if ($usu["estado_prod"] == 1){
+                        echo '<span" class="label label-danger m-t-lg" style="background-color: #65b399; color: #EEE;">FINALIZADA</span>';
+                    } elseif ($usu["estado_prod"] == 0 or $usu["estado_prod"] == null){
+                        echo '<span" class="label label-danger m-t-lg" style="background-color: #9ec569; color: #eee;">EN COLA</span>';
+                    } elseif ($usu["estado_prod"] == -1){
+                        echo '<span" class="label label-danger m-t-lg" style="background-color: #9e0000; color: #eee;">CANCELADA</span>';
+                    } elseif ($usu["estado_prod"] == 2){
+                        echo '<span" class="label label-danger m-t-lg" style="background-color: #9e9e69; color: #eee;">EN CURSO</span>';
+                    } 
+                ?>
+                </td>
+                <td class="text-center" style="vertical-align: middle;">
+                <?php 
+                    if ($usu["estado_despacho"] == 1){
+                        echo '<span" class="label label-danger m-t-lg" style="background-color: #65b399; color: #EEE;">FINALIZADA</span>';
+                    } elseif ($usu["estado_despacho"] == 0 or $usu["estado_despacho"] == null){
+                        echo '<span" class="label label-danger m-t-lg" style="background-color: #9ec569; color: #eee;">EN COLA</span>';
+                    } elseif ($usu["estado_despacho"] == -1){
+                        echo '<span" class="label label-danger m-t-lg" style="background-color: #9e0000; color: #eee;">CANCELADA</span>';
+                    } elseif ($usu["estado_despacho"] == 2){
+                        echo '<span" class="label label-danger m-t-lg" style="background-color: #9e9e69; color: #eee;">EN CURSO</span>';
+                    } 
+                ?>
+                </td>
+                <!--<td class="text-center" style="vertical-align: middle;">
                 <?php 
                     if ($usu["finalizada"] == 1){
                         echo '<span" class="label label-danger m-t-lg" style="background-color: #65b399; color: #EEE;">FINALIZADA</span>';
@@ -37,8 +81,8 @@
                         echo '<span" class="label label-danger m-t-lg" style="background-color: #9e9e69; color: #eee;">EN CURSO</span>';
                     } 
                 ?>
-                </td>
-                <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center noExl" style="vertical-align: middle;">
+                </td>-->
+                <td class="text-center noExl" style="vertical-align: middle;">
                     <div class="dropdown">
                         <button class="btn btn-sm btn-primary dropdown-toggle nuevo" id="menu" type="button" data-toggle="dropdown"  style="font-size: 10px;height: 15px;">
                             <div class="opciones" style="margin-top: -5px">Opciones <span class="caret"></span></div>
@@ -181,7 +225,7 @@
                 var datos = JSON.parse(data);
                 $('#nroserieUpdate').val(datos.nro_serie);
                 $('#clienteUpdate').val(datos.cliente);
-                $('#prioridadUpdate').val(datos.prioridad);
+                $('#tipoUpdate').val(datos.orden_trabajos_tipo_id);
                 $('#fechaUpdate').val(datos.fecha);
                 $('#observacionesUpdate').val(datos.observaciones);
             },
@@ -208,7 +252,8 @@
         var avance = $(this).closest('tr').attr("avance");
         $("#estadoAdd").val(estado);
         $("#avanceAdd").val(avance);
-        $('#myModalEstado').modal('show');
+        //$('#myModalEstado').modal('show');
+        $('#myModalEstadoAll').modal('show');
     });
 
     $(".ordena").click(function () {
