@@ -32,7 +32,7 @@ if ($_SESSION["rol"] != 1){
         }
     }
 } else {
-    $_SESSION["permisos_globales"][$_SESSION["menu"]] = 2;
+    $_SESSION["permisos_globales"][$_SESSION["menu"]] = 3;
 }
 
 foreach ($menu_ as $me){
