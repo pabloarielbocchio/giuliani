@@ -21,6 +21,7 @@ function addProducto() {
     
     echo $controlador->addProducto  (    
                                         $_POST['descripcion'],
+                                        $_POST['oracle'],
                                         $_POST['unidad']
             );
 }
@@ -99,8 +100,8 @@ class ProductosController {
         
     }
     
-    public function addProducto($descripcion, $unidad) {
-        $devuelve = $this->conn->addProducto($descripcion, $unidad);
+    public function addProducto($descripcion, $oracle, $unidad) {
+        $devuelve = $this->conn->addProducto($descripcion, $oracle, $unidad);
         
         return $devuelve;
         

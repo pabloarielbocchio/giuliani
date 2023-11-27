@@ -50,6 +50,7 @@ class Ot_eventosModel {
             $desde = ($pagina - 1) * $registros;
             $sql = "SELECT 
                         otd.*,
+                        (select orden_trabajo_id from orden_trabajos_detalles s where s.codigo = otd.ot_detalle_id) as cod_ot,
                         (select descripcion from destinos s where s.codigo = otd.destino_id) as destino,
                         (select descripcion from eventos s where s.codigo = otd.evento_id) as evento
                     FROM orden_trabajos_eventos otd WHERE (otd.observaciones like '%" . $busqueda . "%')  ";
@@ -60,7 +61,7 @@ class Ot_eventosModel {
                 $sql .= " and otd.usuario_m = '" . $_SESSION['usuario_selected'] . "' ";
             }
             if ($_SESSION['ot_selected'] > 0){
-                $sql .= " and otd.ot_detalle_id in (select codigo from orden_trabajos_detalles where orden_trabajo_id = '" . $_SESSION['ot_selected'] . "') ";
+                $sql .= " and ( otd.ot_detalle_id in (select codigo from orden_trabajos_detalles where orden_trabajo_id = '" . $_SESSION['ot_selected'] . "') or otd.ot_id in (select orden_trabajo_id from orden_trabajos_detalles where orden_trabajo_id = '" . $_SESSION['ot_selected'] . "') )";
             }
             $sql .= " ORDER BY " . $orderby . " " . $sentido;
             if (intval($registros) > 0){

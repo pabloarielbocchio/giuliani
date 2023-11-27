@@ -57,6 +57,13 @@
         <div class="form-group">
             <label for="nombre0" class="control-label">Descripcion:</label>
             <input type="text" class="form-control" id="descripcion" name="descripcion" value="<?php echo $pa . ", " . $pb . ", " . $pc . ",  " . $pd; ?>" > 
+        </div>
+    </div>
+
+    <div class="col-md-6">   
+        <div class="form-group">
+            <label for="nombre0" class="control-label">Codigo Oracle NS:</label>
+            <input type="text" class="form-control" id="oracle" name="oracle" value="<?php echo ""; ?>" > 
             <button type="button" style="margin-top: 10px;" class="btn btn-danger boton_marron_carni boton_guardar" >Guardar</button> 
         </div>
     </div>
@@ -158,6 +165,7 @@
                 cantidad: $("#cantidad").val(),
                 unidad: $("#unidad").val(),
                 descripcion: $("#descripcion").val(),
+                oracle: $("#oracle").val(),
                 configuracion: configuracion,
                 otd: $(".container").attr("ot_detail"),
                 prodd: $("#select_n4").val()

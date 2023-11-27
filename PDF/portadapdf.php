@@ -3,6 +3,7 @@
 session_start();
 include $_SERVER['DOCUMENT_ROOT'] . "/Giuliani/controller/portada.controller.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/Giuliani/controller/planos.controller.php";
+
 if (isset($_GET["codigo"])) {
     $codigo = $_GET["codigo"];
     $arregloarchivos;
@@ -15,6 +16,7 @@ if (isset($_GET["codigo"])) {
     } else {
         $devolverDetalle =  $controlador2->obtenerCampossectoressecciones($otp["prod_estandar_id"], $_SESSION["valorSeleccion"]);
         $devolverDetalleproducto = $controlador2->productoDetalle($otp["prod_estandar_id"], $_SESSION["valorSeleccion"]);
+        var_dump($devolverDetalle);
     }
 
     $devuelve = $controlador2->obtenerCamposprimerosdetalles($codigo);

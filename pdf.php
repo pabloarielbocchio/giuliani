@@ -224,8 +224,8 @@ $("#btnDescargar").click(function () {
     archivo = $('#info').attr("archivo");
     var parametros = {
         funcion: "addOt_evento",
-        detalle: 0,
-        produccion: 0,
+        detalle: <?php echo $_SESSION["zip_otd"]; ?>,
+        produccion: <?php echo $_SESSION["zip_otp"]; ?>,
         evento: 5,
         destino: 0,
         observaciones: "Descarga archivo " + archivo + " (" + ruta + ")"

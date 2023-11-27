@@ -92,8 +92,10 @@ class Ot_detallesModel {
             $desde = ($pagina - 1) * $registros;
             $sql = "SELECT 
                         otp.*,
-                        (select descripcion from productos_estandar s where s.codigo = otp.prod_estandar_id) as prod_standar,
-                        (select descripcion from productos_personalizados s where s.codigo = otp.prod_personalizado_id) as prod_personalizado,
+                        (select oracle from productos_estandar s where s.codigo = otp.prod_estandar_id) as oracle_standar,
+                        (select oracle from productos_personalizados s where s.codigo = otp.prod_personalizado_id) as oracle_personalizado,
+                        (select if(oracle IS NOT null and oracle != '', CONCAT(descripcion, ' (NS# ', oracle, ')'), descripcion) AS descripcion from productos_estandar s where s.codigo = otp.prod_estandar_id) as prod_standar,
+                        (select if(oracle IS NOT null, CONCAT(descripcion, ' (NS# ', oracle, ')'), descripcion) AS descripcion from productos_personalizados s where s.codigo = otp.prod_personalizado_id) as prod_personalizado,
                         (select descrip_abrev from unidades s where s.codigo = otp.unidad_id) as unidad,
                         (select abrev from estados s where s.codigo = otp.estado_id) as estado,
                         (select descripcion from prioridades s where s.codigo = otp.prioridad_id) as prioridad

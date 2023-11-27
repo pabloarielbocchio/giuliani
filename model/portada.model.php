@@ -52,10 +52,12 @@ class Portada_Model
         try {
             ///ot=3,$otd=11;
             // $sql="SELECT otd.seccion as seccion,otd.sector,otd.item_vendido as item,otd.observaciones,pp.descripcion,otd.cantidad,pp.codigo as cod_prod_personalizado FROM orden_trabajos ot INNER JOIN orden_trabajos_detalles otd ON ot.codigo=otd.orden_trabajo_id INNER JOIN orden_trabajos_produccion otp ON otd.codigo=otp.ot_detalle_id INNER JOIN productos_personalizados pp ON otp.prod_personalizado_id=pp.codigo WHERE ot.codigo='".$ot."' AND otd.codigo='".$otd."'";
-            if ($valorSeleccion == 0) {
+            //echo $codPP;
+            //echo $valorSeleccion;
+            if (intval($valorSeleccion) == 0) {
                 $sql = "SELECT otd.seccion as seccion,otd.sector,otd.item_vendido as item,otd.observaciones,pp.descripcion,otd.cantidad,pp.codigo as cod_prod_personalizado,otp.prod_personalizado_id as cod_pers ,otp.prod_estandar_id as cod_estandar FROM orden_trabajos ot INNER JOIN orden_trabajos_detalles otd ON ot.codigo=otd.orden_trabajo_id INNER JOIN orden_trabajos_produccion otp ON otd.codigo=otp.ot_detalle_id INNER JOIN productos_personalizados pp ON otp.prod_personalizado_id=pp.codigo WHERE pp.codigo='" . $codPP . "'";
             } else {
-                $sql = "SELECT  otp.ot_detalle_id as id_detalle, otd.seccion as seccion,otd.sector,otd.item_vendido as item,otd.observaciones,pp.descripcion,otd.cantidad,pp.codigo as cod_prod_personalizado,otp.prod_personalizado_id as cod_pers,otp.prod_estandar_id as cod_estandar FROM orden_trabajos ot INNER JOIN orden_trabajos_detalles otd ON ot.codigo=otd.orden_trabajo_id INNER JOIN orden_trabajos_produccion otp ON otd.codigo=otp.ot_detalle_id INNER JOIN productos_estandar pp ON otp.prod_estandar_id=pp.codigo WHERE otp.codigo='" . $codPP . "'";
+                $sql = "SELECT  otp.ot_detalle_id as id_detalle, otd.seccion as seccion,otd.sector,otd.item_vendido as item,otd.observaciones,pp.descripcion,otd.cantidad,pp.codigo as cod_prod_personalizado,otp.prod_personalizado_id as cod_pers,otp.prod_estandar_id as cod_estandar FROM orden_trabajos ot INNER JOIN orden_trabajos_detalles otd ON ot.codigo=otd.orden_trabajo_id INNER JOIN orden_trabajos_produccion otp ON otd.codigo=otp.ot_detalle_id INNER JOIN productos_estandar pp ON otp.prod_estandar_id=pp.codigo WHERE pp.codigo='" . $codPP . "'";
             }
 
             $query = $this->conn->prepare($sql);

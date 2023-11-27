@@ -92,15 +92,16 @@ class ProductosModel {
         }
     }
     
-    public function addProducto($descripcion, $prodd){
+    public function addProducto($descripcion, $prodd, $oracle){
         $hoy = date("Y-m-d H:i:s");
         try {
             $this->conn->beginTransaction();
-            $stmt = $this->conn->prepare('INSERT INTO productos_estandar (descripcion, cod_prod_nd, usuario_m, fecha_m) VALUES (?,?,?,?);');
+            $stmt = $this->conn->prepare('INSERT INTO productos_estandar (descripcion, cod_prod_nd, oracle, usuario_m, fecha_m) VALUES (?,?,?,?,?);');
             $stmt->bindValue(1, $descripcion, PDO::PARAM_STR);
             $stmt->bindValue(2, $prodd, PDO::PARAM_INT);
-            $stmt->bindValue(3, $_SESSION["usuario"], PDO::PARAM_STR);
-            $stmt->bindValue(4, $hoy, PDO::PARAM_STR);
+            $stmt->bindValue(3, $oracle, PDO::PARAM_STR);
+            $stmt->bindValue(4, $_SESSION["usuario"], PDO::PARAM_STR);
+            $stmt->bindValue(5, $hoy, PDO::PARAM_STR);
             
             if($stmt->execute()){
                 $this->conn->commit();

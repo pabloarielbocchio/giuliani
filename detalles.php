@@ -162,6 +162,10 @@ $cod_ot = intval($_SESSION['ot']);
                             <input type="text" class="form-control" id="prodpersoAdd" name="prodpersoAdd" required maxlength="100">
                         </div>
                         <div class="form-group">
+                            <label for="nombre0" class="control-label">Codigo Oracle NetSuite:</label>
+                            <input type="text" class="form-control" id="oracleAdd" name="oracleAdd" required maxlength="100">
+                        </div>
+                        <div class="form-group">
                             <label for="nombre0" class="control-label">Cantidad:</label>
                             <input type="text" class="form-control" id="cantidadpersoAdd" name="cantidadpersoAdd" required maxlength="100">
                         </div>

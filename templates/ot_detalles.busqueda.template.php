@@ -6,6 +6,7 @@
             <th class="text-center ordena" orderby="cantidad" sentido="asc">Cantidad</th>
             <th class="text-left ordena" orderby="observaciones" sentido="asc">Observaciones</th>
             <th class="text-center noExl">Acciones</th>
+            <th class="text-center" style="display: none;">ORACLE</th>
         </tr>
     </thead>
     <tbody id="body">       
@@ -16,6 +17,7 @@
                 <td class="text-center" style="vertical-align: middle;"></td>   
                 <td class="text-center" style="vertical-align: middle;"></td>   
                 <td class="text-center" style="vertical-align: middle;"></td>   
+                <td class="text-center" style="display: none;"></td>   
             </tr>             
             <?php foreach ($secc["sectores"] as $sect) { ?>  
                 <tr class="row sector" codigo="<?php echo $sect["codigo"]; ?>">              
@@ -24,6 +26,7 @@
                     <td class="text-center" style="vertical-align: middle;"></td>   
                     <td class="text-center" style="vertical-align: middle;"></td>   
                     <td class="text-center" style="vertical-align: middle;"></td>       
+                    <td class="text-center" style="display: none;"></td>   
                 </tr>   
                 <?php foreach ($sect["registros"] as $usu) { ?>
                     <tr class="row" 
@@ -62,6 +65,7 @@
                                 </ul>
                             </div>
                         </td>
+                        <td class="text-center" style="display: none;"></td>   
 
                         <?php 
                             foreach ($prods as $prod) { 
@@ -116,6 +120,15 @@
                                         </ul>
                                     </div>
                                 </td>
+                                <td class="text-center" style="display: none;">
+                                    <?php 
+                                        if ($prod["standar"] == 1) {
+                                            echo $prod["oracle_standar"];
+                                        } else {
+                                            echo $prod["oracle_personalizado"];
+                                        }
+                                    ?>
+                                </td>   
                             </tr>
                         <?php } ?>
                     </tr>

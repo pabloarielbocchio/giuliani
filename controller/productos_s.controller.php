@@ -43,7 +43,8 @@ function updateProductoAll() {
                                         $_POST['otd'],
                                         $_POST['prodd'],
                                         $_POST['cantidad'],
-                                        $_POST['unidad']
+                                        $_POST['unidad'],
+                                        $_POST['oracle']
             );
 }
 
@@ -126,9 +127,9 @@ class ProductosController {
         
     }
     
-    public function updateProductoAll($codigo, $descripcion, $configuracion, $otd, $prodd, $cantidad, $unidad) {
+    public function updateProductoAll($codigo, $descripcion, $configuracion, $otd, $prodd, $cantidad, $unidad, $oracle = null) {
         
-        $devuelve = $this->conn->addProducto($descripcion, $prodd);
+        $devuelve = $this->conn->addProducto($descripcion, $prodd, $oracle);
         if ($devuelve == 0){
             $ultimo = $this->conn->getLastProducto()[0]["codigo"];
             $observaciones = "";
