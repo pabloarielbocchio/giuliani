@@ -125,33 +125,39 @@ if ($_SESSION["permisos_globales"][$_SESSION["menu"]] == 0){
                     <h4 id="my-name-header-modal" class="modal-title">Cambiar Estado</h4>
                 </div>
                 <div class="modal-body text-center"  id="my-text-header-body">
-                    <div class="form-group"> 
-                        <label for="nombre0" class="control-label">Estado Ingeniería:</label>
-                        <select id="estadoIngAdd" style="width: 100%;" class="form-control" name="estadoIngAdd"  required>
-                            <option value="0" ><?php echo "En Cola"; ?></option>
-                            <option value="2" ><?php echo "En Curso"; ?></option>
-                            <option value="1" ><?php echo "Finalizado"; ?></option>
-                            <option value="-1" ><?php echo "Cancelado"; ?></option>
-                        </select>
-                    </div>                    
-                    <div class="form-group"> 
-                        <label for="nombre0" class="control-label">Estado Producción:</label>
-                        <select id="estadoProdAdd" style="width: 100%;" class="form-control" name="estadoProdAdd"  required>
-                            <option value="0" ><?php echo "En Cola"; ?></option>
-                            <option value="2" ><?php echo "En Curso"; ?></option>
-                            <option value="1" ><?php echo "Finalizado"; ?></option>
-                            <option value="-1" ><?php echo "Cancelado"; ?></option>
-                        </select>
-                    </div>                    
-                    <div class="form-group"> 
-                        <label for="nombre0" class="control-label">Estado Despacho:</label>
-                        <select id="estadoDespachoAdd" style="width: 100%;" class="form-control" name="estadoDespachoAdd"  required>
-                            <option value="0" ><?php echo "En Cola"; ?></option>
-                            <option value="2" ><?php echo "En Curso"; ?></option>
-                            <option value="1" ><?php echo "Finalizado"; ?></option>
-                            <option value="-1" ><?php echo "Cancelado"; ?></option>
-                        </select>
-                    </div>                    
+                    <?php if ($_SESSION["rol"] == 5) { ?>
+                        <div class="form-group"> 
+                            <label for="nombre0" class="control-label">Estado Ingeniería:</label>
+                            <select id="estadoIngAdd" style="width: 100%;" class="form-control" name="estadoIngAdd"  required>
+                                <option value="0" ><?php echo "En Cola"; ?></option>
+                                <option value="2" ><?php echo "En Curso"; ?></option>
+                                <option value="1" ><?php echo "Finalizado"; ?></option>
+                                <option value="-1" ><?php echo "Cancelado"; ?></option>
+                            </select>
+                        </div>                    
+                    <?php } ?>
+                    <?php if (in_array($_SESSION["rol"], [1,8])) { ?>
+                        <div class="form-group"> 
+                            <label for="nombre0" class="control-label">Estado Producción:</label>
+                            <select id="estadoProdAdd" style="width: 100%;" class="form-control" name="estadoProdAdd"  required>
+                                <option value="0" ><?php echo "En Cola"; ?></option>
+                                <option value="2" ><?php echo "En Curso"; ?></option>
+                                <option value="1" ><?php echo "Finalizado"; ?></option>
+                                <option value="-1" ><?php echo "Cancelado"; ?></option>
+                            </select>
+                        </div>                    
+                    <?php } ?>
+                    <?php if (in_array($_SESSION["rol"], [1,8])) { ?>
+                        <div class="form-group"> 
+                            <label for="nombre0" class="control-label">Estado Despacho:</label>
+                            <select id="estadoDespachoAdd" style="width: 100%;" class="form-control" name="estadoDespachoAdd"  required>
+                                <option value="0" ><?php echo "En Cola"; ?></option>
+                                <option value="2" ><?php echo "En Curso"; ?></option>
+                                <option value="1" ><?php echo "Finalizado"; ?></option>
+                                <option value="-1" ><?php echo "Cancelado"; ?></option>
+                            </select>
+                        </div>                    
+                    <?php } ?>
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="btn-estado-ot_listado_all" name="btn-estado-ot_listado" class="btn btn-danger boton_marron_carni" data-dismiss="modal" >Aceptar</button>

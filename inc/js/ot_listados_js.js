@@ -230,9 +230,9 @@ $("#btn-estado-ot_listado_all").click(function (event) {
         var parametros = {
             funcion: "estadoOt_listado_all",
             codigo: codigo,
-            estadoing: $("#estadoIngAdd").val(),
-            estadodespacho: $("#estadoDespachoAdd").val(),
-            estadoprod: $("#estadoProdAdd").val()
+            estadoing: parseInt($("#estadoIngAdd").val()) || -99,
+            estadodespacho: parseInt($("#estadoDespachoAdd").val()) || -99,
+            estadoprod: parseInt($("#estadoProdAdd").val()) || -99
         }
         $.ajax({
             type: "POST",
