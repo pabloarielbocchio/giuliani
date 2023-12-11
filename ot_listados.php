@@ -125,7 +125,7 @@ if ($_SESSION["permisos_globales"][$_SESSION["menu"]] == 0){
                     <h4 id="my-name-header-modal" class="modal-title">Cambiar Estado</h4>
                 </div>
                 <div class="modal-body text-center"  id="my-text-header-body">
-                    <?php if ($_SESSION["rol"] == 5) { ?>
+                    <?php if (in_array($_SESSION["rol"], [1,5])) { ?>
                         <div class="form-group"> 
                             <label for="nombre0" class="control-label">Estado Ingeniería:</label>
                             <select id="estadoIngAdd" style="width: 100%;" class="form-control" name="estadoIngAdd"  required>

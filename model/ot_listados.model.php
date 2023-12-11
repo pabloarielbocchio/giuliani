@@ -196,117 +196,86 @@ class Ot_listadosModel {
         $hoy = date("Y-m-d H:i:s");
         try {
             $this->conn->beginTransaction();
-            $observaciones = "Avance, estados";
-            if ($estadoing == -99){
-                $sql = 'UPDATE orden_trabajos set '
-                . 'estado_prod = ? , '
-                . 'estado_despacho = ? , '
-                . 'usuario_m = ?, '
-                . 'fecha_m = ? '
-                . ' where codigo = ?';
-                $stmt = $this->conn->prepare($sql);  
-                $stmt->bindValue(1, $estadoprod, PDO::PARAM_INT);
-                $stmt->bindValue(2, $estadodespacho, PDO::PARAM_INT);
-                $stmt->bindValue(3, $_SESSION["usuario"], PDO::PARAM_STR);
-                $stmt->bindValue(4, $hoy, PDO::PARAM_STR);
-                $stmt->bindValue(5, $codigo, PDO::PARAM_INT);
-                
-                $observaciones .= " - Produccion ";
-                if ($estadoprod == 1){
-                    $observaciones .= "FINALIZADA";
-                } elseif ($estadoprod == 0){
-                    $observaciones .= "EN COLA";
-                } elseif ($estadoprod == -1){
-                    $observaciones .= "CANCELADA";
-                } elseif ($estadoprod == 2){
-                    $observaciones .= "EN CURSO";
-                } 
-    
-                $observaciones .= " - Despacho ";
-                if ($estadodespacho == 1){
-                    $observaciones .= "FINALIZADA";
-                } elseif ($estadodespacho == 0){
-                    $observaciones .= "EN COLA";
-                } elseif ($estadodespacho == -1){
-                    $observaciones .= "CANCELADA";
-                } elseif ($estadodespacho == 2){
-                    $observaciones .= "EN CURSO";
-                } 
+            $ot = $this->getOt_listado($codigo)[0];
 
-            } elseif ($estadoprod == -99) {
-                $sql = 'UPDATE orden_trabajos set '
-                . 'estado_ing = ? , '
-                . 'usuario_m = ?, '
-                . 'fecha_m = ? '
-                . ' where codigo = ?';
-                $stmt = $this->conn->prepare($sql);  
-                $stmt->bindValue(1, $estadoing, PDO::PARAM_INT);
-                $stmt->bindValue(2, $_SESSION["usuario"], PDO::PARAM_STR);
-                $stmt->bindValue(3, $hoy, PDO::PARAM_STR);
-                $stmt->bindValue(4, $codigo, PDO::PARAM_INT);
-
-                $observaciones .= " - Ingenieria ";
-                if ($estadoing == 1){
-                    $observaciones .= "FINALIZADA";
-                } elseif ($estadoing == 0){
-                    $observaciones .= "EN COLA";
-                } elseif ($estadoing == -1){
-                    $observaciones .= "CANCELADA";
-                } elseif ($estadoing == 2){
-                    $observaciones .= "EN CURSO";
-                } 
-
-            } else {
-                $sql = 'UPDATE orden_trabajos set '
-                . 'estado_ing = ? , '
-                . 'estado_prod = ? , '
-                . 'estado_despacho = ? , '
-                . 'usuario_m = ?, '
-                . 'fecha_m = ? '
-                . ' where codigo = ?';
-                $stmt = $this->conn->prepare($sql);  
-                $stmt->bindValue(1, $estadoing, PDO::PARAM_INT);
-                $stmt->bindValue(2, $estadoprod, PDO::PARAM_INT);
-                $stmt->bindValue(3, $estadodespacho, PDO::PARAM_INT);
-                $stmt->bindValue(4, $_SESSION["usuario"], PDO::PARAM_STR);
-                $stmt->bindValue(5, $hoy, PDO::PARAM_STR);
-                $stmt->bindValue(6, $codigo, PDO::PARAM_INT);
-
-                $observaciones .= " - Ingenieria ";
-                if ($estadoing == 1){
-                    $observaciones .= "FINALIZADA";
-                } elseif ($estadoing == 0){
-                    $observaciones .= "EN COLA";
-                } elseif ($estadoing == -1){
-                    $observaciones .= "CANCELADA";
-                } elseif ($estadoing == 2){
-                    $observaciones .= "EN CURSO";
-                } 
-    
-                $observaciones .= " - Produccion ";
-                if ($estadoprod == 1){
-                    $observaciones .= "FINALIZADA";
-                } elseif ($estadoprod == 0){
-                    $observaciones .= "EN COLA";
-                } elseif ($estadoprod == -1){
-                    $observaciones .= "CANCELADA";
-                } elseif ($estadoprod == 2){
-                    $observaciones .= "EN CURSO";
-                } 
-    
-                $observaciones .= " - Despacho ";
-                if ($estadodespacho == 1){
-                    $observaciones .= "FINALIZADA";
-                } elseif ($estadodespacho == 0){
-                    $observaciones .= "EN COLA";
-                } elseif ($estadodespacho == -1){
-                    $observaciones .= "CANCELADA";
-                } elseif ($estadodespacho == 2){
-                    $observaciones .= "EN CURSO";
-                } 
-                    
+            if (in_array($ot["estado_ing"], [1,-1]) and $_SESSION["rol"] != 1 and $ot["estado_ing"] != $estadoing){
+                $estadoing = $ot["estado_ing"];
+            }
+            if (in_array($ot["estado_prod"], [1,-1]) and $_SESSION["rol"] != 1 and $ot["estado_prod"] != $estadoprod){
+                $estadoprod = $ot["estado_prod"];
+            }
+            if (in_array($ot["estado_despacho"], [1,-1]) and $_SESSION["rol"] != 1 and $ot["estado_despacho"] != $estadodespacho){
+                $estadodespacho = $ot["estado_despacho"];
             }
 
+            if (!in_array($ot["estado_ing"], [1,-1]) and ($ot["estado_prod"] != $estadoprod or $ot["estado_despacho"] != $estadodespacho) ){
+                $estadoprod = $ot["estado_prod"];
+                $estadodespacho = $ot["estado_despacho"];
+            }
+
+            if (!in_array($ot["estado_ing"], [1,-1]) and !in_array($ot["estado_prod"], [1,-1]) and ($ot["estado_despacho"] != $estadodespacho) ){
+                $estadodespacho = $ot["estado_despacho"];
+            }
+
+            if ($estadoing == -99){
+                $estadoing = $ot["estado_ing"];
+            }
+            if ($estadoprod == -99){
+                $estadoprod = $ot["estado_prod"];
+            }
+            if ($estadodespacho == -99){
+                $estadodespacho = $ot["estado_despacho"];
+            }
+            
+            $observaciones = "Avance, estados";
+            $sql = 'UPDATE orden_trabajos set '
+            . 'estado_ing = ? , '
+            . 'estado_prod = ? , '
+            . 'estado_despacho = ? , '
+            . 'usuario_m = ?, '
+            . 'fecha_m = ? '
+            . ' where codigo = ?';
+            $stmt = $this->conn->prepare($sql);  
+            $stmt->bindValue(1, $estadoing, PDO::PARAM_INT);
+            $stmt->bindValue(2, $estadoprod, PDO::PARAM_INT);
+            $stmt->bindValue(3, $estadodespacho, PDO::PARAM_INT);
+            $stmt->bindValue(4, $_SESSION["usuario"], PDO::PARAM_STR);
+            $stmt->bindValue(5, $hoy, PDO::PARAM_STR);
+            $stmt->bindValue(6, $codigo, PDO::PARAM_INT);
+
+            $observaciones .= " - Ingenieria ";
+            if ($estadoing == 1){
+                $observaciones .= "FINALIZADA";
+            } elseif ($estadoing == 0){
+                $observaciones .= "EN COLA";
+            } elseif ($estadoing == -1){
+                $observaciones .= "CANCELADA";
+            } elseif ($estadoing == 2){
+                $observaciones .= "EN CURSO";
+            } 
+
+            $observaciones .= " - Produccion ";
+            if ($estadoprod == 1){
+                $observaciones .= "FINALIZADA";
+            } elseif ($estadoprod == 0){
+                $observaciones .= "EN COLA";
+            } elseif ($estadoprod == -1){
+                $observaciones .= "CANCELADA";
+            } elseif ($estadoprod == 2){
+                $observaciones .= "EN CURSO";
+            } 
+
+            $observaciones .= " - Despacho ";
+            if ($estadodespacho == 1){
+                $observaciones .= "FINALIZADA";
+            } elseif ($estadodespacho == 0){
+                $observaciones .= "EN COLA";
+            } elseif ($estadodespacho == -1){
+                $observaciones .= "CANCELADA";
+            } elseif ($estadodespacho == 2){
+                $observaciones .= "EN CURSO";
+            } 
+                
             if($stmt->execute()){
                 $this->addOt_evento(0, 0, 6, 0, $observaciones, $codigo);
                 $this->conn->commit();
