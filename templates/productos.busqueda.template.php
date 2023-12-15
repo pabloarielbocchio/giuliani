@@ -181,44 +181,46 @@
 
     $(".estado_editable").css("width", "100%");
     
-    $(".estado_editable").click(function (){
-        var codigo = $(this).attr("codigo");
-        var estado = $(this).attr("estado");
-        var nuevo_estado = 0;
-        if (estado == -1){
-            nuevo_estado = 0;
-        }
-        if (estado == 0){
-            nuevo_estado = 1;
-        }
-        if (estado == 1){
-            nuevo_estado = 2;
-        }
-        if (estado == 2){
-            nuevo_estado = -1;
-        }
-        var parametros = {
-            funcion: "cambiar_estadoProducto",   
-            select_n1: $('#select_n1').val(),
-            select_n2: $('#select_n2').val(),
-            select_n3: $('#select_n3').val(),
-            select_n4: $('#select_n4').val(),
-            codigo: codigo,
-            estado: nuevo_estado
-        }
-            $.ajax({
-                type: "POST",
-                url: 'controller/productos.controller.php',
-                data: parametros,
-                success: function (datos) {
-                    location.reload();
-                },
-                error: function () {
-                    alert("Error");
-                },
-                complete: function () {
-                    requestSent = false;
-                }
-            });
-    });
+    <?php if (in_array($_SESSION["rol"], [1,5])) { ?>
+        $(".estado_editable").click(function (){
+            var codigo = $(this).attr("codigo");
+            var estado = $(this).attr("estado");
+            var nuevo_estado = 0;
+            if (estado == -1){
+                nuevo_estado = 0;
+            }
+            if (estado == 0){
+                nuevo_estado = 1;
+            }
+            if (estado == 1){
+                nuevo_estado = 2;
+            }
+            if (estado == 2){
+                nuevo_estado = -1;
+            }
+            var parametros = {
+                funcion: "cambiar_estadoProducto",   
+                select_n1: $('#select_n1').val(),
+                select_n2: $('#select_n2').val(),
+                select_n3: $('#select_n3').val(),
+                select_n4: $('#select_n4').val(),
+                codigo: codigo,
+                estado: nuevo_estado
+            }
+                $.ajax({
+                    type: "POST",
+                    url: 'controller/productos.controller.php',
+                    data: parametros,
+                    success: function (datos) {
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Error");
+                    },
+                    complete: function () {
+                        requestSent = false;
+                    }
+                });
+        });
+    <?php } ?>
 </script>

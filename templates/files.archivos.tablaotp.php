@@ -289,61 +289,62 @@ $codigo1 = intval($_SESSION['ot']);
         });
     });
 
-    $(".estado_editable").click(function() {
-        var nuevo = $(this).closest('tr').attr("nuevo");
-        var archivo = $(this).attr("archivo");
-        var estado = $(this).attr("estado");
-        var nuevo_estado = 0;
-        if (estado == -1) {
-            nuevo_estado = 0;
-            return false;
-        }
-        if (estado == 0) {
-            nuevo_estado = 1;
-        }
-        if (estado == 1) {
-            nuevo_estado = -1;
-        }
+    <?php if (in_array($_SESSION["rol"], [1,5])) { ?>
+        $(".estado_editable").click(function() {
+            var nuevo = $(this).closest('tr').attr("nuevo");
+            var archivo = $(this).attr("archivo");
+            var estado = $(this).attr("estado");
+            var nuevo_estado = 0;
+            if (estado == -1) {
+                nuevo_estado = 0;
+                return false;
+            }
+            if (estado == 0) {
+                nuevo_estado = 1;
+            }
+            if (estado == 1) {
+                nuevo_estado = -1;
+            }
 
-        if (estado == 1) {
-            nuevo_estado = -1;
-            codigo = $(this).closest('tr').attr("codigo");
-            //$("#name-header-modal").html("<b>Eliminar</b>");
-            //$("#text-header-body").html("¿Desea eliminar el registro ?");
-            $("#btn-eliminar-archivo").attr("archivo", archivo);
-            $("#btn-eliminar").css("display", "inline-block");
-            $("#btn-cancelar").text("Cancelar");
-            $('#myModal').modal('show');
-            return false;
-        }
-        var readonly = $(".container").attr("read");
-        if (readonly == 1) {
-            return false;
-        }
-        var parametros = {
-            funcion: "cambiar_estadoArchivo",
-            codigo: archivo,
-            estado: nuevo_estado,
-        }
-        if (nuevo == 1) {
-            console.log(parametros);
-            $.ajax({
-                type: "POST",
-                url: 'controller/archivo_destinos.controller.php',
-                data: parametros,
-                success: function(datos) {
-                    buscarTabla();
-                },
-                error: function() {
-                    alert("Error");
-                },
-                complete: function() {
-                    requestSent = false;
-                }
-            });
-        }
-    });
-
+            if (estado == 1) {
+                nuevo_estado = -1;
+                codigo = $(this).closest('tr').attr("codigo");
+                //$("#name-header-modal").html("<b>Eliminar</b>");
+                //$("#text-header-body").html("¿Desea eliminar el registro ?");
+                $("#btn-eliminar-archivo").attr("archivo", archivo);
+                $("#btn-eliminar").css("display", "inline-block");
+                $("#btn-cancelar").text("Cancelar");
+                $('#myModal').modal('show');
+                return false;
+            }
+            var readonly = $(".container").attr("read");
+            if (readonly == 1) {
+                return false;
+            }
+            var parametros = {
+                funcion: "cambiar_estadoArchivo",
+                codigo: archivo,
+                estado: nuevo_estado,
+            }
+            if (nuevo == 1) {
+                console.log(parametros);
+                $.ajax({
+                    type: "POST",
+                    url: 'controller/archivo_destinos.controller.php',
+                    data: parametros,
+                    success: function(datos) {
+                        buscarTabla();
+                    },
+                    error: function() {
+                        alert("Error");
+                    },
+                    complete: function() {
+                        requestSent = false;
+                    }
+                });
+            }
+        });
+    <?php } ?>
 
     $(".opcion").click(function() {
         var nuevo = $(this).closest('tr').attr("nuevo");
