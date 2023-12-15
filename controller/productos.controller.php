@@ -1220,6 +1220,8 @@ class ProductosController {
         
         $_SESSION['registros'] = $registros;
 
+        $ot = $this->getOt(intval($_SESSION['ot']));
+
         include $_SERVER['DOCUMENT_ROOT']."/Giuliani/templates/files.otp.template.php";
         
     }
@@ -1581,6 +1583,13 @@ class ProductosController {
         $devuelve = $this->conn->getProducto($codigo, $n1, $n2, $n3, $n4);
         
         return json_encode($devuelve[0]);
+        
+    }
+    
+    public function getOt($codigo) {
+        $devuelve = $this->conn->getOt($codigo);
+        
+        return $devuelve[0];
         
     }
     

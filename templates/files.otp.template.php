@@ -25,15 +25,18 @@
         }
         $_SESSION["zip_otp"] = $otp["codigo"];
         $_SESSION["zip_otd"] = $otp["ot_detalle_id"];
+        
     ?>
 </legend>
   
 <!-- Aqui agregue un boton de portada --> 
-<div style="margin-left: 80%;">
-    <button style="background-color: orangered ; color: white;font-weight: bold; width: 100px; border: transparent; border-radius: 5px; vertical-align: middle;" type="submit" name="btnPortada" id="btnPortada">PORTADA</button>
+<?php if ($ot["estado_prod"] != 1){ ?>
+    <div style="margin-left: 80%;">
+        <button style="background-color: orangered ; color: white;font-weight: bold; width: 100px; border: transparent; border-radius: 5px; vertical-align: middle;" type="submit" name="btnPortada" id="btnPortada">PORTADA</button>
 
-<button style="background-color: orangered ; color: white;font-weight: bold; width: 100px; border: transparent; border-radius: 5px; vertical-align: middle;" type="submit" name="btnDescargar" id="btnDescargar">DESCARGAR</button> 
-</div>
+    <button style="background-color: orangered ; color: white;font-weight: bold; width: 100px; border: transparent; border-radius: 5px; vertical-align: middle;" type="submit" name="btnDescargar" id="btnDescargar">DESCARGAR</button> 
+    </div>
+<?php } ?>
 
 
   
@@ -51,8 +54,8 @@
             <div id="cont_archivos" class="col-md-12">          
 
             </div>
-        </div>              
-        <div class="row" style="margin-top: 10px; <?php if ($readonly == 1 or $otp["standar"] == 1 ) { echo 'display: none; '; } ?>">
+        </div>         
+        <div class="row" style="margin-top: 10px; <?php if ($readonly == 1 or $otp["standar"] == 1 or $ot["estado_ing"] == 1) { echo 'display: none; '; } ?>">
             <div class="col-md-12">
                 <form action="subir_otp.php" class="dropzone" id="formdropZone">
                     <input type="text" class="form-control hidden" id="otp" name="otp" value="<?php echo $opc; ?>" />
@@ -61,7 +64,7 @@
                     <input type="text" class="form-control hidden" id="prod_perso" name="prod_perso" value="<?php echo $otp["prod_personalizado_id"]; ?>" />
                 </form>
             </div>
-        </div>         
+        </div>      
         <?php if ($readonly == 0) { ?>
             <div class="row" >
                 <div class="div_tabla" scrollx="0" scrolly="0">

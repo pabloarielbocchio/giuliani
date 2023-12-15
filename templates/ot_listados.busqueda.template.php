@@ -18,7 +18,10 @@
     </thead>
     <tbody id="body">
         <?php foreach ($registros as $usu) { ?>
-            <tr class="row single_registro" codigo="<?php echo $usu["codigo"]; ?>"
+            <tr class="row single_registro" codigo="<?php echo $usu["codigo"]; ?> "
+                estado_ing="<?php echo $usu["estado_ing"]; ?> "
+                estado_prod="<?php echo $usu["estado_prod"]; ?> "
+                estado_despacho="<?php echo $usu["estado_despacho"]; ?> "
                 estado="<?php echo intval($usu["finalizada"]); ?>" avance="<?php echo floatval($usu["avance"]); ?>" >
                 <td class="text-center" style="vertical-align: middle;"><?php echo $usu["nro_serie"]; ?></td>
                 <td class="text-center" style="vertical-align: middle;"><?php echo $usu["fecha"]; ?></td>
@@ -89,9 +92,11 @@
                         </button>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="menu">
                             <?php if ($_SESSION["permisos_globales"][$_SESSION["menu"]] > 1){ ?>
-                                <li role="presentation" class="archivosOt_listado"><a role="menuitem" tabindex="-1" href="#">Archivo OT</a></li>
-                                <li role="presentation" class="detallesOt_listado"><a role="menuitem" tabindex="-1" href="#">Items</a></li>
-                                <li role="presentation" class="detallesarchivosOt_listado"><a role="menuitem" tabindex="-1" href="#">Items Archivos</a></li>
+                                <?php if ($usu["estado_despacho"] != 1) { ?>
+                                    <li role="presentation" class="archivosOt_listado"><a role="menuitem" tabindex="-1" href="#">Archivo OT</a></li>
+                                    <li role="presentation" class="detallesOt_listado"><a role="menuitem" tabindex="-1" href="#">Items</a></li>
+                                    <li role="presentation" class="detallesarchivosOt_listado"><a role="menuitem" tabindex="-1" href="#">Items Archivos</a></li>
+                                <?php } ?>    
                                 <?php 
                                     if ($usu["finalizada"] == 1 or $usu["finalizada"] == -1){
                                         if ($_SESSION["rol_estado_ot"] == 1 and in_array($_SESSION["rol"], [1,5,8])){
@@ -272,7 +277,7 @@
 
         var registros = $("#cant_reg").val();
         var pagina = 1;
-        var busqueda = $("#busqueda").val();
+            var busqueda = $("#busqueda").val();
         getRegistros(orderby, sentido, registros, pagina, busqueda, null);
         //callGetRegistros(orderby, sentido, registros, pagina, busqueda, this);
         //return false;
@@ -304,7 +309,10 @@
     });
     
     $(".single_registro").dblclick(function () {
+        var estado_despacho = $(this).attr("estado_despacho");
         codigo = $(this).attr("codigo");
-        window.location.href = "detalles.php?cod_ot=" + codigo;
+        if (estado_despacho != 1){
+            window.location.href = "detalles.php?cod_ot=" + codigo;
+        }
     });
 </script>
