@@ -30,12 +30,14 @@
 </legend>
   
 <!-- Aqui agregue un boton de portada --> 
-<?php if ($ot["estado_prod"] != 1){ ?>
-    <div style="margin-left: 80%;">
-        <button style="background-color: orangered ; color: white;font-weight: bold; width: 100px; border: transparent; border-radius: 5px; vertical-align: middle;" type="submit" name="btnPortada" id="btnPortada">PORTADA</button>
+<?php if (in_array($_SESSION["rol"], [1,8])) { ?>
+    <?php if ($ot["estado_prod"] != 1){ ?>
+        <div style="margin-left: 80%;">
+            <button style="background-color: orangered ; color: white;font-weight: bold; width: 100px; border: transparent; border-radius: 5px; vertical-align: middle;" type="submit" name="btnPortada" id="btnPortada">PORTADA</button>
 
-    <button style="background-color: orangered ; color: white;font-weight: bold; width: 100px; border: transparent; border-radius: 5px; vertical-align: middle;" type="submit" name="btnDescargar" id="btnDescargar">DESCARGAR</button> 
-    </div>
+        <button style="background-color: orangered ; color: white;font-weight: bold; width: 100px; border: transparent; border-radius: 5px; vertical-align: middle;" type="submit" name="btnDescargar" id="btnDescargar">DESCARGAR</button> 
+        </div>
+    <?php } ?>
 <?php } ?>
 
 

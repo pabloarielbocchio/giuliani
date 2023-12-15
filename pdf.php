@@ -25,9 +25,11 @@ $archivo = $controlador->getArchivo($archivo_id);
 <div class="text-center pdf-toolbar">
     <div id="info" codigo="<?php echo $archivo["codigo"]; ?>" ruta="<?php echo $archivo["ruta"]; ?>" archivo="<?php echo $archivo["descripcion"]; ?>"></div>
 
-    <div style="margin-left: 80%;">
-        <button style="background-color: orangered ; color: white;font-weight: bold; width: 100px; border: transparent; border-radius: 5px; vertical-align: middle;" type="submit" name="btnDescargar" id="btnDescargar">DESCARGAR</button> 
-    </div>
+    <?php if (in_array($_SESSION["rol"], [1,8])) { ?>
+        <div style="margin-left: 80%;">
+            <button style="background-color: orangered ; color: white;font-weight: bold; width: 100px; border: transparent; border-radius: 5px; vertical-align: middle;" type="submit" name="btnDescargar" id="btnDescargar">DESCARGAR</button> 
+        </div>
+    <?php } ?>
 
     <div class="btn-group">
         <button id="prev" class="btn btn-white"><i class="fa fa-long-arrow-left"></i> <span class="hidden-xs">Previous</span></button>
