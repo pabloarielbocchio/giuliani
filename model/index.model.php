@@ -550,6 +550,22 @@ class IndexModel {
         }
     }
     
+    public function getArchivoDestinos($archivo_id){
+        try {
+            $sql = "SELECT * FROM archivo_destinos where archivo_id = " . $archivo_id . ";";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll(PDO::FETCH_ASSOC);
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+    }
+    
     public function getArchivo($archivo_id){
         try {
             $sql = "SELECT * FROM archivos where codigo = " . $archivo_id . ";";

@@ -145,4 +145,8 @@ class IndexController {
     public function getArchivo($archivo_id){
         return $this->conn->getArchivo($archivo_id)[0];
     }
+
+    public function getArchivoDestinos($archivo_id){
+        return $this->conn->getArchivoDestinos($archivo_id);
+    }
 }

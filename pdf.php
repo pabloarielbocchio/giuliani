@@ -19,13 +19,28 @@ $archivo_id = $_GET["archivo"];
 include_once $_SERVER['DOCUMENT_ROOT'] . "/Giuliani/controller/index.controller.php";
 $controlador = IndexController::singleton_index();
 $archivo = $controlador->getArchivo($archivo_id);
+$destinos = $controlador->getArchivoDestinos($archivo_id);
+
+$continuar = false;
+$destinos_user = explode(",",$_SESSION["destinos"]);
+
+foreach($destinos as $destino){
+    if (in_array($destino["destino_id"], $destinos_user)){
+        $continuar = true;
+        break;
+    }
+}
+
+/*var_dump($_SESSION["destinos"]);
+echo "<br />";
+var_dump($destinos);*/
 
 ?>
 
 <div class="text-center pdf-toolbar">
     <div id="info" codigo="<?php echo $archivo["codigo"]; ?>" ruta="<?php echo $archivo["ruta"]; ?>" archivo="<?php echo $archivo["descripcion"]; ?>"></div>
 
-    <?php if (in_array($_SESSION["rol"], [1,5,8])) { ?>
+    <?php if (in_array($_SESSION["rol"], [1,5,8]) or $continuar) { ?>
         <div style="margin-left: 80%;">
             <button style="background-color: orangered ; color: white;font-weight: bold; width: 100px; border: transparent; border-radius: 5px; vertical-align: middle;" type="submit" name="btnDescargar" id="btnDescargar">DESCARGAR</button> 
         </div>

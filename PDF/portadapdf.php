@@ -16,7 +16,7 @@ if (isset($_GET["codigo"])) {
     } else {
         $devolverDetalle =  $controlador2->obtenerCampossectoressecciones($otp["prod_estandar_id"], $_SESSION["valorSeleccion"]);
         $devolverDetalleproducto = $controlador2->productoDetalle($otp["prod_estandar_id"], $_SESSION["valorSeleccion"]);
-        var_dump($devolverDetalle);
+        //var_dump($devolverDetalle);
     }
 
     $devuelve = $controlador2->obtenerCamposprimerosdetalles($codigo);
