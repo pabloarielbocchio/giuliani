@@ -49,7 +49,7 @@ class Ot_listadosModel {
         try {
             $desde = ($pagina - 1) * $registros;
             $sql = " SELECT *, (select descripcion from prioridades where codigo = orden_trabajos.prioridad) as desc_prioridad, (select nombre from orden_trabajos_tipos where codigo = orden_trabajos.orden_trabajos_tipo_id) as tipo FROM orden_trabajos WHERE 1 = 1 ";
-            if ($estado > 0){
+            if ($estado >= 0){
                 $sql .= " and orden_trabajos_tipo_id = " . intval($estado);
             }
             $sql.= " and (nro_serie like '%" . $busqueda . "%' or observaciones like '%" . $busqueda . "%' or cliente like '%" . $busqueda . "%') ORDER BY " . $orderby . " " . $sentido;
