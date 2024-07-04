@@ -14,10 +14,10 @@ session_start();
         <label style="text-align: right; margin-right: 10px;">Seleccione <br />Tipo:</label>
         <select id="select_tipo" class="form-control asistencia" style="width: 65%;display: inline-block;vertical-align: middle; font-size: 11px; height: auto; margin-top: -15px;">
             <?php 
-                if ($_SESSION["tipo_selected"] == 0){
-                    echo '<option value="0" selected>Todos</option>';
+                if ($_SESSION["tipo_selected"] == -1){
+                    echo '<option value="-1" selected>Todos</option>';
                 } else {
-                    echo '<option value="0">Todos</option>';
+                    echo '<option value="-1">Todos</option>';
                 }
                 foreach ($tipos as $tipo){
                     if ($tipo["codigo"] == $_SESSION["tipo_selected"]){
