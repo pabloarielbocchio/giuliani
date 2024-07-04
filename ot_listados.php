@@ -54,7 +54,7 @@ if (isset($_GET['orderby'])) {
     if (isset($_POST['orderby'])) {
         $orderby = $_POST['orderby'];
     } else {
-        $orderby = "codigo";
+        $orderby = "fecha";
     }
 }
 $_SESSION["orderby"] = $orderby;
@@ -65,7 +65,7 @@ if (isset($_GET['sentido'])) {
     if (isset($_POST['sentido'])) {
         $sentido = $_POST['sentido'];
     } else {
-        $sentido = "asc";
+        $sentido = "desc";
     }
 }
 $_SESSION["sentido"] = $sentido;
