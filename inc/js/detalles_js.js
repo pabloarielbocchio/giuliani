@@ -198,7 +198,7 @@ $("#guardarDatosOt_detalle").submit(function (event) {
                 if (parseInt(datos) == 0) {
                     location.reload();
                 } else {
-                    alert("Error");
+                    alert("Error: "+datos);
                 }
             },
             error: function () {
