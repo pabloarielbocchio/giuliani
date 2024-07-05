@@ -80,6 +80,24 @@ $codigo1 = intval($_SESSION['ot']);
     }
 </style>
 
+<div class="modal fade" id="myModalEliminar" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 id="name-header-modal" class="modal-title">Eliminar</h4>
+            </div>
+            <div class="modal-body text-center"  id="text-header-body">
+                ¿Confirma que desea eliminar el registro? Tenga en cuenta que no podrá volver atrás.
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btn-eliminar-fila" name="btn-eliminar-fila" class="btn btn-danger boton_marron_carni" data-dismiss="modal" >Eliminar</button>
+                <button type="button" id="btn-cancelar" name="btn-cancelar" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -408,7 +426,9 @@ $codigo1 = intval($_SESSION['ot']);
     });
 
     $(".eliminar").click(function() {
-        codigo = $(this).closest('tr').attr("codigo");
+        codigo = $(this).closest('tr').attr("codigo");        
+        $('#myModalEliminar').modal('show');
+        /*
         var parametros = {
             funcion: "deleteArchivoOtp",
             codigo: codigo
@@ -433,6 +453,7 @@ $codigo1 = intval($_SESSION['ot']);
             }
         });
         event.preventDefault();
+        */
     });
 
     $("#btn-eliminar-archivo").click(function() {
@@ -457,5 +478,32 @@ $codigo1 = intval($_SESSION['ot']);
                 requestSent = false;
             }
         });
+    });
+
+    $("#btn-eliminar-fila").click(function() {
+        var parametros = {
+            funcion: "deleteArchivoOtp",
+            codigo: codigo
+        }
+        $.ajax({
+            type: "POST",
+            url: 'controller/archivos.controller.php',
+            data: parametros,
+            success: function(datos) {
+                if (parseInt(datos) == 0) {
+                    location.reload();
+                } else {
+                    alert("Error");
+                }
+            },
+            error: function() {
+                alert("Error");
+            },
+            complete: function() {
+                //me.data('requestRunning', false);
+                requestSent = false;
+            }
+        });
+        event.preventDefault();
     });
 </script>
