@@ -52,7 +52,7 @@ class Ot_listadosModel {
             if ($estado >= 0){
                 $sql .= " and orden_trabajos_tipo_id = " . intval($estado);
             }
-            $sql.= " and (nro_serie like '%" . $busqueda . "%' or observaciones like '%" . $busqueda . "%' or cliente like '%" . $busqueda . "%') ORDER BY " . $orderby . " " . $sentido;
+            $sql.= " and (nro_serie like '%" . $busqueda . "%' or observaciones like '%" . $busqueda . "%' or cliente like '%" . $busqueda . "%') ORDER BY anclada desc, " . $orderby . " " . $sentido;
             if (intval($registros) > 0){
                 $sql_limit = $sql . " limit " . $desde . "," . $registros . ";";
             } else {
@@ -120,6 +120,32 @@ class Ot_listadosModel {
             }  else {
                 $this->conn->rollBack();
                 return var_dump($stmt->errorInfo());
+            }
+        } catch(PDOException $e) {
+            $this->conn->rollBack();
+            return -1;
+        }
+    }
+    
+    public function anclarOt($codigo, $anclada){
+        $hoy = date("Y-m-d H:i:s");
+        try {
+            $this->conn->beginTransaction();
+            $stmt = $this->conn->prepare('UPDATE orden_trabajos set '
+                                            . 'anclada = ? , '
+                                            . 'usuario_m = ?, '
+                                            . 'fecha_m = ? '
+                                            . ' where codigo = ?');  
+            $stmt->bindValue(1, $anclada, PDO::PARAM_INT);
+            $stmt->bindValue(2, $_SESSION["usuario"], PDO::PARAM_STR);
+            $stmt->bindValue(3, $hoy, PDO::PARAM_STR);
+            $stmt->bindValue(4, $codigo, PDO::PARAM_INT);
+            if($stmt->execute()){
+                $this->conn->commit();
+                return 0;
+            }  else {
+                $this->conn->rollBack();
+                return 1;
             }
         } catch(PDOException $e) {
             $this->conn->rollBack();

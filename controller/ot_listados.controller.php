@@ -70,6 +70,15 @@ function abrirOt_listado() {
             );
 }
 
+function anclarOt() {
+    $controlador = Ot_listadosController::singleton_ot_listados();
+    
+    echo $controlador->anclarOt(    
+                $_POST['codigo'],
+                $_POST['anclada']
+            );
+}
+
 function finalizarOt_listado() {
     $controlador = Ot_listadosController::singleton_ot_listados();
     
@@ -165,6 +174,13 @@ class Ot_listadosController {
     
     public function abrirOt_listado($codigo) {
         $devuelve = $this->conn->abrirOt_listado($codigo);
+        
+        return $devuelve;
+        
+    }
+    
+    public function anclarOt($codigo, $anclada) {
+        $devuelve = $this->conn->anclarOt($codigo, $anclada);
         
         return $devuelve;
         
