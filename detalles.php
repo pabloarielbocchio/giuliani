@@ -273,17 +273,17 @@ $cod_ot = intval($_SESSION['ot']);
                         </div>
                         <div class="form-group">
                             <label for="nombre0" class="control-label">PU Cant.:</label>
-                            <input type="text" class="form-control" id="pucantAdd" name="pucantAdd"  maxlength="100">
+                            <input type="text" class="form-control" id="pucantAdd" name="pucantAdd" required maxlength="100">
                             <label for="nombre0" class="control-label">PU NETO:</label>
-                            <input type="text" class="form-control" id="punetoAdd" name="punetoAdd"  maxlength="100">
+                            <input type="text" class="form-control" id="punetoAdd" name="punetoAdd" required maxlength="100">
                         </div>
                         <div class="form-group">
                             <label for="nombre0" class="control-label">Clasificacion:</label>
-                            <input type="text" class="form-control" id="clasificacionAdd" name="clasificacionAdd" >
+                            <input type="text" class="form-control" id="clasificacionAdd" name="clasificacionAdd" required>
                         </div>
                         <div class="form-group">
                             <label for="nombre0" class="control-label">Observaciones:</label>
-                            <input type="text" class="form-control" id="observacionesAdd" name="observacionesAdd" >
+                            <input type="text" class="form-control" id="observacionesAdd" name="observacionesAdd" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -361,17 +361,17 @@ $cod_ot = intval($_SESSION['ot']);
                         </div>
                         <div class="form-group">
                             <label for="nombre0" class="control-label">PU Cant.:</label>
-                            <input type="text" class="form-control" id="pucantUpdate" name="pucantUpdate"  maxlength="100">
+                            <input type="text" class="form-control" id="pucantUpdate" name="pucantUpdate" required maxlength="100">
                             <label for="nombre0" class="control-label">PU NETO:</label>
-                            <input type="text" class="form-control" id="punetoUpdate" name="punetoUpdate"  maxlength="100">
+                            <input type="text" class="form-control" id="punetoUpdate" name="punetoUpdate" required maxlength="100">
                         </div>
                         <div class="form-group">
                             <label for="nombre0" class="control-label">Clasificacion:</label>
-                            <input type="text" class="form-control" id="clasificacionUpdate" name="clasificacionUpdate" >
+                            <input type="text" class="form-control" id="clasificacionUpdate" name="clasificacionUpdate" required >
                         </div>
                         <div class="form-group">
                             <label for="nombre0" class="control-label">Observaciones:</label>
-                            <input type="text" class="form-control" id="observacionesUpdate" name="observacionesUpdate" >
+                            <input type="text" class="form-control" id="observacionesUpdate" name="observacionesUpdate" required >
                         </div>
                     </div>
                     <div class="modal-footer">
