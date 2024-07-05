@@ -314,7 +314,7 @@
         
             <table cellspacing="0" style="width: 100%; text-align: left; font-size: 10pt;">
                 <tr>
-                    <th style="width: 10%;text-align:right;" class='midnight-blue'>OV#/PY:</th>
+                    <th style="width: 10%;text-align:right;" class='midnight-blue'>PY/OV#:</th>
                     <th style="width: 10%;text-align:left;" class='midnight-blue'><?php echo $ot; ?></th>
                     <th style="width: 15%;text-align:right;" class='midnight-blue'>CLIENTE:</th>
                     <th style="width: 65%;text-align:left;" class='midnight-blue'><?php echo $cliente; ?></th>
