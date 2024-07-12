@@ -552,7 +552,7 @@ class Ot_detallesModel {
         
     public function getLastOtDetalle(){
         try {
-            $sql = "SELECT * FROM orden_trabajos_detalles order by codigo desc;";
+            $sql = "SELECT * FROM orden_trabajos_detalles order by codigo desc limit 1;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {

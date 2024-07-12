@@ -327,7 +327,7 @@ if (isset($_GET["codigo"])) {
                 <table cellspacing="0" style="width: 100%; text-align: left; font-size: 10pt;">
                     <tr>
                         <th class="filatituloOt">
-                            OV#/PY:
+                            PY/OV#:
                         </th>
                         <th class="filatextoOt"><?php echo $codigo_cliente; ?></th>
 
