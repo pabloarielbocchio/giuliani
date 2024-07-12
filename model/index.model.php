@@ -69,6 +69,7 @@ class IndexModel {
                 $_SESSION["nombre"]             = $result[0]["nombre"];
                 $_SESSION["apellido"]           = $result[0]["apellido"];
                 $_SESSION["sistemas"]           = $result[0]["sistemas"];
+                $_SESSION["anclajes"]           = $result[0]["anclajes"];
 
                 $_SESSION["rol_administrador"]      = $result[0]["rol_administrador"];
                 $_SESSION["rol_estado_ot"]          = $result[0]["rol_estado_ot"];
@@ -149,6 +150,7 @@ class IndexModel {
                 $_SESSION["nombre"]             = $result[0]["nombre"];
                 $_SESSION["apellido"]           = $result[0]["apellido"];
                 $_SESSION["sistemas"]           = $result[0]["sistemas"];                
+                $_SESSION["anclajes"]           = $result[0]["anclajes"];                
 
                 $_SESSION["rol_administrador"]      = $result[0]["rol_administrador"];
                 $_SESSION["rol_estado_ot"]          = $result[0]["rol_estado_ot"];

@@ -23,7 +23,7 @@
                 estado_prod="<?php echo $usu["estado_prod"]; ?> "
                 estado_despacho="<?php echo $usu["estado_despacho"]; ?> "
                 estado="<?php echo intval($usu["finalizada"]); ?>" avance="<?php echo floatval($usu["avance"]); ?>" >
-                <td class="text-center" style="vertical-align: middle; <?php echo $usu["anclada"] ? "text-decoration: underline;" : ""; ?>"><?php echo $usu["nro_serie"]; ?></td>
+                <td class="text-center" style="vertical-align: middle; <?php echo $usu["anclada_user"] ? "text-decoration: underline;" : ""; ?>"><?php echo $usu["nro_serie"]; ?></td>
                 <td class="text-center" style="vertical-align: middle;"><?php echo $usu["fecha"]; ?></td>
                 <td class="text-center" style="vertical-align: middle;"><?php echo date("Y", strtotime($usu["fecha_entrega"])) > 2000 ? $usu["fecha_entrega"] : ""; ?></td>
                 <td class="text-left" style="vertical-align: middle;"><?php echo $usu["cliente"]; ?></td>
@@ -91,7 +91,7 @@
                             <div class="opciones" style="margin-top: -5px">Opciones <span class="caret"></span></div>
                         </button>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="menu">
-                            <?php if ($usu["anclada"] == 1) { ?>
+                            <?php if ($usu["anclada_user"] == 1) { ?>
                                 <li role="presentation" class="desanclar_ot"><a role="menuitem" tabindex="-1" href="#">Desanclar</a></li>
                             <?php } else { ?>
                                 <li role="presentation" class="anclar_ot"><a role="menuitem" tabindex="-1" href="#">Anclar</a></li>

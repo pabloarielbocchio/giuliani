@@ -48,11 +48,11 @@ class Ot_listadosModel {
     public function getRegistrosFiltro($orderby, $sentido, $registros, $pagina, $busqueda, $estado){
         try {
             $desde = ($pagina - 1) * $registros;
-            $sql = " SELECT *, (select descripcion from prioridades where codigo = orden_trabajos.prioridad) as desc_prioridad, (select nombre from orden_trabajos_tipos where codigo = orden_trabajos.orden_trabajos_tipo_id) as tipo FROM orden_trabajos WHERE 1 = 1 ";
+            $sql = " SELECT IF(FIND_IN_SET(codigo, '". $_SESSION["anclajes"] ."') > 0, 1, 0) AS anclada_user, orden_trabajos.*, (select descripcion from prioridades where codigo = orden_trabajos.prioridad) as desc_prioridad, (select nombre from orden_trabajos_tipos where codigo = orden_trabajos.orden_trabajos_tipo_id) as tipo FROM orden_trabajos WHERE 1 = 1 ";
             if ($estado >= 0){
                 $sql .= " and orden_trabajos_tipo_id = " . intval($estado);
             }
-            $sql.= " and (nro_serie like '%" . $busqueda . "%' or observaciones like '%" . $busqueda . "%' or cliente like '%" . $busqueda . "%') ORDER BY anclada desc, " . $orderby . " " . $sentido;
+            $sql.= " and (nro_serie like '%" . $busqueda . "%' or observaciones like '%" . $busqueda . "%' or cliente like '%" . $busqueda . "%') ORDER BY anclada_user desc, " . $orderby . " " . $sentido;
             if (intval($registros) > 0){
                 $sql_limit = $sql . " limit " . $desde . "," . $registros . ";";
             } else {
@@ -128,7 +128,40 @@ class Ot_listadosModel {
     }
     
     public function anclarOt($codigo, $anclada){
+        $ots_ancladas = explode(",", $_SESSION["anclajes"]);
+        if ($anclada == 1){
+            if ($ots_ancladas[0] == ''){
+                $ots_ancladas = [];
+            }
+            $ots_ancladas[] = trim($codigo);
+        } else {
+            if (($key = array_search(trim($codigo), $ots_ancladas)) !== false) {
+                unset($ots_ancladas[$key]);
+            }
+        }
+        $_SESSION["anclajes"] = implode("," , $ots_ancladas);
+
         $hoy = date("Y-m-d H:i:s");
+        
+        try {
+            $this->conn->beginTransaction();
+            $stmt = $this->conn->prepare('UPDATE usuarios set '
+                                            . 'anclajes = ? '
+                                            . ' where usuario = ?');  
+            $stmt->bindValue(1, $_SESSION["anclajes"], PDO::PARAM_STR);
+            $stmt->bindValue(2, $_SESSION["usuario"], PDO::PARAM_STR);
+            if($stmt->execute()){
+                $this->conn->commit();
+                return 0;
+            }  else {
+                $this->conn->rollBack();
+                return 1;
+            }
+        } catch(PDOException $e) {
+            $this->conn->rollBack();
+            return -1;
+        }
+        /*
         try {
             $this->conn->beginTransaction();
             $stmt = $this->conn->prepare('UPDATE orden_trabajos set '
@@ -151,6 +184,7 @@ class Ot_listadosModel {
             $this->conn->rollBack();
             return -1;
         }
+        */
     }
     
     public function abrirOt_listado($codigo){

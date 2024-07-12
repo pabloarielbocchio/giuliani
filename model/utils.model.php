@@ -109,6 +109,7 @@ class UtilsModel {
                 $_SESSION["apellido"]           = $result[0]["apellido"];
                 $_SESSION["id_cliente"]         = $result[0]["id_cliente"];
                 $_SESSION["sistemas"]           = $result[0]["sistemas"];
+                $_SESSION["anclajes"]           = $result[0]["anclajes"];
                 return 0;
             } else {
                 return 1;
@@ -309,6 +310,7 @@ class UtilsModel {
                 $_SESSION["apellido"]           = $result[0]["apellido"];
                 //$_SESSION["id_cliente"]         = $result[0]["id_cliente"];
                 $_SESSION["sistemas"]           = $result[0]["sistemas"];  
+                $_SESSION["anclajes"]           = $result[0]["anclajes"];  
 
                 $_SESSION["rol_administrador"]      = $result[0]["rol_administrador"];
                 $_SESSION["rol_estado_ot"]          = $result[0]["rol_estado_ot"];
