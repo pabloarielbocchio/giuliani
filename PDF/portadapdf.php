@@ -6,6 +6,8 @@ include $_SERVER['DOCUMENT_ROOT'] . "/Giuliani/controller/planos.controller.php"
 
 if (isset($_GET["codigo"])) {
     $codigo = $_GET["codigo"];
+    $valorCodigoPP = $_GET["valorCodigoPP"];
+    $_SESSION["valorCodigoPP"] = $valorCodigoPP;
     $arregloarchivos;
     $controlador2 = PortadaController::singleton_portada();
     $otp =  $controlador2->getOtp($_SESSION["valorCodigoPP"])[0];

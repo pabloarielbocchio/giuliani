@@ -116,6 +116,7 @@ $codigo1 = intval($_SESSION['ot']);
     </div>
 </div>
 
+<div id="valorCodigoPP" valorCodigoPP="<?php echo $valorCodigoPP; ?>"></div>
 
 <?php if (count($archivos) > 0) { ?>
     <table id="tabla" class="table table-striped table-hover" style="display: block; overflow-x: auto; white-space: nowrap;">
@@ -228,7 +229,8 @@ $codigo1 = intval($_SESSION['ot']);
     });
     
     $("#btnPortada").click(function() {
-        let combo1 = <?php echo $codigo1 ?>;
+        let combo1 = <?php echo $codigo1; ?>;
+        let valorCodigoPP = <?php echo $valorCodigoPP; ?>;
         // let comboItemvendido = $("#subcategory").val();
         // alert(combo1);
         // if(combo1 != null){
@@ -240,7 +242,7 @@ $codigo1 = intval($_SESSION['ot']);
         //  alert(combo1);
         //window.location.href = "PDF/portadapdf.php?codigo=" + combo1;
         window.open(
-            "PDF/portadapdf.php?codigo=" + combo1,
+            "PDF/portadapdf.php?codigo=" + combo1 + "&valorCodigoPP=" + valorCodigoPP,
             '_blank' // <- This is what makes it open in a new window.
         );
 

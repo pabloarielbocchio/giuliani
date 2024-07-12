@@ -18,7 +18,8 @@ function buscarArchivosTablaOtp(){
             $_POST['select_n2'],
             $_POST['select_n3'],
             $_POST['select_n4'],
-            $_POST['opc']
+            $_POST['opc'],
+            $_POST['valorCodigoPP']
         );
 }
 
@@ -607,7 +608,7 @@ class ProductosController {
     }
         
     
-    public function buscarArchivosTablaOtp($n1, $n2, $n3, $n4, $opc){        
+    public function buscarArchivosTablaOtp($n1, $n2, $n3, $n4, $opc, $valorCodigoPP = null){        
         
        $archivos = $this->conn->getArchivosOtp($opc);
         

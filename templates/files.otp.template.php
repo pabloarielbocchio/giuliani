@@ -131,7 +131,8 @@
             select_n2: $('#select_n2').val(),
             select_n3: $('#select_n3').val(),
             select_n4: $('#select_n4').val(),
-            opc: $(".container").attr("opc")
+            opc: $(".container").attr("opc"), 
+            valorCodigoPP: <?php echo $_SESSION["valorCodigoPP"]; ?>
         }
         console.log(parametros);        
         $.ajax({
