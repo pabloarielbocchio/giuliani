@@ -99,7 +99,6 @@ class Portada_Model
             } else {
                 $sql = "SELECT * FROM orden_trabajos_produccion otp INNER JOIN productos_estandar pp ON otp.prod_estandar_id=pp.codigo WHERE otp.codigo='" . $otprodDetalle . "'";
             }
-
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {

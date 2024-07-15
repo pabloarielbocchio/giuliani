@@ -11,15 +11,14 @@ if (isset($_GET["codigo"])) {
     $arregloarchivos;
     $controlador2 = PortadaController::singleton_portada();
     $otp =  $controlador2->getOtp($_SESSION["valorCodigoPP"])[0];
-
     if ($otp["prod_personalizado_id"] > 0){
         $devolverDetalle =  $controlador2->obtenerCampossectoressecciones($otp["prod_personalizado_id"], $_SESSION["valorSeleccion"]);
         $devolverDetalleproducto = $controlador2->productoDetalle($otp["prod_personalizado_id"], $_SESSION["valorSeleccion"]);
     } else {
         $devolverDetalle =  $controlador2->obtenerCampossectoressecciones($otp["prod_estandar_id"], $_SESSION["valorSeleccion"]);
-        $devolverDetalleproducto = $controlador2->productoDetalle($otp["prod_estandar_id"], $_SESSION["valorSeleccion"]);
+        $devolverDetalleproducto = $controlador2->productoDetalle($otp["codigo"], $_SESSION["valorSeleccion"]);
         //var_dump($devolverDetalle);
-    }
+    }	
 
     $devuelve = $controlador2->obtenerCamposprimerosdetalles($codigo);
     foreach ($devolverDetalle as $devDetalle) {
