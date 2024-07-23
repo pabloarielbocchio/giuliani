@@ -594,6 +594,8 @@ thead th{
         // Almacenar la posición del scroll al salir de la página
         $('#tabla').on('scroll', function() {
             localStorage.setItem('scrollPositionTablaSeguimiento', $(this).scrollTop());
+            var pos = localStorage.getItem('scrollPositionTablaSeguimiento');
+            console.log("pos: " + pos);
         });
         // Recuperar la posición del scroll al cargar la página
         var scrollPosition = localStorage.getItem('scrollPositionTablaSeguimiento');
