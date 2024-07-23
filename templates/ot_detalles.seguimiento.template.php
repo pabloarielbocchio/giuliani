@@ -590,4 +590,15 @@ thead th{
         window.location.href = "ot_detalle_standar_view.php?opc="+codigo;
     });
 
+    $(document).ready(function() {
+        // Almacenar la posición del scroll al salir de la página
+        $('#tabla').on('scroll', function() {
+            localStorage.setItem('scrollPositionTablaSeguimiento', $(this).scrollTop());
+        });
+        // Recuperar la posición del scroll al cargar la página
+        var scrollPosition = localStorage.getItem('scrollPositionTablaSeguimiento');
+        if (scrollPosition !== null) {
+            $('#tabla').scrollTop(scrollPosition);
+        }
+    });
 </script>
