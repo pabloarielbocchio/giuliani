@@ -89,7 +89,7 @@ thead th{
 
 </style>
 
-<div class="divespecial m-t-lg">
+<div class="divespecial m-t-lg" id="tabla-container">
   <table id="tabla" namefile="Ot_detalles" class="table table-striped table-hover" rol_administrador="<?php echo intval($_SESSION["rol_administrador"]); ?>" >
     <thead>
         <tr class="row ">
@@ -589,18 +589,22 @@ thead th{
         codigo = $(this).closest('tr').attr("codigo");
         window.location.href = "ot_detalle_standar_view.php?opc="+codigo;
     });
-
+    
     $(document).ready(function() {
-        // Almacenar la posición del scroll al salir de la página
-        $('#tabla').on('scroll', function() {
-            localStorage.setItem('scrollPositionTablaSeguimiento', $(this).scrollTop());
-            var pos = localStorage.getItem('scrollPositionTablaSeguimiento');
-            console.log("pos: " + pos);
-        });
         // Recuperar la posición del scroll al cargar la página
         var scrollPosition = localStorage.getItem('scrollPositionTablaSeguimiento');
+        var $tablaContainer = $('#tabla-container');
+
         if (scrollPosition !== null) {
-            $('#tabla').scrollTop(scrollPosition);
+            $tablaContainer.scrollTop(scrollPosition);
         }
+        console.log("Scroll position stored: " + 1);
+
+        // Almacenar la posición del scroll al desplazarse
+        $tablaContainer.on('scroll', function() {
+            var scrollPos = $(this).scrollTop();
+            localStorage.setItem('scrollPositionTablaSeguimiento', scrollPos);
+            console.log("Scroll position stored: " + scrollPos);
+        });
     });
 </script>
