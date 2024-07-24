@@ -268,9 +268,9 @@ $menu[] = $_salir;
 							</form>								
 						</div>
 						<ul class="nav navbar-top-links navbar-right">
-                                                        <li id="alertas_notificaciones">
+                                                        <li id="alertas_notificaciones" onclick='window.open("help/documentacion.pdf", "_blank")'>
                                                             <a class="dropdown-toggle count-info" data-toggle="" href="#">
-                                                                <i class="fa fa-bell"></i> <?php echo '<span style="display: none;" class="label label-primary bell_nuevos_pedidos">' . count($nuevos_pedidos) . '</span>';  ?>
+                                                                <i class="fa fa-question"></i> <?php echo '<span style="display: none;" class="label label-primary bell_nuevos_pedidos">' . count($nuevos_pedidos) . '</span>';  ?>
                                                             </a>
                                                         </li> 
 							<li class="<?php if ($_SESSION["last_cliente"] > 0){ echo "switchable"; }?>">
