@@ -1,7 +1,7 @@
 <table id="tabla" namefile="Ot_eventos" totales="<?php echo $_SESSION["totales"]; ?>" registros="<?php echo $_SESSION['cant_reg']; ?>" pagina="<?php $_SESSION['pagina']; ?>" class="table table-striped table-hover" mes="<?php echo $mes; ?>" anio="<?php echo $anio; ?>" dia="<?php echo $dia; ?>" opcion="<?php echo $opcion; ?>"> 
     <thead>
         <tr class="row " style="background-color: transparent;">
-            <th class="text-center " orderby="ot_id" sentido="asc">OT/OV</th>
+            <th class="text-center " orderby="ot_id" sentido="asc">PY/OV</th>
             <!--<th class="text-center ordena" orderby="ot_produccion_id" sentido="asc">#OT Produccion</th>
             <th class="text-center ordena" orderby="seccion" sentido="asc">Destino</th>-->
             <th class="text-center " orderby="ot_produccion_id" sentido="asc">ID</th>
@@ -18,7 +18,8 @@
             <tr class="row" codigo="<?php echo $usu["codigo"]; ?>">
                 <td class="text-center" style="vertical-align: middle;">
                     <?php 
-                        echo $usu["cod_ot"] > 0 ? $usu["cod_ot"] : $usu["ot_id"];
+                        echo $usu["nro_serie"];
+                        //echo $usu["cod_ot"] > 0 ? $usu["cod_ot"] : $usu["ot_id"];
                         /*if ($usu["ot_detalle_id"]){
                             echo " (".$usu["ot_detalle_id"].")";
                         }*/
