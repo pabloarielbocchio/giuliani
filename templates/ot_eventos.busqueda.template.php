@@ -1,14 +1,15 @@
 <table id="tabla" namefile="Ot_eventos" totales="<?php echo $_SESSION["totales"]; ?>" registros="<?php echo $_SESSION['cant_reg']; ?>" pagina="<?php $_SESSION['pagina']; ?>" class="table table-striped table-hover" mes="<?php echo $mes; ?>" anio="<?php echo $anio; ?>" dia="<?php echo $dia; ?>" opcion="<?php echo $opcion; ?>"> 
     <thead>
         <tr class="row " style="background-color: transparent;">
-            <th class="text-center ordena" orderby="ot_id" sentido="asc">#OT (DETALLE)</th>
+            <th class="text-center " orderby="ot_id" sentido="asc">OT/OV</th>
             <!--<th class="text-center ordena" orderby="ot_produccion_id" sentido="asc">#OT Produccion</th>
             <th class="text-center ordena" orderby="seccion" sentido="asc">Destino</th>-->
-            <th class="text-center ordena" orderby="codigo" sentido="asc">ID</th>
-            <th class="text-center ordena" orderby="sector" sentido="asc">Evento</th>
-            <th class="text-left ordena" orderby="observaciones" sentido="asc">Observaciones</th>
-            <th class="text-left ordena" orderby="usuario_m" sentido="asc">Usuario</th>
-            <th class="text-left ordena" orderby="fecha_m" sentido="asc">Fecha y Hora</th>
+            <th class="text-center " orderby="ot_produccion_id" sentido="asc">ID</th>
+            <th class="text-center " orderby="codigo" sentido="asc">DESC</th>
+            <th class="text-center " orderby="sector" sentido="asc">Evento</th>
+            <th class="text-left " style="width: 50%;" orderby="observaciones" sentido="asc">Observaciones</th>
+            <th class="text-left " orderby="usuario_m" sentido="asc">Usuario</th>
+            <th class="text-left " orderby="fecha_m" sentido="asc">Fecha y Hora</th>
             <!-- <th class="text-center noExl">Acciones</th> -->
         </tr>
     </thead>
@@ -18,9 +19,9 @@
                 <td class="text-center" style="vertical-align: middle;">
                     <?php 
                         echo $usu["cod_ot"] > 0 ? $usu["cod_ot"] : $usu["ot_id"];
-                        if ($usu["ot_detalle_id"]){
+                        /*if ($usu["ot_detalle_id"]){
                             echo " (".$usu["ot_detalle_id"].")";
-                        }
+                        }*/
                     ?>
                 </td>
                 <!--<td class="text-center" style="vertical-align: middle;">
@@ -42,7 +43,19 @@
                     ?>
                 </td>
                 <td class="text-center" style="vertical-align: middle;"><?php echo $usu["destino"]; ?></td>-->
-                <td class="text-center" style="vertical-align: middle;"><?php echo $usu["codigo"]; ?></td>
+                <td class="text-center" style="vertical-align: middle;">
+                    <?php 
+                        $_id = "-";
+                        if ($usu["ot_produccion_id"] > 0){
+                            $_id = $usu["ot_produccion_id"];
+                            while(strlen($_id) < 5){
+                                $_id = '0' . $_id;
+                            }
+                        }
+                        echo $_id; 
+                    ?>
+                </td>
+                <td class="text-left" style="vertical-align: middle;"><?php echo $usu["custom"] ? $usu["custom"] : $usu["estandar"]; ?></td>
                 <td class="text-center" style="vertical-align: middle;"><?php echo $usu["evento"]; ?></td>
                 <td class="text-left" style="vertical-align: middle;"><?php echo $usu["observaciones"]; ?></td>
                 <td class="text-left" style="vertical-align: middle;"><?php echo $usu["usuario_m"]; ?></td>

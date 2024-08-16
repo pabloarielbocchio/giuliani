@@ -52,8 +52,11 @@ class Ot_eventosModel {
                         otd.*,
                         (select orden_trabajo_id from orden_trabajos_detalles s where s.codigo = otd.ot_detalle_id) as cod_ot,
                         (select descripcion from destinos s where s.codigo = otd.destino_id) as destino,
-                        (select descripcion from eventos s where s.codigo = otd.evento_id) as evento
-                    FROM orden_trabajos_eventos otd WHERE (otd.observaciones like '%" . $busqueda . "%')  ";
+                        (select descripcion from eventos s where s.codigo = otd.evento_id) as evento,
+                        (select descripcion from productos_personalizados pp where pp.codigo = otp.prod_personalizado_id ) as custom,
+                        (select descripcion from productos_estandar pp where pp.codigo = otp.prod_estandar_id ) as estandar
+                    FROM orden_trabajos_eventos otd left join orden_trabajos_produccion otp on otd.ot_produccion_id = otp.codigo
+                    WHERE (otd.observaciones like '%" . $busqueda . "%')  ";
             if ($_SESSION['evento_selected'] > 0){
                 $sql .= " and otd.evento_id = '" . $_SESSION['evento_selected'] . "' ";
             }

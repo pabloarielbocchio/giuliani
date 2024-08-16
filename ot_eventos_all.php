@@ -17,6 +17,10 @@ $ots = $controlador->getOts();
 
 $_SESSION["totales"] = $controlador->getCountOt_eventos();
 
+if ($_SESSION["evento_selected"] == 0){
+    $_SESSION["evento_selected"] = 5;
+}
+
 // Recepcion parametros PAGINACION /*******************************************/
 
 if (isset($_GET['pagina'])) {
