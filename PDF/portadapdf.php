@@ -80,7 +80,6 @@ if (isset($_GET["codigo"])) {
 
     .filatituloOt {
         width: 20%;
-        width: 20%;
         font-size: 1.25rem;
         color: black;
         position: relative;
@@ -93,7 +92,7 @@ if (isset($_GET["codigo"])) {
         font-size: 1.25rem;
         color: black;
         position: relative;
-        right: 30%;
+        right: 25%;
         vertical-align: middle;
     }
 
@@ -372,6 +371,7 @@ if (isset($_GET["codigo"])) {
 
             </table>
         </div>
+        <br />
         <div style="margin-top: -200px;">
             <div style="display:flex ;justify-content: center;">
                 <h3 style="text-align: center; font-size: 1.3rem; font-weight: bold;color:black">EQUIPO</h3>
