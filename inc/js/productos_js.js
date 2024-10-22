@@ -25,6 +25,154 @@ $(document).ready(function () {
         if ($(".container").attr("cod_nivel_4") == 0){
             $("#select_n4").change();
         }*/
+
+    $("#select_n1").select2({
+        placeholder: 'Seleccione una opción',
+        allowClear: true
+    });
+    $("#select_n2").select2({
+        placeholder: 'Seleccione una opción',
+        allowClear: true
+    });
+    $("#select_n3").select2({
+        placeholder: 'Seleccione una opción',
+        allowClear: true
+    });
+
+    // Manejar el evento de cambio en select_n1
+    $("#select_n1").on("change", function() {
+        var selectedValue = $(this).val();
+
+        // Limpiar selects dependientes
+        $("#select_n2").empty().append('<option value=""></option>').val(null).trigger("change"); // Añadir opción vacía
+        $("#select_n3").empty().append('<option value=""></option>').val(null).trigger("change");
+        $("#select_n4").empty().append('<option value=""></option>').val(null).trigger("change");
+
+        // Si se selecciona una opción válida
+        if (selectedValue) {
+            // Realizar solicitud AJAX para obtener las opciones de select_n2
+            $.ajax({
+                url: 'controller/productos.controller.php',
+                type: 'POST',  // Método de la solicitud
+                data: {
+                    funcion: "getProductosBOnly",
+                    codigo: selectedValue  // Enviar el valor seleccionado en nivel 1
+                },
+                dataType: 'json',  // Especificar que esperamos una respuesta en JSON
+                success: function(response) {
+                    // Limpiar el select_n2 antes de agregar las nuevas opciones
+                    $("#select_n2").empty();
+                    $("#select_n2").empty().append('<option value=""></option>');
+
+                    // Agregar las nuevas opciones a select_n2
+                    $.each(response, function(index, option) {
+                        $("#select_n2").append('<option value="' + option.codigo + '">' + option.codigo + " - " + option.descripcion + '</option>');
+                    });
+
+                    // Refrescar Select2 para que muestre las nuevas opciones
+                    $("#select_n2").select2({
+                        placeholder: 'Seleccione una opción',
+                        allowClear: true
+                    });
+
+                    // Simular clic en el botón de búsqueda
+                    $("#busqueda-icono").click();
+                },
+                error: function() {
+                    alert('Hubo un error al cargar las opciones.');
+                }
+            });
+        }
+    });
+
+    // Manejar el evento de cambio en select_n2
+    $("#select_n2").on("change", function() {
+        var selectedValue = $(this).val();
+
+        // Limpiar selects dependientes
+        $("#select_n3").val(null).trigger("change");
+        $("#select_n4").val(null).trigger("change");
+
+        // Si se selecciona una opción válida
+        if (selectedValue) {
+            // Realizar solicitud AJAX para obtener las opciones de select_n2
+            $.ajax({
+                url: 'controller/productos.controller.php',
+                type: 'POST',  // Método de la solicitud
+                data: {
+                    funcion: "getProductosCOnly",
+                    codigo: selectedValue  // Enviar el valor seleccionado en nivel 1
+                },
+                dataType: 'json',  // Especificar que esperamos una respuesta en JSON
+                success: function(response) {
+                    // Limpiar el select_n2 antes de agregar las nuevas opciones
+                    $("#select_n3").empty();
+                    $("#select_n3").empty().append('<option value=""></option>');
+
+                    // Agregar las nuevas opciones a select_n2
+                    $.each(response, function(index, option) {
+                        $("#select_n3").append('<option value="' + option.codigo + '">' + option.codigo + " - " + option.descripcion + '</option>');
+                    });
+
+                    // Refrescar Select2 para que muestre las nuevas opciones
+                    $("#select_n3").select2({
+                        placeholder: 'Seleccione una opción',
+                        allowClear: true
+                    });
+
+                    // Simular clic en el botón de búsqueda
+                    $("#busqueda-icono").click();
+                },
+                error: function() {
+                    alert('Hubo un error al cargar las opciones.');
+                }
+            });
+        }
+    });
+
+    // Manejar el evento de cambio en select_n3
+    $("#select_n3").on("change", function() {
+        var selectedValue = $(this).val();
+
+        // Limpiar selects dependientes
+        $("#select_n4").val(null).trigger("change");
+
+        // Si se selecciona una opción válida
+        if (selectedValue) {
+            // Realizar solicitud AJAX para obtener las opciones de select_n2
+            $.ajax({
+                url: 'controller/productos.controller.php',
+                type: 'POST',  // Método de la solicitud
+                data: {
+                    funcion: "getProductosDOnly",
+                    codigo: selectedValue  // Enviar el valor seleccionado en nivel 1
+                },
+                dataType: 'json',  // Especificar que esperamos una respuesta en JSON
+                success: function(response) {
+                    // Limpiar el select_n2 antes de agregar las nuevas opciones
+                    $("#select_n4").empty();
+                    $("#select_n4").empty().append('<option value=""></option>');
+
+                    // Agregar las nuevas opciones a select_n2
+                    $.each(response, function(index, option) {
+                        $("#select_n4").append('<option value="' + option.codigo + '">' + option.codigo + " - " + option.descripcion + '</option>');
+                    });
+
+                    // Refrescar Select2 para que muestre las nuevas opciones
+                    $("#select_n4").select2({
+                        placeholder: 'Seleccione una opción',
+                        allowClear: true
+                    });
+
+                    // Simular clic en el botón de búsqueda
+                    $("#busqueda-icono").click();
+                },
+                error: function() {
+                    alert('Hubo un error al cargar las opciones.');
+                }
+            });
+        }
+    });
 });
 
 $(document).on({
@@ -207,7 +355,7 @@ $("#guardarDatosProducto").submit(function (event) {
         event.preventDefault();
     }
 });
-
+/*
 $("#select_n1").change(function () {
 
     $("#select_n2").val(null);
@@ -246,3 +394,4 @@ $("#select_n4").change(function () {
 
     $("#busqueda-icono").click();
 });
+*/

@@ -268,4 +268,23 @@ $("#btnDescargar").click(function () {
         }
     });
 });
+
+// Detectar eventos de teclado para navegación con flechas
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'ArrowLeft') {
+        // Si la tecla presionada es la flecha izquierda, ir a la página anterior
+        if (pageNum > 1) {
+            pageNum--;
+            queueRenderPage(pageNum);
+        }
+    }
+    if (event.key === 'ArrowRight') {
+        // Si la tecla presionada es la flecha derecha, ir a la página siguiente
+        if (pageNum < pdfDoc.numPages) {
+            pageNum++;
+            queueRenderPage(pageNum);
+        }
+    }
+});
+
 </script>

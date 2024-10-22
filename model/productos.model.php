@@ -644,6 +644,22 @@ class ProductosModel {
         }
     }
     
+    public function getProductosBOnly($na){
+        try {
+            $sql = "SELECT * FROM productos_nivel_b where cod_prod_na = " . intval($na) . " order by CAST(descripcion AS UNSIGNED) desc, descripcion desc;";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll();
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+    }
+    
     public function getProductosC(){
         try {
             $sql = "SELECT * FROM productos_nivel_c order by CAST(descripcion AS UNSIGNED) desc, descripcion desc;";
@@ -660,9 +676,41 @@ class ProductosModel {
         }
     }
     
+    public function getProductosCOnly($nb){
+        try {
+            $sql = "SELECT * FROM productos_nivel_c where cod_prod_nb = " . intval($nb) . " order by CAST(descripcion AS UNSIGNED) desc, descripcion desc;";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll();
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+    }
+    
     public function getProductosD(){
         try {
             $sql = "SELECT * FROM productos_nivel_d order by CAST(descripcion AS UNSIGNED) desc, descripcion desc;";
+            $query = $this->conn->prepare($sql);
+            $query->execute();
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll();
+                return $result;
+            }
+        } catch (PDOException $e) {
+            $error = "Error!: " . $e->getMessage();
+
+            return $error;
+        }
+    }
+    
+    public function getProductosDOnly($nc){
+        try {
+            $sql = "SELECT * FROM productos_nivel_d where cod_prod_nc = " . intval($nc) . "  order by CAST(descripcion AS UNSIGNED) desc, descripcion desc;";
             $query = $this->conn->prepare($sql);
             $query->execute();
             if ($query->rowCount() > 0) {

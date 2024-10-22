@@ -67,6 +67,7 @@ if (isset($_GET["codigo"])) {
     }
 }
 ?>
+
 <html lang="en">
 
 <head>
@@ -80,7 +81,7 @@ if (isset($_GET["codigo"])) {
 
     .filatituloOt {
         width: 20%;
-        font-size: 1.25rem;
+        font-size: 1.00rem;
         color: black;
         position: relative;
         left: 30%;
@@ -89,7 +90,7 @@ if (isset($_GET["codigo"])) {
 
     .filatextoOt {
         width: 80%;
-        font-size: 1.25rem;
+        font-size: 1.00rem;
         color: black;
         position: relative;
         right: 25%;
@@ -97,7 +98,7 @@ if (isset($_GET["codigo"])) {
     }
 
     .filatituloCliente {
-        font-size: 1.25rem;
+        font-size: 1.00rem;
         color: black;
         text-align: center;
         position: relative;
@@ -106,7 +107,7 @@ if (isset($_GET["codigo"])) {
 
     .filatextoCliente {
         width: 80%;
-        font-size: 1.25rem;
+        font-size: 1.00rem;
         color: black;
         position: relative;
         right: 40px;
@@ -321,58 +322,55 @@ if (isset($_GET["codigo"])) {
         <div style=" border-right: 1px black solid;border-left: 1px black solid;height: 385px;">
             <h1 style=" font-size: 2.2rem; text-align: center;border-top: 2px black solid;border-bottom: 2px black solid;font-weight: 600; color: black;">PLANIMETRIA</h1>
 
-            <div style="display: flex; margin-top: -10px;">
-                <table cellspacing="0" style="width: 100%; text-align: left; font-size: 10pt;">
-                    <tr>
-                        <th class="filatituloOt">
-                            PY/OV#:
-                        </th>
-                        <th class="filatextoOt"><?php echo $codigo_cliente; ?></th>
-
-                    </tr>
-                    <tr>
-                        <th style="width:80%;font-size: 0.85rem;font-weight: 700; color: black;text-align: right;">FECHA IMPRESIÓN:</th>
-                        <th style="width:20%;font-size: 0.85rem;color: black;text-align: left;"><?php echo date("d/m/Y"); ?></th>
-                    </tr>
-
-                </table>
-                <table cellspacing="0" style="width: 100%; text-align: left; font-size: 10pt; margin-left: 20px;">
-                    <tr>
-                        <th class="filatituloCliente">
-                            CLIENTE:
-                        </th>
-                        <th class="filatextoCliente"><?php echo $cliente; ?></th>
-                    </tr>
-                    <tr>
-                        <th style="font-size: 0.85rem; color: black">
-                            IMPRIMIÓ:
-                        </th>
-                        <th style="width: 80%;font-size: 0.85rem;color: black;">
-                            <?php echo $_SESSION["usuario"]; ?>
-                        </th>
-                    </tr>
-                </table>
-            </div>
-
-
+            <table cellspacing="0" style="width: 100%; text-align: left; font-size: 10pt; margin-top: 5px;">
+                <tr>
+                    <th style="width: 15%; text-align:center; font-weight: 800; color: black;">PY/OV#:</th>
+                    <th style="text-align:left; border-bottom: white ;font-style: italic; color: black">
+                        <?php echo $codigo_cliente; ?>
+                    </th>
+                    <th style="text-align:center; font-weight: 800; color: black;">FECHA IMPRESIÓN:</th>
+                    <th style="text-align:left;border-bottom: white ;font-style: italic; color: black">
+                        <?php echo date("d/m/Y"); ?>
+                    </th>
+                    <th style="text-align:center; font-weight: 800; color: black;">IMPRIMIÓ:</th>
+                    <th style="text-align:left;border-bottom: white ;font-style: italic; color: black">
+                        <?php echo $_SESSION["usuario"]; ?>
+                    </th>
+                </tr>
+            </table>
+            <table cellspacing="0" style="width: 100%; text-align: left; font-size: 10pt; margin-top: 5px;">
+                <tr>
+                    <th style="width: 15%;text-align:center; font-weight: 800; color: black;">CLIENTE:</th>
+                    <th style="text-align:left;border-bottom: white ;font-style: italic; color: black">
+                        <?php echo $cliente; ?>
+                    </th>
+                </tr>
+            </table>
+            <br />
             <table cellspacing="0" style="width: 100%; text-align: left; font-size: 10pt; margin-top: 5px;">
                 <tr>
                     <th style="width: 20%;text-align:center; font-weight: 800; color: black;">SECCIÓN:</th>
-                    <th style="width: 80%;text-align:left;border-bottom: white ;font-style: italic; color: black"><?php echo $seccion; ?></th>
+                    <th style="width: 80%;text-align:left;border-bottom: white ;font-style: italic; color: black">
+                        <?php echo $seccion; ?>
+                    </th>
                 </tr>
                 <tr>
                     <th style="width: 20%;text-align:center;font-weight: 800;color: black;">SECTOR:</th>
-                    <th style="width: 80%;text-align:left; border-bottom: white ;font-style: italic; color: black"><?php echo $sector; ?></th>
+                    <th style="width: 80%;text-align:left; border-bottom: white ;font-style: italic; color: black">
+                        <?php echo $sector; ?>
+                    </th>
                 </tr>
                 <tr>
                     <th style="width: 20%;text-align:center;font-weight: 800;color: black;">EQUIPO:</th>
-                    <th style="width: 80%;text-align:left;border-bottom: white ; font-style: italic; color: black"><?php echo $equipo; ?></th>
+                    <th style="width: 80%;text-align:left;border-bottom: white ; font-style: italic; color: black">
+                        <?php echo $equipo; ?>
+                    </th>
                 </tr>
 
             </table>
         </div>
         <br />
-        <div style="margin-top: -200px;">
+        <div style="margin-top: -180px;">
             <div style="display:flex ;justify-content: center;">
                 <h3 style="text-align: center; font-size: 1.3rem; font-weight: bold;color:black">EQUIPO</h3>
             </div>

@@ -436,6 +436,24 @@ function getProductoAlt() {
     echo $controlador->getProductoAlt($_POST['codigo']);
 }
 
+function getProductosBOnly() {
+    $controlador = ProductosController::singleton_productos();
+    
+    echo $controlador->getProductosBOnly($_POST['codigo']);
+}
+
+function getProductosCOnly() {
+    $controlador = ProductosController::singleton_productos();
+    
+    echo $controlador->getProductosCOnly($_POST['codigo']);
+}
+
+function getProductosDOnly() {
+    $controlador = ProductosController::singleton_productos();
+    
+    echo $controlador->getProductosDOnly($_POST['codigo']);
+}
+
 class ProductosController {
 
     private static $instancia;
@@ -1691,9 +1709,28 @@ class ProductosController {
         return $devuelve;
         
     }
-    public function getOtsportada()
-    {
+
+    public function getOtsportada() {
         $devuelve=$this->conn->getOtsportada();
+
         return $devuelve;
+    }
+
+    public function getProductosBOnly($codigo) {
+        $devuelve=$this->conn->getProductosBOnly($codigo);
+
+        return json_encode($devuelve);
+    }
+
+    public function getProductosCOnly($codigo) {
+        $devuelve=$this->conn->getProductosCOnly($codigo);
+
+        return json_encode($devuelve);
+    }
+
+    public function getProductosDOnly($codigo) {
+        $devuelve=$this->conn->getProductosDOnly($codigo);
+
+        return json_encode($devuelve);
     }
 }
