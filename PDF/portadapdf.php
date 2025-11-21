@@ -11,6 +11,7 @@ if (isset($_GET["codigo"])) {
     $arregloarchivos;
     $controlador2 = PortadaController::singleton_portada();
     $otp =  $controlador2->getOtp($_SESSION["valorCodigoPP"])[0];
+    $usuario_generador_otp = $otp["usuario_m"];
     if ($otp["prod_personalizado_id"] > 0){
         $devolverDetalle =  $controlador2->obtenerCampossectoressecciones($otp["prod_personalizado_id"], $_SESSION["valorSeleccion"]);
         $devolverDetalleproducto = $controlador2->productoDetalle($otp["prod_personalizado_id"], $_SESSION["valorSeleccion"]);
@@ -324,28 +325,38 @@ if (isset($_GET["codigo"])) {
 
             <table cellspacing="0" style="width: 100%; text-align: left; font-size: 10pt; margin-top: 5px;">
                 <tr>
-                    <th style="width: 15%; text-align:center; font-weight: 800; color: black;">PY/OV#:</th>
-                    <th style="text-align:left; border-bottom: white ;font-style: italic; color: black">
+                    <th style="width: 15%;text-align:center; font-weight: 800; color: black;">PY/OV#:</th>
+                    <th style="width: 15%;text-align:left; border-bottom: white ;font-style: italic; color: black">
                         <?php echo $codigo_cliente; ?>
                     </th>
-                    <th style="text-align:center; font-weight: 800; color: black;">FECHA IMPRESIÓN:</th>
-                    <th style="text-align:left;border-bottom: white ;font-style: italic; color: black">
+                    <th style="width: 25%;text-align:center; font-weight: 800; color: black;">FECHA IMPRESIÓN:</th>
+                    <th style="width: 15%;text-align:left;border-bottom: white ;font-style: italic; color: black">
                         <?php echo date("d/m/Y"); ?>
                     </th>
-                    <th style="text-align:center; font-weight: 800; color: black;">IMPRIMIÓ:</th>
-                    <th style="text-align:left;border-bottom: white ;font-style: italic; color: black">
+                    <th style="width: 15%;text-align:center; font-weight: 800; color: black;">IMPRIMIÓ:</th>
+                    <th style="width: 15%;text-align:left;border-bottom: white ;font-style: italic; color: black">
                         <?php echo $_SESSION["usuario"]; ?>
                     </th>
                 </tr>
             </table>
             <table cellspacing="0" style="width: 100%; text-align: left; font-size: 10pt; margin-top: 5px;">
                 <tr>
-                    <th style="width: 15%;text-align:center; font-weight: 800; color: black;">CLIENTE:</th>
-                    <th style="text-align:left;border-bottom: white ;font-style: italic; color: black">
+                    <th style="width: 15%; text-align:center; font-weight:800; color:black;">CLIENTE:</th>
+                    <th style="width: 25%; text-align:left; font-style:italic; color:black;">
                         <?php echo $cliente; ?>
+                    </th>
+
+                    <!-- columnas vacías para completar el 100% -->
+                    <th style="width: 15%;"></th>
+                    <th style="width: 15%;"></th>
+
+                    <th style="width: 15%; text-align:center; font-weight:800; color:black;">GENERÓ:</th>
+                    <th style="width: 15%; text-align:left; font-style:italic; color:black;">
+                        <?php echo $usuario_generador_otp; ?>
                     </th>
                 </tr>
             </table>
+
             <br />
             <table cellspacing="0" style="width: 100%; text-align: left; font-size: 10pt; margin-top: 5px;">
                 <tr>

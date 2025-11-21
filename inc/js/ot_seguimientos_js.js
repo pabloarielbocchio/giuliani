@@ -113,7 +113,6 @@ function getRegistros(orderby, sentido, registros, pagina, busqueda, objeto) {
                     next.css("display", "none");
                     last.css("display", "none");
                 }
-
             },
             error: function () {
                 alert("Error");

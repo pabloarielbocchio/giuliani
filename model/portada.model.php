@@ -163,7 +163,8 @@ class Portada_Model
                 (select a.cod_prod_personalizado_id from archivos a where a.codigo = ota.archivo_id) as cod_prod_personalizado_id,
                 (select a.cod_prod_estandar_id from archivos a where a.codigo = ota.archivo_id) as cod_prod_estandar_id,
                 (select a.ruta from archivos a where a.codigo = ota.archivo_id) as ruta,
-                (select a.descripcion from archivos a where a.codigo = ota.archivo_id) as archivo
+                (select a.descripcion from archivos a where a.codigo = ota.archivo_id) as archivo,
+                otp.usuario_m
              FROM orden_trabajos_archivos ota, orden_trabajos_produccion otp where ota.ot_produccion_id = otp.codigo and ota.ot_produccion_id = " . intval($otp) . " ;";
             $query = $this->conn->prepare($sql);
             $query->execute();
