@@ -19,6 +19,17 @@ function getDashboardEjecutivo(){
     echo $controlador->getDashboardEjecutivo($fecha_desde, $fecha_hasta, $proyecto, $usuario);
 }
 
+function getActividadSubidas(){
+    $controlador = DashboardController::singleton_dashboard();
+    $fecha_desde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : date('Y-m-d', strtotime('-30 days'));
+    $fecha_hasta = isset($_POST['fecha_hasta']) ? $_POST['fecha_hasta'] : date('Y-m-d');
+    $usuario = isset($_POST['usuario']) ? $_POST['usuario'] : '0';
+    $proyecto = isset($_POST['proyecto']) ? intval($_POST['proyecto']) : 0;
+    $tipo_archivo = isset($_POST['tipo_archivo']) ? $_POST['tipo_archivo'] : '';
+    $granularidad = isset($_POST['granularidad']) ? $_POST['granularidad'] : 'dia';
+    echo $controlador->getActividadSubidas($fecha_desde, $fecha_hasta, $usuario, $proyecto, $tipo_archivo, $granularidad);
+}
+
 
 class DashboardController {
 
@@ -47,6 +58,12 @@ class DashboardController {
         $datos = $this->conn->getDashboardEjecutivo($fecha_desde, $fecha_hasta, $proyecto, $usuario);
         $registros = $datos;
         include $_SERVER['DOCUMENT_ROOT']."/Giuliani/templates/dashboard.ejecutivo.template.php";
+    }
+    
+    public function getActividadSubidas($fecha_desde, $fecha_hasta, $usuario, $proyecto, $tipo_archivo, $granularidad){
+        $datos = $this->conn->getActividadSubidas($fecha_desde, $fecha_hasta, $usuario, $proyecto, $tipo_archivo, $granularidad);
+        $registros = $datos;
+        include $_SERVER['DOCUMENT_ROOT']."/Giuliani/templates/dashboard.subidas.template.php";
     }
     
     public function getClientes(){

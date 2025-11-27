@@ -381,6 +381,256 @@ class DashboardModel {
             return array();
         }
     }
+    
+    public function getActividadSubidas($fecha_desde, $fecha_hasta, $usuario, $proyecto, $tipo_archivo, $granularidad){
+        try {
+            // Construir filtros
+            $filtro_usuario = $usuario != '0' ? " AND a.usuario_m = '" . addslashes($usuario) . "'" : "";
+            $filtro_tipo = $tipo_archivo != '' ? " AND LOWER(SUBSTRING_INDEX(a.ruta, '.', -1)) = '" . strtolower($tipo_archivo) . "'" : "";
+            
+            // Calcular período anterior para comparación
+            $fecha_desde_obj = new DateTime($fecha_desde);
+            $fecha_hasta_obj = new DateTime($fecha_hasta);
+            $diferencia = $fecha_desde_obj->diff($fecha_hasta_obj)->days;
+            $fecha_desde_anterior = date('Y-m-d', strtotime($fecha_desde . ' -' . ($diferencia + 1) . ' days'));
+            $fecha_hasta_anterior = date('Y-m-d', strtotime($fecha_desde . ' -1 day'));
+            
+            // KPIs - Total Subidas
+            $sql_total = "SELECT COUNT(DISTINCT a.codigo) as total 
+                         FROM orden_trabajos_archivos ota
+                         INNER JOIN archivos a ON a.codigo = ota.archivo_id
+                         LEFT JOIN orden_trabajos ot1 ON ota.ot_id = ot1.codigo
+                         LEFT JOIN orden_trabajos_detalles otd ON ota.ot_detalle_id = otd.codigo
+                         LEFT JOIN orden_trabajos ot2 ON otd.orden_trabajo_id = ot2.codigo
+                         LEFT JOIN orden_trabajos_produccion otp ON ota.ot_produccion_id = otp.codigo
+                         LEFT JOIN orden_trabajos_detalles otd2 ON otp.ot_detalle_id = otd2.codigo
+                         LEFT JOIN orden_trabajos ot3 ON otd2.orden_trabajo_id = ot3.codigo
+                         WHERE DATE(a.fecha_hora) BETWEEN '" . $fecha_desde . "' AND '" . $fecha_hasta . "'
+                         AND (ot1.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . " 
+                              OR ot2.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . " 
+                              OR ot3.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . ")" . $filtro_usuario . $filtro_tipo;
+            $query = $this->conn->prepare($sql_total);
+            $query->execute();
+            $total_actual = $query->fetch(PDO::FETCH_ASSOC)['total'];
+            
+            $sql_total_anterior = "SELECT COUNT(DISTINCT a.codigo) as total 
+                                  FROM orden_trabajos_archivos ota
+                                  INNER JOIN archivos a ON a.codigo = ota.archivo_id
+                                  LEFT JOIN orden_trabajos ot1 ON ota.ot_id = ot1.codigo
+                                  LEFT JOIN orden_trabajos_detalles otd ON ota.ot_detalle_id = otd.codigo
+                                  LEFT JOIN orden_trabajos ot2 ON otd.orden_trabajo_id = ot2.codigo
+                                  LEFT JOIN orden_trabajos_produccion otp ON ota.ot_produccion_id = otp.codigo
+                                  LEFT JOIN orden_trabajos_detalles otd2 ON otp.ot_detalle_id = otd2.codigo
+                                  LEFT JOIN orden_trabajos ot3 ON otd2.orden_trabajo_id = ot3.codigo
+                                  WHERE DATE(a.fecha_hora) BETWEEN '" . $fecha_desde_anterior . "' AND '" . $fecha_hasta_anterior . "'
+                                  AND (ot1.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . " 
+                                       OR ot2.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . " 
+                                       OR ot3.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . ")" . $filtro_usuario . $filtro_tipo;
+            $query = $this->conn->prepare($sql_total_anterior);
+            $query->execute();
+            $total_anterior = $query->fetch(PDO::FETCH_ASSOC)['total'];
+            $variacion_total = $total_anterior > 0 ? (($total_actual - $total_anterior) / $total_anterior) * 100 : 0;
+            
+            // KPI - Promedio por día
+            $dias_periodo = $diferencia + 1;
+            $promedio_dia = $dias_periodo > 0 ? $total_actual / $dias_periodo : 0;
+            
+            // KPI - Usuarios que subieron
+            $sql_usuarios = "SELECT COUNT(DISTINCT a.usuario_m) as total 
+                            FROM orden_trabajos_archivos ota
+                            INNER JOIN archivos a ON a.codigo = ota.archivo_id
+                            LEFT JOIN orden_trabajos ot1 ON ota.ot_id = ot1.codigo
+                            LEFT JOIN orden_trabajos_detalles otd ON ota.ot_detalle_id = otd.codigo
+                            LEFT JOIN orden_trabajos ot2 ON otd.orden_trabajo_id = ot2.codigo
+                            LEFT JOIN orden_trabajos_produccion otp ON ota.ot_produccion_id = otp.codigo
+                            LEFT JOIN orden_trabajos_detalles otd2 ON otp.ot_detalle_id = otd2.codigo
+                            LEFT JOIN orden_trabajos ot3 ON otd2.orden_trabajo_id = ot3.codigo
+                            WHERE DATE(a.fecha_hora) BETWEEN '" . $fecha_desde . "' AND '" . $fecha_hasta . "'
+                            AND (ot1.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . " 
+                                 OR ot2.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . " 
+                                 OR ot3.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . ")" . $filtro_usuario . $filtro_tipo;
+            $query = $this->conn->prepare($sql_usuarios);
+            $query->execute();
+            $usuarios_activos = $query->fetch(PDO::FETCH_ASSOC)['total'];
+            
+            // Evolución temporal según granularidad
+            $group_by = "";
+            $date_format = "";
+            switch($granularidad) {
+                case 'semana':
+                    $group_by = "YEARWEEK(a.fecha_hora)";
+                    $date_format = "CONCAT(YEAR(a.fecha_hora), '-W', LPAD(WEEK(a.fecha_hora), 2, '0'))";
+                    break;
+                case 'mes':
+                    $group_by = "YEAR(a.fecha_hora), MONTH(a.fecha_hora)";
+                    $date_format = "DATE_FORMAT(a.fecha_hora, '%Y-%m')";
+                    break;
+                default: // dia
+                    $group_by = "DATE(a.fecha_hora)";
+                    $date_format = "DATE(a.fecha_hora)";
+            }
+            
+            $sql_evolucion = "SELECT 
+                                " . $date_format . " as fecha,
+                                COUNT(DISTINCT a.codigo) as cantidad
+                              FROM orden_trabajos_archivos ota
+                              INNER JOIN archivos a ON a.codigo = ota.archivo_id
+                              LEFT JOIN orden_trabajos ot1 ON ota.ot_id = ot1.codigo
+                              LEFT JOIN orden_trabajos_detalles otd ON ota.ot_detalle_id = otd.codigo
+                              LEFT JOIN orden_trabajos ot2 ON otd.orden_trabajo_id = ot2.codigo
+                              LEFT JOIN orden_trabajos_produccion otp ON ota.ot_produccion_id = otp.codigo
+                              LEFT JOIN orden_trabajos_detalles otd2 ON otp.ot_detalle_id = otd2.codigo
+                              LEFT JOIN orden_trabajos ot3 ON otd2.orden_trabajo_id = ot3.codigo
+                              WHERE DATE(a.fecha_hora) BETWEEN '" . $fecha_desde . "' AND '" . $fecha_hasta . "'
+                              AND (ot1.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . " 
+                                   OR ot2.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . " 
+                                   OR ot3.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . ")" . $filtro_usuario . $filtro_tipo . "
+                              GROUP BY " . $group_by . "
+                              ORDER BY fecha";
+            $query = $this->conn->prepare($sql_evolucion);
+            $query->execute();
+            $evolucion = $query->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Top 10 Usuarios
+            $sql_top_usuarios = "SELECT 
+                                  a.usuario_m as usuario,
+                                  COUNT(DISTINCT a.codigo) as cantidad
+                                FROM orden_trabajos_archivos ota
+                                INNER JOIN archivos a ON a.codigo = ota.archivo_id
+                                LEFT JOIN orden_trabajos ot1 ON ota.ot_id = ot1.codigo
+                                LEFT JOIN orden_trabajos_detalles otd ON ota.ot_detalle_id = otd.codigo
+                                LEFT JOIN orden_trabajos ot2 ON otd.orden_trabajo_id = ot2.codigo
+                                LEFT JOIN orden_trabajos_produccion otp ON ota.ot_produccion_id = otp.codigo
+                                LEFT JOIN orden_trabajos_detalles otd2 ON otp.ot_detalle_id = otd2.codigo
+                                LEFT JOIN orden_trabajos ot3 ON otd2.orden_trabajo_id = ot3.codigo
+                                WHERE DATE(a.fecha_hora) BETWEEN '" . $fecha_desde . "' AND '" . $fecha_hasta . "'
+                                AND (ot1.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . " 
+                                     OR ot2.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . " 
+                                     OR ot3.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . ")" . $filtro_usuario . $filtro_tipo . "
+                                GROUP BY a.usuario_m
+                                ORDER BY cantidad DESC
+                                LIMIT 10";
+            $query = $this->conn->prepare($sql_top_usuarios);
+            $query->execute();
+            $top_usuarios = $query->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Heatmap - Horas pico
+            $sql_heatmap = "SELECT 
+                              HOUR(a.fecha_hora) as hora,
+                              DAYOFWEEK(a.fecha_hora) as dia_semana,
+                              COUNT(DISTINCT a.codigo) as cantidad
+                            FROM orden_trabajos_archivos ota
+                            INNER JOIN archivos a ON a.codigo = ota.archivo_id
+                            LEFT JOIN orden_trabajos ot1 ON ota.ot_id = ot1.codigo
+                            LEFT JOIN orden_trabajos_detalles otd ON ota.ot_detalle_id = otd.codigo
+                            LEFT JOIN orden_trabajos ot2 ON otd.orden_trabajo_id = ot2.codigo
+                            LEFT JOIN orden_trabajos_produccion otp ON ota.ot_produccion_id = otp.codigo
+                            LEFT JOIN orden_trabajos_detalles otd2 ON otp.ot_detalle_id = otd2.codigo
+                            LEFT JOIN orden_trabajos ot3 ON otd2.orden_trabajo_id = ot3.codigo
+                            WHERE DATE(a.fecha_hora) BETWEEN '" . $fecha_desde . "' AND '" . $fecha_hasta . "'
+                            AND (ot1.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . " 
+                                 OR ot2.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . " 
+                                 OR ot3.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . ")" . $filtro_usuario . $filtro_tipo . "
+                            GROUP BY HOUR(a.fecha_hora), DAYOFWEEK(a.fecha_hora)
+                            ORDER BY dia_semana, hora";
+            $query = $this->conn->prepare($sql_heatmap);
+            $query->execute();
+            $heatmap = $query->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Subidas por Proyecto/OT
+            $sql_proyectos = "SELECT 
+                                COALESCE(ot1.codigo, ot2.codigo, ot3.codigo) as ot_codigo,
+                                COALESCE(ot1.nro_serie, ot2.nro_serie, ot3.nro_serie) as nro_serie,
+                                COALESCE(ot1.cliente, ot2.cliente, ot3.cliente) as cliente,
+                                COUNT(DISTINCT a.codigo) as cantidad
+                              FROM orden_trabajos_archivos ota
+                              INNER JOIN archivos a ON a.codigo = ota.archivo_id
+                              LEFT JOIN orden_trabajos ot1 ON ota.ot_id = ot1.codigo
+                              LEFT JOIN orden_trabajos_detalles otd ON ota.ot_detalle_id = otd.codigo
+                              LEFT JOIN orden_trabajos ot2 ON otd.orden_trabajo_id = ot2.codigo
+                              LEFT JOIN orden_trabajos_produccion otp ON ota.ot_produccion_id = otp.codigo
+                              LEFT JOIN orden_trabajos_detalles otd2 ON otp.ot_detalle_id = otd2.codigo
+                              LEFT JOIN orden_trabajos ot3 ON otd2.orden_trabajo_id = ot3.codigo
+                              WHERE DATE(a.fecha_hora) BETWEEN '" . $fecha_desde . "' AND '" . $fecha_hasta . "'
+                              AND (ot1.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . " 
+                                   OR ot2.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . " 
+                                   OR ot3.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . ")" . $filtro_usuario . $filtro_tipo . "
+                              GROUP BY ot_codigo, nro_serie, cliente
+                              ORDER BY cantidad DESC
+                              LIMIT 20";
+            $query = $this->conn->prepare($sql_proyectos);
+            $query->execute();
+            $subidas_proyectos = $query->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Subidas por Tipo de Archivo
+            $sql_tipos = "SELECT 
+                            UPPER(SUBSTRING_INDEX(a.ruta, '.', -1)) as tipo,
+                            COUNT(DISTINCT a.codigo) as cantidad
+                          FROM orden_trabajos_archivos ota
+                          INNER JOIN archivos a ON a.codigo = ota.archivo_id
+                          LEFT JOIN orden_trabajos ot1 ON ota.ot_id = ot1.codigo
+                          LEFT JOIN orden_trabajos_detalles otd ON ota.ot_detalle_id = otd.codigo
+                          LEFT JOIN orden_trabajos ot2 ON otd.orden_trabajo_id = ot2.codigo
+                          LEFT JOIN orden_trabajos_produccion otp ON ota.ot_produccion_id = otp.codigo
+                          LEFT JOIN orden_trabajos_detalles otd2 ON otp.ot_detalle_id = otd2.codigo
+                          LEFT JOIN orden_trabajos ot3 ON otd2.orden_trabajo_id = ot3.codigo
+                          WHERE DATE(a.fecha_hora) BETWEEN '" . $fecha_desde . "' AND '" . $fecha_hasta . "'
+                          AND (ot1.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . " 
+                               OR ot2.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . " 
+                               OR ot3.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . ")" . $filtro_usuario . $filtro_tipo . "
+                          GROUP BY tipo
+                          ORDER BY cantidad DESC";
+            $query = $this->conn->prepare($sql_tipos);
+            $query->execute();
+            $subidas_tipos = $query->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Tabla Detallada
+            $sql_detalle = "SELECT 
+                              a.codigo,
+                              a.fecha_hora,
+                              a.usuario_m as usuario,
+                              COALESCE(ot1.cliente, ot2.cliente, ot3.cliente) as cliente,
+                              COALESCE(ot1.nro_serie, ot2.nro_serie, ot3.nro_serie) as nro_serie,
+                              UPPER(SUBSTRING_INDEX(a.ruta, '.', -1)) as tipo_archivo,
+                              a.descripcion as nombre_archivo,
+                              a.ruta
+                            FROM orden_trabajos_archivos ota
+                            INNER JOIN archivos a ON a.codigo = ota.archivo_id
+                            LEFT JOIN orden_trabajos ot1 ON ota.ot_id = ot1.codigo
+                            LEFT JOIN orden_trabajos_detalles otd ON ota.ot_detalle_id = otd.codigo
+                            LEFT JOIN orden_trabajos ot2 ON otd.orden_trabajo_id = ot2.codigo
+                            LEFT JOIN orden_trabajos_produccion otp ON ota.ot_produccion_id = otp.codigo
+                            LEFT JOIN orden_trabajos_detalles otd2 ON otp.ot_detalle_id = otd2.codigo
+                            LEFT JOIN orden_trabajos ot3 ON otd2.orden_trabajo_id = ot3.codigo
+                            WHERE DATE(a.fecha_hora) BETWEEN '" . $fecha_desde . "' AND '" . $fecha_hasta . "'
+                            AND (ot1.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . " 
+                                 OR ot2.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . " 
+                                 OR ot3.codigo " . ($proyecto > 0 ? "= " . intval($proyecto) : "IS NOT NULL") . ")" . $filtro_usuario . $filtro_tipo . "
+                            ORDER BY a.fecha_hora DESC
+                            LIMIT 500";
+            $query = $this->conn->prepare($sql_detalle);
+            $query->execute();
+            $tabla_detalle = $query->fetchAll(PDO::FETCH_ASSOC);
+            
+            return array(
+                'kpis' => array(
+                    'total_subidas' => $total_actual,
+                    'variacion_total' => $variacion_total,
+                    'promedio_dia' => $promedio_dia,
+                    'usuarios_activos' => $usuarios_activos
+                ),
+                'evolucion' => $evolucion,
+                'top_usuarios' => $top_usuarios,
+                'heatmap' => $heatmap,
+                'subidas_proyectos' => $subidas_proyectos,
+                'subidas_tipos' => $subidas_tipos,
+                'tabla_detalle' => $tabla_detalle,
+                'granularidad' => $granularidad
+            );
+        } catch (PDOException $e) {
+            return array('error' => $e->getMessage());
+        }
+    }
 }
 
 ?>

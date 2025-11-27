@@ -14,12 +14,6 @@ $proyectos_activos = isset($registros['proyectos_activos']) ? $registros['proyec
 $alertas = isset($registros['alertas']) ? $registros['alertas'] : array();
 ?>
 
-<div class="row" style="margin-top: 20px;">
-    <div class="col-lg-12">
-        <h2><i class="fa fa-dashboard"></i> Dashboard Ejecutivo</h2>
-        <hr>
-    </div>
-</div>
 
 <!-- KPIs -->
 <div class="row">
