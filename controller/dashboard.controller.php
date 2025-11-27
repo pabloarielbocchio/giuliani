@@ -30,6 +30,39 @@ function getActividadSubidas(){
     echo $controlador->getActividadSubidas($fecha_desde, $fecha_hasta, $usuario, $proyecto, $tipo_archivo, $granularidad);
 }
 
+function getActividadDescargas(){
+    $controlador = DashboardController::singleton_dashboard();
+    $fecha_desde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : date('Y-m-d', strtotime('-30 days'));
+    $fecha_hasta = isset($_POST['fecha_hasta']) ? $_POST['fecha_hasta'] : date('Y-m-d');
+    $granularidad = isset($_POST['granularidad']) ? $_POST['granularidad'] : 'dia';
+    echo $controlador->getActividadDescargas($fecha_desde, $fecha_hasta, $granularidad);
+}
+
+function getDashboardUsuarios(){
+    $controlador = DashboardController::singleton_dashboard();
+    $fecha_desde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : date('Y-m-d', strtotime('-30 days'));
+    $fecha_hasta = isset($_POST['fecha_hasta']) ? $_POST['fecha_hasta'] : date('Y-m-d');
+    $granularidad = isset($_POST['granularidad']) ? $_POST['granularidad'] : 'dia';
+    echo $controlador->getDashboardUsuarios($fecha_desde, $fecha_hasta, $granularidad);
+}
+
+function getOrdenesTrabajo(){
+    $controlador = DashboardController::singleton_dashboard();
+    $fecha_desde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : date('Y-m-d', strtotime('-30 days'));
+    $fecha_hasta = isset($_POST['fecha_hasta']) ? $_POST['fecha_hasta'] : date('Y-m-d');
+    $granularidad = isset($_POST['granularidad']) ? $_POST['granularidad'] : 'dia';
+    echo $controlador->getOrdenesTrabajo($fecha_desde, $fecha_hasta, $granularidad);
+}
+
+function getProyectos(){
+    $controlador = DashboardController::singleton_dashboard();
+    $fecha_desde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : date('Y-m-d', strtotime('-30 days'));
+    $fecha_hasta = isset($_POST['fecha_hasta']) ? $_POST['fecha_hasta'] : date('Y-m-d');
+    $proyecto_seleccionado = isset($_POST['proyecto_seleccionado']) ? intval($_POST['proyecto_seleccionado']) : 0;
+    $granularidad = isset($_POST['granularidad']) ? $_POST['granularidad'] : 'dia';
+    echo $controlador->getProyectos($fecha_desde, $fecha_hasta, $proyecto_seleccionado, $granularidad);
+}
+
 
 class DashboardController {
 
@@ -64,6 +97,30 @@ class DashboardController {
         $datos = $this->conn->getActividadSubidas($fecha_desde, $fecha_hasta, $usuario, $proyecto, $tipo_archivo, $granularidad);
         $registros = $datos;
         include $_SERVER['DOCUMENT_ROOT']."/Giuliani/templates/dashboard.subidas.template.php";
+    }
+    
+    public function getActividadDescargas($fecha_desde, $fecha_hasta, $granularidad){
+        $datos = $this->conn->getActividadDescargas($fecha_desde, $fecha_hasta, $granularidad);
+        $registros = $datos;
+        include $_SERVER['DOCUMENT_ROOT']."/Giuliani/templates/dashboard.descargas.template.php";
+    }
+    
+    public function getDashboardUsuarios($fecha_desde, $fecha_hasta, $granularidad){
+        $datos = $this->conn->getDashboardUsuarios($fecha_desde, $fecha_hasta, $granularidad);
+        $registros = $datos;
+        include $_SERVER['DOCUMENT_ROOT']."/Giuliani/templates/dashboard.usuarios.template.php";
+    }
+    
+    public function getOrdenesTrabajo($fecha_desde, $fecha_hasta, $granularidad){
+        $datos = $this->conn->getOrdenesTrabajo($fecha_desde, $fecha_hasta, $granularidad);
+        $registros = $datos;
+        include $_SERVER['DOCUMENT_ROOT']."/Giuliani/templates/dashboard.ot.template.php";
+    }
+    
+    public function getProyectos($fecha_desde, $fecha_hasta, $proyecto_seleccionado, $granularidad){
+        $datos = $this->conn->getProyectos($fecha_desde, $fecha_hasta, $proyecto_seleccionado, $granularidad);
+        $registros = $datos;
+        include $_SERVER['DOCUMENT_ROOT']."/Giuliani/templates/dashboard.proyectos.template.php";
     }
     
     public function getClientes(){

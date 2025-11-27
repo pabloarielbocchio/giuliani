@@ -44,11 +44,11 @@ if ($_SESSION["permisos_globales"][$_SESSION["menu"]] == 0){
                 <form id="filtrosGlobales" class="form-inline">
                     <div class="form-group" style="margin-right: 15px;">
                         <label for="fecha_desde" style="margin-right: 5px;">Fecha Desde:</label>
-                        <input type="date" class="form-control" id="fecha_desde" name="fecha_desde" value="<?php echo date('Y-m-d', strtotime('-30 days')); ?>">
+                        <input type="date" class="form-control" id="fecha_desde" name="fecha_desde" value="">
                     </div>
                     <div class="form-group" style="margin-right: 15px;">
                         <label for="fecha_hasta" style="margin-right: 5px;">Fecha Hasta:</label>
-                        <input type="date" class="form-control" id="fecha_hasta" name="fecha_hasta" value="<?php echo date('Y-m-d'); ?>">
+                        <input type="date" class="form-control" id="fecha_hasta" name="fecha_hasta" value="">
                     </div>
                     <button type="button" class="btn btn-primary boton_marron_carni" id="aplicarFiltrosGlobales">
                         <i class="fa fa-search"></i> Aplicar
@@ -70,6 +70,26 @@ if ($_SESSION["permisos_globales"][$_SESSION["menu"]] == 0){
                 <i class="fa fa-upload"></i> Archivos - Subidas
             </a>
         </li>
+        <li role="presentation">
+            <a href="#tab-descargas" aria-controls="tab-descargas" role="tab" data-toggle="tab">
+                <i class="fa fa-download"></i> Archivos - Descargas
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#tab-usuarios" aria-controls="tab-usuarios" role="tab" data-toggle="tab">
+                <i class="fa fa-users"></i> Usuarios
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#tab-ot" aria-controls="tab-ot" role="tab" data-toggle="tab">
+                <i class="fa fa-tasks"></i> Órdenes de Trabajo
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#tab-proyectos" aria-controls="tab-proyectos" role="tab" data-toggle="tab">
+                <i class="fa fa-folder-open"></i> Proyectos
+            </a>
+        </li>
     </ul>
 
     <!-- Tab Content -->
@@ -83,6 +103,30 @@ if ($_SESSION["permisos_globales"][$_SESSION["menu"]] == 0){
         <div role="tabpanel" class="tab-pane" id="tab-subidas">
             <!-- Contenido de Subidas -->
             <div id="content-subidas">
+                <!-- Contenido cargado por AJAX -->
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tab-descargas">
+            <!-- Contenido de Descargas -->
+            <div id="content-descargas">
+                <!-- Contenido cargado por AJAX -->
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tab-usuarios">
+            <!-- Contenido de Usuarios -->
+            <div id="content-usuarios">
+                <!-- Contenido cargado por AJAX -->
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tab-ot">
+            <!-- Contenido de OT -->
+            <div id="content-ot">
+                <!-- Contenido cargado por AJAX -->
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tab-proyectos">
+            <!-- Contenido de Proyectos -->
+            <div id="content-proyectos">
                 <!-- Contenido cargado por AJAX -->
             </div>
         </div>
