@@ -12,7 +12,7 @@ if (isset($_POST['funcion'])) {
 
 function getDashboardEjecutivo(){
     $controlador = DashboardController::singleton_dashboard();
-    $fecha_desde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : date('Y-m-d', strtotime('-30 days'));
+    $fecha_desde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : date('Y-m-d', strtotime('-7 days'));
     $fecha_hasta = isset($_POST['fecha_hasta']) ? $_POST['fecha_hasta'] : date('Y-m-d');
     $proyecto = isset($_POST['proyecto']) ? intval($_POST['proyecto']) : 0;
     $usuario = isset($_POST['usuario']) ? $_POST['usuario'] : '0';
@@ -21,7 +21,7 @@ function getDashboardEjecutivo(){
 
 function getActividadSubidas(){
     $controlador = DashboardController::singleton_dashboard();
-    $fecha_desde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : date('Y-m-d', strtotime('-30 days'));
+    $fecha_desde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : date('Y-m-d', strtotime('-7 days'));
     $fecha_hasta = isset($_POST['fecha_hasta']) ? $_POST['fecha_hasta'] : date('Y-m-d');
     $usuario = isset($_POST['usuario']) ? $_POST['usuario'] : '0';
     $proyecto = isset($_POST['proyecto']) ? intval($_POST['proyecto']) : 0;
@@ -32,7 +32,7 @@ function getActividadSubidas(){
 
 function getActividadDescargas(){
     $controlador = DashboardController::singleton_dashboard();
-    $fecha_desde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : date('Y-m-d', strtotime('-30 days'));
+    $fecha_desde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : date('Y-m-d', strtotime('-7 days'));
     $fecha_hasta = isset($_POST['fecha_hasta']) ? $_POST['fecha_hasta'] : date('Y-m-d');
     $granularidad = isset($_POST['granularidad']) ? $_POST['granularidad'] : 'dia';
     echo $controlador->getActividadDescargas($fecha_desde, $fecha_hasta, $granularidad);
@@ -40,7 +40,7 @@ function getActividadDescargas(){
 
 function getDashboardUsuarios(){
     $controlador = DashboardController::singleton_dashboard();
-    $fecha_desde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : date('Y-m-d', strtotime('-30 days'));
+    $fecha_desde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : date('Y-m-d', strtotime('-7 days'));
     $fecha_hasta = isset($_POST['fecha_hasta']) ? $_POST['fecha_hasta'] : date('Y-m-d');
     $granularidad = isset($_POST['granularidad']) ? $_POST['granularidad'] : 'dia';
     echo $controlador->getDashboardUsuarios($fecha_desde, $fecha_hasta, $granularidad);
@@ -48,7 +48,7 @@ function getDashboardUsuarios(){
 
 function getOrdenesTrabajo(){
     $controlador = DashboardController::singleton_dashboard();
-    $fecha_desde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : date('Y-m-d', strtotime('-30 days'));
+    $fecha_desde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : date('Y-m-d', strtotime('-7 days'));
     $fecha_hasta = isset($_POST['fecha_hasta']) ? $_POST['fecha_hasta'] : date('Y-m-d');
     $granularidad = isset($_POST['granularidad']) ? $_POST['granularidad'] : 'dia';
     echo $controlador->getOrdenesTrabajo($fecha_desde, $fecha_hasta, $granularidad);
@@ -56,7 +56,7 @@ function getOrdenesTrabajo(){
 
 function getProyectos(){
     $controlador = DashboardController::singleton_dashboard();
-    $fecha_desde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : date('Y-m-d', strtotime('-30 days'));
+    $fecha_desde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : date('Y-m-d', strtotime('-7 days'));
     $fecha_hasta = isset($_POST['fecha_hasta']) ? $_POST['fecha_hasta'] : date('Y-m-d');
     $proyecto_seleccionado = isset($_POST['proyecto_seleccionado']) ? intval($_POST['proyecto_seleccionado']) : 0;
     $granularidad = isset($_POST['granularidad']) ? $_POST['granularidad'] : 'dia';

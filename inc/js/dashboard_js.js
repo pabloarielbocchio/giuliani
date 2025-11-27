@@ -10,9 +10,9 @@ $(document).ready(function () {
     if (fechaDesde) {
         $("#fecha_desde").val(fechaDesde);
     } else {
-        // Valor por defecto si no hay guardado
+        // Valor por defecto si no hay guardado (última semana)
         var fechaDefaultDesde = new Date();
-        fechaDefaultDesde.setDate(fechaDefaultDesde.getDate() - 30);
+        fechaDefaultDesde.setDate(fechaDefaultDesde.getDate() - 7);
         $("#fecha_desde").val(fechaDefaultDesde.toISOString().split('T')[0]);
     }
     

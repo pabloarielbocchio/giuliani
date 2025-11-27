@@ -44,11 +44,11 @@ if ($_SESSION["permisos_globales"][$_SESSION["menu"]] == 0){
                 <form id="filtrosGlobales" class="form-inline">
                     <div class="form-group" style="margin-right: 15px;">
                         <label for="fecha_desde" style="margin-right: 5px;">Fecha Desde:</label>
-                        <input type="date" class="form-control" id="fecha_desde" name="fecha_desde" value="">
+                        <input type="date" class="form-control" id="fecha_desde" name="fecha_desde" value="<?php echo date('Y-m-d', strtotime('-7 days')); ?>">
                     </div>
                     <div class="form-group" style="margin-right: 15px;">
                         <label for="fecha_hasta" style="margin-right: 5px;">Fecha Hasta:</label>
-                        <input type="date" class="form-control" id="fecha_hasta" name="fecha_hasta" value="">
+                        <input type="date" class="form-control" id="fecha_hasta" name="fecha_hasta" value="<?php echo date('Y-m-d'); ?>">
                     </div>
                     <button type="button" class="btn btn-primary boton_marron_carni" id="aplicarFiltrosGlobales">
                         <i class="fa fa-search"></i> Aplicar
