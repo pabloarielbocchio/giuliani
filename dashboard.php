@@ -1,10 +1,10 @@
 <?php
-
+ob_start();
 session_start();
 
-//if (!($_SESSION["permisos"][basename(__FILE__, '.php') . ".php"]["access"])) {
-    //header("Location: login.php");
-//}
+if (!($_SESSION["permisos"][basename(__FILE__, '.php') . ".php"]["access"])) {
+    header("Location: login.php");
+}
 
 include $_SERVER['DOCUMENT_ROOT'] . "/Giuliani/controller/dashboard.controller.php";
 $controlador = DashboardController::singleton_dashboard();
