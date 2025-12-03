@@ -217,6 +217,8 @@ $("#guardarDatosOt_prodperso").submit(function (event) {
             funcion: "addProducto",
             descripcion: $("#prodpersoAdd").val(),
             oracle: $("#oracleAdd").val(),
+            sarah: $("#sarahAdd").val(),
+            demanda: $("#demandaAdd").val(),
             unidad: $("#unidadAdd").val()
         }
         $.ajax({

@@ -1,16 +1,18 @@
 <table id="tabla" namefile="Productos" totales="<?php echo $_SESSION["totales"]; ?>" registros="<?php echo $_SESSION['cant_reg']; ?>" pagina="<?php $_SESSION['pagina']; ?>" class="table table-striped table-hover" mes="<?php echo $mes; ?>" anio="<?php echo $anio; ?>" dia="<?php echo $dia; ?>" opcion="<?php echo $opcion; ?>"> 
     <thead>
         <tr class="row " style="background-color: transparent;">
-            <th class="col-lg-9 col-md-9 col-sm-9 col-xs-9 text-left ordena" orderby="descripcion" sentido="asc">Descripción</th>
-            <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-center ordena" orderby="unidad_id" sentido="asc">Unidad</th>
+            <th class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-left ordena" orderby="descripcion" sentido="asc">Descripción</th>
+            <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center ordena" orderby="unidad_id" sentido="asc">Unidad</th>
+            <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-center ordena" orderby="sarah" sentido="asc">OF Sarah</th>
+            <th class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center ordena" orderby="demanda" sentido="asc">Pedido Demanda</th>
             <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center noExl">Acciones</th>
         </tr>
     </thead>
     <tbody id="body">
         <?php foreach ($registros as $usu) { ?>
             <tr class="row" codigo="<?php echo $usu["codigo"]; ?>">
-                <td class="col-lg-9 col-md-9 col-sm-9 col-xs-9 text-left" style="vertical-align: middle;"><?php echo $usu["descripcion"]; ?></td>
-                <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-center" style="vertical-align: middle;">
+                <td class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-left" style="vertical-align: middle;"><?php echo $usu["descripcion"]; ?></td>
+                <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center" style="vertical-align: middle;">
                     <?php 
                         foreach ($unidades as $r){
                             if ($r["codigo"] == $usu["unidad_id"]){
@@ -19,6 +21,8 @@
                         }
                     ?>
                 </td>
+                <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-center" style="vertical-align: middle;"><?php echo $usu["sarah"]; ?></td>
+                <td class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center" style="vertical-align: middle;"><?php echo $usu["demanda"]; ?></td>
                 <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center noExl" style="vertical-align: middle;">
                     <div class="editProducto" style="float: left; margin-left: 10px;"><a href="#"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></div>
                     <div class="deleteProducto" style="float: right;margin-right: 10px;"><a href="#"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></div>
@@ -92,6 +96,8 @@
                 var datos = JSON.parse(data);
                 $('#descripcionUpdate').val(datos.descripcion);
                 $('#unidadUpdate').val(datos.unidad_id);
+                $('#sarahUpdate').val(datos.sarah);
+                $('#demandaUpdate').val(datos.demanda);
             },
             error: function () {
                 alert("Error");

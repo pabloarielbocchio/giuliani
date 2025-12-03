@@ -22,7 +22,9 @@ function addProducto() {
     echo $controlador->addProducto  (    
                                         $_POST['descripcion'],
                                         $_POST['oracle'],
-                                        $_POST['unidad']
+                                        $_POST['unidad'],
+                                        $_POST['sarah'],
+                                        $_POST['demanda']
             );
 }
 
@@ -31,7 +33,9 @@ function updateProducto() {
     
     echo $controlador->updateProducto(    $_POST['codigo'], 
                                         $_POST['descripcion'],
-                                        $_POST['unidad']
+                                        $_POST['unidad'],
+                                        $_POST['sarah'],
+                                        $_POST['demanda']
             );
 }
 
@@ -100,15 +104,15 @@ class ProductosController {
         
     }
     
-    public function addProducto($descripcion, $oracle, $unidad) {
-        $devuelve = $this->conn->addProducto($descripcion, $oracle, $unidad);
+    public function addProducto($descripcion, $oracle, $unidad, $sarah, $demanda) {
+        $devuelve = $this->conn->addProducto($descripcion, $oracle, $unidad, $sarah, $demanda);
         
         return $devuelve;
         
     }
     
-    public function updateProducto($codigo, $descripcion, $unidad) {
-        $devuelve = $this->conn->updateProducto($codigo, $descripcion, $unidad);
+    public function updateProducto($codigo, $descripcion, $unidad, $sarah, $demanda) {
+        $devuelve = $this->conn->updateProducto($codigo, $descripcion, $unidad, $sarah, $demanda);
         
         return $devuelve;
         

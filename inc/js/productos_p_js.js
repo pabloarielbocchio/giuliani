@@ -129,7 +129,10 @@ $("#actualidarDatosProducto").submit(function (event) {
             funcion: "updateProducto",
             codigo: codigo,
             descripcion: $("#descripcionUpdate").val(),
-            unidad: $("#unidadUpdate").val()
+            unidad: $("#unidadUpdate").val(),
+            sarah: $("#sarahUpdate").val(),
+            demanda: $("#demandaUpdate").val(),
+            oracle: ""
         }
         $.ajax({
             type: "POST",
@@ -156,7 +159,10 @@ $("#guardarDatosProducto").submit(function (event) {
         var parametros = {
             funcion: "addProducto",
             descripcion: $("#descripcionAdd").val(),
-            unidad: $("#unidadAdd").val()
+            unidad: $("#unidadAdd").val(),
+            sarah: $("#sarahAdd").val(),
+            demanda: $("#demandaAdd").val(),
+            oracle: ""
         }
         $.ajax({
             type: "POST",

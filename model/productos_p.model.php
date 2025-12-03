@@ -92,16 +92,18 @@ class ProductosModel {
         }
     }
     
-    public function addProducto($descripcion, $oracle, $unidad){
+    public function addProducto($descripcion, $oracle, $unidad, $sarah, $demanda){
         $hoy = date("Y-m-d H:i:s");
         try {
             $this->conn->beginTransaction();
-            $stmt = $this->conn->prepare('INSERT INTO productos_personalizados (descripcion, unidad_id, oracle, usuario_m, fecha_m) VALUES (?,?,?,?,?);');
+            $stmt = $this->conn->prepare('INSERT INTO productos_personalizados (descripcion, unidad_id, oracle, sarah, demanda, usuario_m, fecha_m) VALUES (?,?,?,?,?,?,?);');
             $stmt->bindValue(1, $descripcion, PDO::PARAM_STR);
             $stmt->bindValue(2, $unidad, PDO::PARAM_INT);
             $stmt->bindValue(3, $oracle, PDO::PARAM_STR);
-            $stmt->bindValue(4, $_SESSION["usuario"], PDO::PARAM_STR);
-            $stmt->bindValue(5, $hoy, PDO::PARAM_STR);
+            $stmt->bindValue(4, $sarah, PDO::PARAM_STR);
+            $stmt->bindValue(5, $demanda, PDO::PARAM_STR);
+            $stmt->bindValue(6, $_SESSION["usuario"], PDO::PARAM_STR);
+            $stmt->bindValue(7, $hoy, PDO::PARAM_STR);
             
             if($stmt->execute()){
                 $this->conn->commit();
@@ -118,21 +120,25 @@ class ProductosModel {
         }
     }
     
-    public function updateProducto($codigo, $descripcion, $unidad){
+    public function updateProducto($codigo, $descripcion, $unidad, $sarah, $demanda){
         $hoy = date("Y-m-d H:i:s");
         try {
             $this->conn->beginTransaction();
             $stmt = $this->conn->prepare('UPDATE productos_personalizados set '
                                             . 'descripcion = ? , '
                                             . 'unidad_id = ? , '
+                                            . 'sarah = ? , '
+                                            . 'demanda = ? , '
                                             . 'usuario_m = ?, '
                                             . 'fecha_m = ? '
                                             . ' where codigo = ?');            
             $stmt->bindValue(1, $descripcion, PDO::PARAM_STR);
             $stmt->bindValue(2, $unidad, PDO::PARAM_INT);
-            $stmt->bindValue(3, $_SESSION["usuario"], PDO::PARAM_STR);
-            $stmt->bindValue(4, $hoy, PDO::PARAM_STR);
-            $stmt->bindValue(5, $codigo, PDO::PARAM_INT);
+            $stmt->bindValue(3, $sarah, PDO::PARAM_STR);
+            $stmt->bindValue(4, $demanda, PDO::PARAM_STR);
+            $stmt->bindValue(5, $_SESSION["usuario"], PDO::PARAM_STR);
+            $stmt->bindValue(6, $hoy, PDO::PARAM_STR);
+            $stmt->bindValue(7, $codigo, PDO::PARAM_INT);
             if($stmt->execute()){
                 $this->conn->commit();
                 return 0;

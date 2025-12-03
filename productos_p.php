@@ -149,6 +149,14 @@ include 'inc/html/breadcrumb.php';
                                 ?>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label for="sarah" class="control-label">Número de OF de Sarah:</label>
+                            <input type="text" class="form-control" id="sarahAdd" name="sarahAdd" maxlength="255">
+                        </div>
+                        <div class="form-group">
+                            <label for="demanda" class="control-label">Número de Pedido de Demanda:</label>
+                            <input type="text" class="form-control" id="demandaAdd" name="demandaAdd" maxlength="255">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-danger boton_marron_carni" >Guardar datos</button>
@@ -184,6 +192,14 @@ include 'inc/html/breadcrumb.php';
                                     }
                                 ?>
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="sarah" class="control-label">Número de OF de Sarah:</label>
+                            <input type="text" class="form-control" id="sarahUpdate" name="sarahUpdate" maxlength="255">
+                        </div>
+                        <div class="form-group">
+                            <label for="demanda" class="control-label">Número de Pedido de Demanda:</label>
+                            <input type="text" class="form-control" id="demandaUpdate" name="demandaUpdate" maxlength="255">
                         </div>
                     </div>
                     <div class="modal-footer">

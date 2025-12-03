@@ -166,6 +166,14 @@ $cod_ot = intval($_SESSION['ot']);
                             <input type="text" class="form-control" id="oracleAdd" name="oracleAdd" required maxlength="100">
                         </div>
                         <div class="form-group">
+                            <label for="nombre0" class="control-label">Número de OF de Sarah:</label>
+                            <input type="text" class="form-control" id="sarahAdd" name="sarahAdd" maxlength="255">
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre0" class="control-label">Número de Pedido de Demanda:</label>
+                            <input type="text" class="form-control" id="demandaAdd" name="demandaAdd" maxlength="255">
+                        </div>
+                        <div class="form-group">
                             <label for="nombre0" class="control-label">Cantidad:</label>
                             <input type="text" class="form-control" id="cantidadpersoAdd" name="cantidadpersoAdd" required maxlength="100">
                         </div>
