@@ -125,6 +125,9 @@ if ($_SESSION["permisos_globales"][$_SESSION["menu"]] == 0){
                     <h4 id="my-name-header-modal" class="modal-title">Cambiar Estado</h4>
                 </div>
                 <div class="modal-body text-center"  id="my-text-header-body">
+                    <div class="alert alert-info" id="info_ot_modal" style="margin-bottom: 15px; text-align: left;">
+                        <strong>OT:</strong> - | <strong>Cliente:</strong> -
+                    </div>
                     <?php if (in_array($_SESSION["rol"], [1,5])) { ?>
                         <div class="form-group"> 
                             <label for="nombre0" class="control-label">Estado Ingeniería:</label>
@@ -175,6 +178,9 @@ if ($_SESSION["permisos_globales"][$_SESSION["menu"]] == 0){
                     <h4 id="my-name-header-modal" class="modal-title">Cambiar Estado</h4>
                 </div>
                 <div class="modal-body text-center"  id="my-text-header-body">
+                    <div class="alert alert-info" id="info_ot_modal_simple" style="margin-bottom: 15px; text-align: left;">
+                        <strong>OT:</strong> - | <strong>Cliente:</strong> -
+                    </div>
                     <div class="form-group"> 
                         <label for="nombre0" class="control-label">Estado:</label>
                         <select id="estadoAdd" style="width: 100%;" class="form-control" name="estadoAdd"  required>

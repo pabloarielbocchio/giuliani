@@ -18,11 +18,16 @@
     </thead>
     <tbody id="body">
         <?php foreach ($registros as $usu) { ?>
-            <tr class="row single_registro" codigo="<?php echo $usu["codigo"]; ?> "
-                estado_ing="<?php echo $usu["estado_ing"]; ?> "
-                estado_prod="<?php echo $usu["estado_prod"]; ?> "
-                estado_despacho="<?php echo $usu["estado_despacho"]; ?> "
-                estado="<?php echo intval($usu["finalizada"]); ?>" avance="<?php echo floatval($usu["avance"]); ?>" >
+            <tr class="row single_registro" 
+                codigo="<?php echo $usu["codigo"]; ?>"
+                nro_serie="<?php echo $usu["nro_serie"]; ?>"
+                cliente="<?php echo $usu["cliente"]; ?>"
+                observaciones="<?php echo $usu["observaciones"]; ?>"
+                estado_ing="<?php echo $usu["estado_ing"] !== null ? $usu["estado_ing"] : '0'; ?>"
+                estado_prod="<?php echo $usu["estado_prod"] !== null ? $usu["estado_prod"] : '0'; ?>"
+                estado_despacho="<?php echo $usu["estado_despacho"] !== null ? $usu["estado_despacho"] : '0'; ?>"
+                estado="<?php echo intval($usu["finalizada"]); ?>" 
+                avance="<?php echo floatval($usu["avance"]); ?>">
                 <td class="text-center" style="vertical-align: middle; <?php echo $usu["anclada_user"] ? "text-decoration: underline;" : ""; ?>"><?php echo $usu["nro_serie"]; ?></td>
                 <td class="text-center" style="vertical-align: middle;"><?php echo $usu["fecha"]; ?></td>
                 <td class="text-center" style="vertical-align: middle;"><?php echo date("Y", strtotime($usu["fecha_entrega"])) > 2000 ? $usu["fecha_entrega"] : ""; ?></td>
@@ -296,14 +301,55 @@
         $('#myModal').modal('show');
     });
 
+    // Variables globales para almacenar los estados
+    var estadosModal = {
+        estado_ing: '0',
+        estado_prod: '0',
+        estado_despacho: '0',
+        estado: '0',
+        avance: '0'
+    };
+
     $(".estadoOt_listado").click(function () {
+        // CAPTURAR POSICIÓN DEL SCROLL AL ABRIR EL MODAL
+        scrollPosicionGuardada = $(window).scrollTop();
+        
         codigo = $(this).closest('tr').attr("codigo");
-        var estado = $(this).closest('tr').attr("estado");
-        var avance = $(this).closest('tr').attr("avance");
-        $("#estadoAdd").val(estado);
-        $("#avanceAdd").val(avance);
+        codigoOtModificada = codigo; // Guardar código para resaltar después del reload
+        var nro_serie = $(this).closest('tr').attr("nro_serie");
+        var cliente = $(this).closest('tr').attr("cliente");
+        var observaciones = $(this).closest('tr').attr("observaciones");
+        
+        // Capturar estados actuales de la OT (limpiar espacios)
+        var estado_ing = $.trim($(this).closest('tr').attr("estado_ing"));
+        var estado_prod = $.trim($(this).closest('tr').attr("estado_prod"));
+        var estado_despacho = $.trim($(this).closest('tr').attr("estado_despacho"));
+        var estado = $.trim($(this).closest('tr').attr("estado"));
+        var avance = $.trim($(this).closest('tr').attr("avance"));
+        
+        // Validar y limpiar valores
+        estadosModal.estado_ing = (estado_ing === '' || estado_ing === 'null' || estado_ing === 'undefined') ? '0' : estado_ing;
+        estadosModal.estado_prod = (estado_prod === '' || estado_prod === 'null' || estado_prod === 'undefined') ? '0' : estado_prod;
+        estadosModal.estado_despacho = (estado_despacho === '' || estado_despacho === 'null' || estado_despacho === 'undefined') ? '0' : estado_despacho;
+        estadosModal.estado = (estado === '' || estado === 'null' || estado === 'undefined') ? '0' : estado;
+        estadosModal.avance = (avance === '' || avance === 'null' || avance === 'undefined') ? '0' : avance;
+        
+        // Mostrar información de la OT en el modal
+        $("#info_ot_modal").html("<strong>OT:</strong> " + nro_serie + " | <strong>Cliente:</strong> " + cliente);
+        
         //$('#myModalEstado').modal('show');
         $('#myModalEstadoAll').modal('show');
+    });
+    
+    // Aplicar valores cuando el modal esté COMPLETAMENTE abierto
+    $('#myModalEstadoAll').on('shown.bs.modal', function () {
+        $("#estadoIngAdd").val(estadosModal.estado_ing);
+        $("#estadoProdAdd").val(estadosModal.estado_prod);
+        $("#estadoDespachoAdd").val(estadosModal.estado_despacho);
+        $("#estadoAdd").val(estadosModal.estado);
+        $("#avanceAdd").val(estadosModal.avance);
+        
+        console.log("Estados aplicados:", estadosModal); // Para debug
     });
 
     $(".ordena").click(function () {
